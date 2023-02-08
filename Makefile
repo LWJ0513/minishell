@@ -1,6 +1,6 @@
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
-OPTION = 
+OPTION = -ledit
 NAME = minishell
 RM = rm -rf
 
@@ -15,14 +15,18 @@ OBJS = $(MANDATORY:c=o)
 	$(CC) $(OPTION) $(CFLAGS) -c -o $@ $^
 
 $(NAME) : $(OBJS)
-	$(CC) $(OPTION) $(CFLAGS) -o $@ $^ 
+	$(MAKE) -C ./libft/
+	$(CC) $(OPTION) $(CFLAGS) -o $@ $^ ./libft/libft.a
 
 all : $(NAME)
+	
 
 clean :
+	$(MAKE) -C ./libft/ clean
 	$(RM) $(OBJS)
 
 fclean : clean
+	$(MAKE) -C ./libft/ fclean
 	$(RM) $(NAME)
 
 re :
