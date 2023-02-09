@@ -12,6 +12,8 @@
 
 #include "../include/minishell.h"
 
+t_mini minishell;
+
 int main(void)
 {
 	char *str;
@@ -20,15 +22,15 @@ int main(void)
 	while (1)
 	{
 
-		str = readline("minishell: $ ");
+		str = readline("minishell $ ");
 		if (str)
 		{
 			split = ft_split(str, ' ');
 
 			if (!ft_strncmp(split[0], "pwd", ft_strlen(split[0])))
-				ft_pwd();
+				minishell.last_result = ft_pwd();
 			if (!ft_strncmp(split[0], "cd", ft_strlen(split[0])))
-				ft_cd(comb_split(split, 1));
+				minishell.last_result = ft_cd(comb_split(split, 1));
 		}
 		else		 // str = NULL 이라면 (EOF, cntl + D)
 			break;
