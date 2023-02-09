@@ -23,17 +23,19 @@ int main(void)
 		str = readline("minishell: $ ");
 		if (str)
 		{
-			// printf("%s\n", str);
 			split = ft_split(str, ' ');
-			// todo split 이차원 포인터 malloc
+
 			if (!ft_strncmp(split[0], "pwd", ft_strlen(split[0])))
 				ft_pwd();
+			if (!ft_strncmp(split[0], "cd", ft_strlen(split[0])))
+				ft_cd(comb_split(split, 1));
 		}
-		else // str = NULL 이라면 (EOF, cntl + D)
+		else		 // str = NULL 이라면 (EOF, cntl + D)
 			break;
 
+		// system("leaks minishell");
 		add_history(str);
+		free_split(split);
 		free(str);
 	}
-	return (0);
 }
