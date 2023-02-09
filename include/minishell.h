@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/09 15:10:22 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/09 15:31:26 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "readline/history.h"
 # include "readline/readline.h"
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
