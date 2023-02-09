@@ -8,7 +8,9 @@ RM = rm -rf
 MANDATORY = $(addprefix srcs/, $(SRCS))
 
 SRCS =  \
-	main.c 
+	main.c \
+	ft_pwd.c \
+	ft_cd.c
 
 OBJS = $(MANDATORY:c=o)
 

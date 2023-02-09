@@ -26,4 +26,7 @@ typedef struct s_char
 	
 }	t_char;
 
+void    ft_pwd();
+void    ft_cd(char *str);
+
 #endif
