@@ -1,35 +1,39 @@
 /* ************************************************************************** */
-/*                                                                            */
+/*                                                             `               */
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:40:19 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/08 22:04:51 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/09 14:47:54 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../include/minishell.h"
 
 int main(void)
 {
-	/* readline함수의 리턴값을 저장하기위해 임의로 포인터를 하나 선언한다 */
 	char *str;
+	char **split;
 
 	while (1)
 	{
-		/* readline함수가 호출되면 인자(prompt : )를 터미널에 출력하고 저장할 라인을 입력받는다 */
-		str = readline("prompt : "); /* read함수는 저장한 문자열의 메모리주소를 반환한다 */
-		if (str)					 /* 입력이 된다면 (주소가 존재한다면) */
-			printf("%s\n", str);	 /* 주소안에 문자열을 출력해보자 */
-		else						 /* str = NULL 이라면 (EOF, cntl + D)*/
-			break;					 /* 반복문을 탈출해준다.*/
-									 /* add_history에 저장된 문자열은 up & down 방향키를 이용해 확인할수있다 */
+
+		str = readline("minishell: $ ");
+		if (str)
+		{
+			// printf("%s\n", str);
+			split = ft_split(str, ' ');
+			// todo split 이차원 포인터 malloc
+			if (ft_strncmp(split[0], "pwd", ft_strlen(split[0])))
+				ft_pwd();
+		}
+		else // str = NULL 이라면 (EOF, cntl + D)
+			break;
+
 		add_history(str);
-		/* 라인은 힙메모리에 저장되기때문에 다 사용한 메모리는 할당을 해제해줘야한다 */
 		free(str);
 	}
-	/* 함수종료 */
 	return (0);
 }
