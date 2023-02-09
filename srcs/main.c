@@ -26,7 +26,7 @@ int main(void)
 			// printf("%s\n", str);
 			split = ft_split(str, ' ');
 			// todo split 이차원 포인터 malloc
-			if (ft_strncmp(split[0], "pwd", ft_strlen(split[0])))
+			if (!ft_strncmp(split[0], "pwd", ft_strlen(split[0])))
 				ft_pwd();
 		}
 		else // str = NULL 이라면 (EOF, cntl + D)
