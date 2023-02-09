@@ -29,5 +29,4 @@ typedef struct s_char
 void    ft_pwd();
 
 
-
 #endif

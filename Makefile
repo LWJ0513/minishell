@@ -9,7 +9,7 @@ MANDATORY = $(addprefix srcs/, $(SRCS))
 
 SRCS =  \
 	main.c \
-	ft_pwd.c
+
 
 OBJS = $(MANDATORY:c=o)
 
