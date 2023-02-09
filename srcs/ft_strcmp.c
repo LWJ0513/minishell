@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/09 21:23:05 by wonlim           ###   ########.fr       */
+/*   Created: 2022/04/18 15:20:38 by wonlim            #+#    #+#             */
+/*   Updated: 2023/02/09 21:22:46 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
-
-# include "readline/history.h"
-# include "readline/readline.h"
-# include "../libft/libft.h"
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-
-
-typedef struct s_mini
+int	ft_strcmp(char *s1, char *s2)
 {
-	int last_result;
-}	t_mini;
+	int	i;
+	int	size;
 
-int    ft_pwd();
-int    ft_cd(char *str);
-void	free_split(char **split);
-char * comb_split(char **split, int i);
-int	ft_strcmp(char *s1, char *s2);
-
-
-#endif
+	size = 0;
+	while (s1[size])
+		size++;
+	++size;
+	i = 0;
+	while (i < size)
+	{
+		if (s1[i] == s2[i])
+		{
+			if (s1[i] == '\0')
+				return (0);
+			i++;
+		}
+		else
+			return (s1[i] - s2[i]);
+	}
+	return (0);
+}

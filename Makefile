@@ -12,7 +12,8 @@ SRCS =  \
 	ft_pwd.c \
 	ft_cd.c \
 	free.c \
-	comb_split.c
+	comb_split.c \
+	ft_strcmp.c
 
 
 OBJS = $(MANDATORY:c=o)

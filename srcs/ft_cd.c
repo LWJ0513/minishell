@@ -6,35 +6,35 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:51:37 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/09 17:57:41 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/09 21:24:28 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <string.h>
-int    ft_cd(char *str)
+
+int ft_cd(char *str)
 {
     int ret;
-    char    *tmp;
+    char *tmp;
 
     ret = chdir(str);
-    if (!strcmp(str,"") || !strcmp(str,"~") || !strcmp(str,"~/"))
+    if (!ft_strcmp(str, "") || !ft_strcmp(str, "~") || !ft_strcmp(str, "~/"))
     {
         ret = chdir(getenv("HOME"));
     }
-    else if(!strcmp(str,"~"))
+    else if (!ft_strcmp(str, "~"))
     {
         ret = chdir(getenv("HOME"));
     }
-    else if(!strncmp(str,"..",2))
+    else if (!ft_strncmp(str, "..", 2))
     {
-        tmp = ft_strjoin(ft_strjoin(getcwd(0,0),"/"),str);
+        tmp = ft_strjoin(ft_strjoin(getcwd(0, 0), "/"), str);
         ret = chdir(tmp);
         free(tmp);
     }
-    else if(!strncmp(str,"./",2))
+    else if (!ft_strncmp(str, "./", 2))
     {
-        tmp =ft_strjoin(ft_strjoin(getcwd(0,0),"/"),str);
+        tmp = ft_strjoin(ft_strjoin(getcwd(0, 0), "/"), str);
         ret = chdir(tmp);
         free(tmp);
     }
