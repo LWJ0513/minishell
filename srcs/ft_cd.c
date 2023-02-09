@@ -11,15 +11,39 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-
-void    ft_cd(char *str)
+#include <string.h>
+int    ft_cd(char *str)
 {
     int ret;
+    char    *tmp;
 
     ret = chdir(str);
-    if (ret)
+    if (!strcmp(str,"") || !strcmp(str,"~") || !strcmp(str,"~/"))
+    {
+        ret = chdir(getenv("HOME"));
+    }
+    else if(!strcmp(str,"~"))
+    {
+        ret = chdir(getenv("HOME"));
+    }
+    else if(!strncmp(str,"..",2))
+    {
+        tmp = ft_strjoin(ft_strjoin(getcwd(0,0),"/"),str);
+        ret = chdir(tmp);
+        free(tmp);
+    }
+    else if(!strncmp(str,"./",2))
+    {
+        tmp =ft_strjoin(ft_strjoin(getcwd(0,0),"/"),str);
+        ret = chdir(tmp);
+        free(tmp);
+    }
+    else if (ret)
         perror("cd");
     else
-        chdir(str);
+    {
+        ret = chdir(str);
+    }
     free(str);
+    return (ret);
 }
