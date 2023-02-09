@@ -1,8 +1,11 @@
 #include "../include/minishell.h"
 
-void    ft_pwd()
+int    ft_pwd()
 {
-    char * buf = getcwd(0,0);
-    printf("%s\n",buf);
+    char *buf;
+    
+    buf = getcwd(0, 0);
+    printf("%s\n", buf);
     free(buf);
+    return (0);
 }
