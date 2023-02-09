@@ -1,6 +1,7 @@
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
-OPTION = -ledit
+OPTION = -lreadline -L/opt/homebrew/opt/readline/lib
+OPTION2 = -I/opt/homebrew/opt/readline/include
 NAME = minishell
 RM = rm -rf
 
@@ -16,7 +17,7 @@ OBJS = $(MANDATORY:c=o)
 
 $(NAME) : $(OBJS)
 	$(MAKE) -C ./libft/
-	$(CC) $(OPTION) $(CFLAGS) -o $@ $^ ./libft/libft.a
+	$(CC) $(OPTION) $(OPTION2) $(CFLAGS) -o $@ $^ ./libft/libft.a 
 
 all : $(NAME)
 	
