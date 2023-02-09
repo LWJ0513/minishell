@@ -1,35 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   comb_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/09 18:00:10 by wonlim           ###   ########.fr       */
+/*   Created: 2023/02/09 17:59:47 by wonlim            #+#    #+#             */
+/*   Updated: 2023/02/09 18:00:02 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "../include/minishell.h"
 
-# include "readline/history.h"
-# include "readline/readline.h"
-# include "../libft/libft.h"
-# include <signal.h>
-# include <stdio.h>
-# include <stdlib.h>
-
-
-typedef struct s_char
+char * comb_split(char **split, int i)
 {
-	
-}	t_char;
+	char *str;
+	char *tmp;
 
-void    ft_pwd();
-void    ft_cd(char *str);
-void	free_split(char **split);
-char * comb_split(char **split, int i);
+	str = malloc(0);
+	while (split[i])
+	{
 
-
-#endif
+		tmp = ft_strjoin(str, split[i]);
+		if (str)
+			free(str);
+		str = ft_strjoin(tmp, " ");
+		free(tmp);
+		i++;
+	}
+	return (str);
+}
