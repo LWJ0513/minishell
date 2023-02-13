@@ -12,27 +12,51 @@
 
 #include "../include/minishell.h"
 
-t_mini minishell;
+int count_pipe(char *str)
+{
+	int i;
+	int count;
+
+	i = 0;
+	count = 0;
+	while (str[i])
+	{
+		if (str[i] == '|')
+			count++;
+	}
+	return (count);
+}
 
 int main(void)
 {
 	char *str;
-	char **split;
+	char **split_pipe;
+	char **split_cmd;
+	int last_result;
+	t_list list;
 
 	while (1)
 	{
-
+		reset_list(&list);
 		str = readline("minishell $ ");
+
+		list.cnt_cmd = count_pipe(str);
+		split_pipe = ft_split(str, '|');
+
+		// spilt free
+
+		// 맨 마지막에 파이프가 있으면 pipe >  출력
+
 		if (str)
 		{
 			split = ft_split(str, ' ');
 
 			if (!ft_strncmp(split[0], "pwd", ft_strlen(split[0])))
-				minishell.last_result = ft_pwd();
+				last_result = ft_pwd();
 			if (!ft_strncmp(split[0], "cd", ft_strlen(split[0])))
-				minishell.last_result = ft_cd(comb_split(split, 1));
+				last_result = ft_cd(comb_split(split, 1));
 		}
-		else		 // str = NULL 이라면 (EOF, cntl + D)
+		else // str = NULL 이라면 (EOF, cntl + D)
 			break;
 
 		// system("leaks minishell");
