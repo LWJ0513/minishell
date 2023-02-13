@@ -1,28 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   reset.c                                            :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 19:15:39 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/13 19:37:11 by wonlim           ###   ########.fr       */
+/*   Created: 2023/02/13 19:50:22 by wonlim            #+#    #+#             */
+/*   Updated: 2023/02/13 21:12:26 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void reset_list(t_list *list)
+t_node	*make_node(char *str)
 {
-	list->head = 0;
-	list->pid = -1;
-	list->cnt_pipe = 0;
-	list->cnt_cmd = 0;
+	t_node	*node;
+
+	node = malloc(sizeof(t_node));
+	reset_node(node);
+	node->cmd = ft_split(str, ' ');
+	return (node);
 }
 
-void reset_node(t_node *node)
+t_node	*get_last_node(t_node *node)
 {
-	node->result = 0;
-	node->cmd = 0;
-	node->next = 0;
+	if (!node)
+		return (0);
+	while (node->next)
+		node = node->next;
+	return (node);
 }

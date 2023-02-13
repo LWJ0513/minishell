@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/13 19:08:16 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/13 21:10:28 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ int		ft_cd(char *str);
 void	free_split(char **split);
 char	*comb_split(char **split, int i);
 int		ft_strcmp(char *s1, char *s2);
-void	ft_env(char **envp);;
+void	ft_env(char **envp);
+t_node	*make_node(char *str);
+void	reset_list(t_list *list);
+void	reset_node(t_node *node);
+t_node	*get_last_node(t_node *node);
 
 
 #endif
