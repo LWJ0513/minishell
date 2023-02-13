@@ -58,3 +58,6 @@ Temporary Items
 
 # object file
 *.o
+
+# 실행파일
+Minishell
