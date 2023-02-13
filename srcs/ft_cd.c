@@ -17,7 +17,7 @@ int    ft_cd(char *str)
     int ret;
     char    *tmp;
 
-    ret = chdir(str);
+    ret = -1;
     if (!strcmp(str,"") || !strcmp(str,"~") || !strcmp(str,"~/"))
     {
         ret = chdir(getenv("HOME"));
