@@ -20,11 +20,18 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-
-typedef struct s_mini
+typedef struct s_node
 {
-	int last_result;
-}	t_mini;
+	struct	s_node *next;
+	char	**command;
+	int		result;
+}	t_node;
+
+typedef struct s_list
+{
+	pid_t pid;
+	t_node *head;	
+}	t_list;
 
 int    ft_pwd();
 int    ft_cd(char *str);
