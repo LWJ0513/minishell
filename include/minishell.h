@@ -40,6 +40,7 @@ int		ft_cd(char *str);
 void	free_split(char **split);
 char	*comb_split(char **split, int i);
 int		ft_strcmp(char *s1, char *s2);
+void	ft_env(char **envp);;
 
 
 #endif
