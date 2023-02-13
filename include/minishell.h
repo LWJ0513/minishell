@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/13 18:47:09 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/13 19:08:16 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 typedef struct s_node
 {
 	int				result;
-	char			**command;
+	char			**cmd;
 	struct s_node	*next;
 }	t_node;
 
@@ -31,8 +31,8 @@ typedef struct s_list
 {
 	t_node	*head;
 	pid_t	pid;
-	int		pipe_cnt;
-	int		command_cnt
+	int		cnt_pipe;
+	int		cnt_cmd;
 }	t_list;
 
 int		ft_pwd(void);
