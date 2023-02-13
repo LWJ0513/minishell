@@ -46,39 +46,19 @@ SRCS = \
 	ft_putstr.c \
 	get_next_line.c
 
-SRCS_B = \
-	ft_lstadd_back.c \
-	ft_lstadd_front.c \
-	ft_lstclear.c \
-	ft_lstdelone.c \
-	ft_lstiter.c \
-	ft_lstlast.c \
-	ft_lstmap.c \
-	ft_lstnew.c \
-	ft_lstsize.c
 
 OBJS = $(SRCS:.c=.o)
-OBJS_B = $(SRCS_B:.c=.o)
-
-ifdef ADD
-		OBJECTS = $(OBJS) $(OBJS_B)
-else
-		OBJECTS = $(OBJS)
-endif
 
 %o : %c
 		$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME) : $(OBJECTS)
-		ar rcs $(NAME) $(OBJECTS)
-
-bonus :
-		make ADD=1 all
+$(NAME) : $(OBJS)
+		ar rcs $(NAME) $(OBJS)
 
 all : $(NAME)
 
 clean :
-		$(RM) $(OBJS_B) $(OBJS)
+		$(RM) $(OBJS)
 
 fclean : clean
 		$(RM) $(NAME)
@@ -86,4 +66,4 @@ re :
 	$(MAKE) fclean
 	$(MAKE) all
 
-.PHONY : all clean fclean re bonus
+.PHONY : all clean fclean re
