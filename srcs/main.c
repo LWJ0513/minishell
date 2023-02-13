@@ -32,7 +32,7 @@ int main(void)
 {
 	char *str;
 	char **split_pipe;
-	int last_result;
+	// int last_result;
 	t_list list;
 	t_node *node;
 	t_node *last_node;
@@ -45,7 +45,7 @@ int main(void)
 		if (str)
 		{
 
-			list.cnt_cmd = count_pipe(str);
+			list.cnt_pipe = count_pipe(str);
 			split_pipe = ft_split(str, '|');
 
 			// todo spilt_pipe free
@@ -55,14 +55,17 @@ int main(void)
 			{
 				node = make_node(split_pipe[i]);
 				if (list.head == 0) {
-					list.head = &node;
+					list.head = node;
 				}
 				else {
 					last_node = get_last_node(list.head);
-					last_node->next = &node;
+					last_node->next = node;
 				}
 				i++;
 			}
+			list.cnt_cmd = i;
+
+			printf("pipe 갯수 : %d\ncmd 갯수 : %d\n", list.cnt_pipe, list.cnt_cmd);
 
 			// 맨 마지막에 파이프가 있으면 pipe >  출력
 
