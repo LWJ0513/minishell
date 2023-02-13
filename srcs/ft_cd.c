@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:51:37 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/09 21:24:28 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/13 22:05:11 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int ft_cd(char *str)
 
 
     ret = -1;
-    if (!strcmp(str,"") || !strcmp(str,"~") || !strcmp(str,"~/"))
+    if (!ft_strcmp(str,"") || !ft_strcmp(str,"~") || !ft_strcmp(str,"~/"))
 
     {
         ret = chdir(getenv("HOME"));
