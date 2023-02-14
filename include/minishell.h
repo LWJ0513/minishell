@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/14 13:29:23 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/14 14:24:01 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,12 @@ typedef struct s_envp
 {
 	struct s_e_node *head;
 }	t_envp;
+
+typedef struct s_mini
+{
+	int error;
+}	t_mini;
+
 int		ft_pwd(void);
 int		ft_cd(char *str);
 void	free_split(char **split);

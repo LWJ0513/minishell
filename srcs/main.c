@@ -21,8 +21,9 @@ int main(int argc, char **argv, char **envp)
 	t_node *node;
 	t_node *last_node;
 
-	t_envp *env;
+	t_mini mini;
 
+	t_envp *env;
 	env = envp_init(envp);
 
 	while (1)
@@ -55,7 +56,13 @@ int main(int argc, char **argv, char **envp)
 			}
 			list.cnt_cmd = count_cmd(&list, i);
 
-			printf("pipe 갯수 : %d\ncmd 갯수 : %d\n", list.cnt_pipe, list.cnt_cmd);
+			if (i != list.cnt_cmd || list.cnt_pipe + 1 != list.cnt_cmd)
+			{
+				add_history(str);
+				printf("Syntax error !\n");
+				// todo free
+				continue;
+			}
 
 			// 맨 마지막에 파이프가 있으면 pipe >  출력
 
