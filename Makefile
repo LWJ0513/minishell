@@ -16,7 +16,8 @@ SRCS =  \
 	ft_strcmp.c \
 	ft_env.c \
 	reset.c \
-	utils.c
+	utils.c \
+	ft_generate_env.c
 
 
 OBJS = $(MANDATORY:c=o)
