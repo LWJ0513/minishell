@@ -28,7 +28,7 @@ int count_pipe(char *str)
 	return (count);
 }
 
-int main(void)
+int main(int argc, char **argv, char **envp)
 {
 	char *str;
 	char **split_pipe;
@@ -36,6 +36,10 @@ int main(void)
 	t_list list;
 	t_node *node;
 	t_node *last_node;
+
+	t_envp	*env;
+
+	env = envp_init(envp);
 
 	while (1)
 	{
