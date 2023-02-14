@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/13 21:10:28 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/14 13:29:23 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	reset_list(t_list *list);
 void	reset_node(t_node *node);
 t_node	*get_last_node(t_node *node);
 t_envp	*envp_init(char **envp);
+int		count_pipe(char *str);
+int		count_cmd(t_list *list, int max);
 
 
 #endif

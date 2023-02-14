@@ -17,7 +17,8 @@ SRCS =  \
 	ft_env.c \
 	reset.c \
 	utils.c \
-	ft_generate_env.c
+	ft_generate_env.c \
+	count.c
 
 
 OBJS = $(MANDATORY:c=o)

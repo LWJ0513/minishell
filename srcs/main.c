@@ -12,22 +12,6 @@
 
 #include "../include/minishell.h"
 
-int count_pipe(char *str)
-{
-	int i;
-	int count;
-
-	i = 0;
-	count = 0;
-	while (str[i])
-	{
-		if (str[i] == '|')
-			count++;
-		i++;
-	}
-	return (count);
-}
-
 int main(int argc, char **argv, char **envp)
 {
 	char *str;
@@ -37,7 +21,7 @@ int main(int argc, char **argv, char **envp)
 	t_node *node;
 	t_node *last_node;
 
-	t_envp	*env;
+	t_envp *env;
 
 	env = envp_init(envp);
 
@@ -58,16 +42,18 @@ int main(int argc, char **argv, char **envp)
 			while (split_pipe[i])
 			{
 				node = make_node(split_pipe[i]);
-				if (list.head == 0) {
+				if (list.head == 0)
+				{
 					list.head = node;
 				}
-				else {
+				else
+				{
 					last_node = get_last_node(list.head);
 					last_node->next = node;
 				}
 				i++;
 			}
-			list.cnt_cmd = i;
+			list.cnt_cmd = count_cmd(&list, i);
 
 			printf("pipe 갯수 : %d\ncmd 갯수 : %d\n", list.cnt_pipe, list.cnt_cmd);
 
