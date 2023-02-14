@@ -35,6 +35,18 @@ typedef struct s_list
 	int		cnt_cmd;
 }	t_list;
 
+typedef struct s_e_node
+{
+	char	*key;
+	char	*value;
+	struct s_envp *next;
+	struct s_envp *prev;
+}	t_e_node;
+
+typedef struct s_envp
+{
+	struct s_e_node *head;
+}	t_envp;
 int		ft_pwd(void);
 int		ft_cd(char *str);
 void	free_split(char **split);
@@ -45,6 +57,7 @@ t_node	*make_node(char *str);
 void	reset_list(t_list *list);
 void	reset_node(t_node *node);
 t_node	*get_last_node(t_node *node);
+t_envp	*envp_init(char **envp);
 
 
 #endif
