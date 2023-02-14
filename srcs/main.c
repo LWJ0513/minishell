@@ -14,23 +14,19 @@
 
 int main(int argc, char **argv, char **envp)
 {
-	if (argc)
-	;
-	if (argv)
-	;
 	char *str;
 	char **split_pipe;
-	// int last_result;
 	t_list list;
 	t_node *node;
 	t_node *last_node;
-
-	// t_mini mini;
-
 	t_envp *env;
+	// t_mini mini;
+	// int last_result;
+
 	env = envp_init(envp);
-	if (env)
-	;
+
+	if (argc != 1 || !argv)
+		exit(0);
 
 	while (1)
 	{
@@ -74,18 +70,18 @@ int main(int argc, char **argv, char **envp)
 
 			// todo 연결 리스트 free (각각의 노드 안에 있는 node.cmd free)
 
-			/***
-			 * 명령어 횟수 만큼 fork 
-			*/
+
 			i = 0;
+			int status;
 			while (i < list.cnt_cmd)
 			{
-				t_node *n = list.head;
+				node = list.head;
 
 				list.pid = fork();
 
 				if (list.pid > 0)
 				{
+					waitpid(list.pid, &status, 0);
 					i++;
 				}
 				else if (list.pid == 0)
@@ -94,17 +90,21 @@ int main(int argc, char **argv, char **envp)
 					int j = 0;
 					while (j < i)
 					{
-						n = n->next;
+						node = node->next;
 						j++;
 					}
-					printf("\"%s\"\n", (n->cmd)[0]);
-					break;
-
+					printf("\"%s\"\n", (node->cmd)[0]);
+					
+					// todo execute_command() 함수 구현
+					execute_command(node, &env);
+					
+					exit(0);
 				}
 				else
 				{
 					// 에러
-					break;
+					perror("fork error : ");
+					exit(0);
 				}
 			}
 
@@ -115,8 +115,6 @@ int main(int argc, char **argv, char **envp)
 		}
 		else // str = NULL 이라면 (EOF, cntl + D)
 			break;
-
-printf("끝 \n");
 
 		// system("leaks minishell");
 		add_history(str);
