@@ -14,6 +14,10 @@
 
 int main(int argc, char **argv, char **envp)
 {
+	if (argc)
+	;
+	if (argv)
+	;
 	char *str;
 	char **split_pipe;
 	// int last_result;
@@ -21,10 +25,12 @@ int main(int argc, char **argv, char **envp)
 	t_node *node;
 	t_node *last_node;
 
-	t_mini mini;
+	// t_mini mini;
 
 	t_envp *env;
 	env = envp_init(envp);
+	if (env)
+	;
 
 	while (1)
 	{
@@ -68,6 +74,40 @@ int main(int argc, char **argv, char **envp)
 
 			// todo 연결 리스트 free (각각의 노드 안에 있는 node.cmd free)
 
+			/***
+			 * 명령어 횟수 만큼 fork 
+			*/
+			i = 0;
+			while (i < list.cnt_cmd)
+			{
+				t_node *n = list.head;
+
+				list.pid = fork();
+
+				if (list.pid > 0)
+				{
+					i++;
+				}
+				else if (list.pid == 0)
+				{
+					// 자식
+					int j = 0;
+					while (j < i)
+					{
+						n = n->next;
+						j++;
+					}
+					printf("\"%s\"\n", (n->cmd)[0]);
+					break;
+
+				}
+				else
+				{
+					// 에러
+					break;
+				}
+			}
+
 			// if (!ft_strncmp(split[0], "pwd", ft_strlen(split[0])))
 			// 	last_result = ft_pwd();
 			// if (!ft_strncmp(split[0], "cd", ft_strlen(split[0])))
@@ -75,6 +115,8 @@ int main(int argc, char **argv, char **envp)
 		}
 		else // str = NULL 이라면 (EOF, cntl + D)
 			break;
+
+printf("끝 \n");
 
 		// system("leaks minishell");
 		add_history(str);
