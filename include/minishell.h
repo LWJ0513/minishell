@@ -37,10 +37,11 @@ typedef struct s_list
 
 typedef struct s_e_node
 {
+	char    **split1;
 	char	*key;
 	char	*value;
-	struct s_envp *next;
-	struct s_envp *prev;
+	struct s_e_node *next;
+	struct s_e_node *prev;
 }	t_e_node;
 
 typedef struct s_envp
