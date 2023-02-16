@@ -60,23 +60,18 @@ int ft_cd(char *str, t_envp *envp)
     ret = -1000;
     if (!str)
     {
-        printf("here come?");
         ret = chdir(getenv("HOME"));   
     }
     else if (!ft_strcmp(str,"~") || !ft_strcmp(str,"~/"))
     {
-        printf("here come?1");
         ret = chdir(getenv("HOME"));
     }
     else if (!ft_strcmp(str, "~"))
     {
-        printf("here come?2");
-
         ret = chdir(getenv("HOME"));
     }
     else if (!ft_strncmp(str, "..", 2))
     {
-        printf("here come?3");
         tmp = ft_strjoin(ft_strjoin(getcwd(0, 0), "/"), str);
         ret = chdir(tmp);
         free(tmp);
