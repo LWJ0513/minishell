@@ -89,53 +89,7 @@ int main(int argc, char **argv, char **envp)
 				// todo free
 				continue;
 			}
-		
-
-			// todo 맨 마지막에 파이프가 있으면 pipe >  출력
-
-			// todo 연결 리스트 free (각각의 노드 안에 있는 node.cmd free)
-
-			// - command fork 뜨고 실행
-			i = 0;
-			int status;
-			while (i < list.cnt_cmd)
-			{
-				node = list.head;
-
-				list.pid = fork();
-
-				if (list.pid > 0)
-				{
-					waitpid(list.pid, &status, 0);
-					i++;
-				}
-				else if (list.pid == 0)
-				{
-					// 자식
-					int j = 0;
-					while (j < i)
-					{
-						node = node->next;
-						j++;
-					}
-					printf("\"%s\"\n", (node->cmd)[0]);
-
-					// todo execute_command() 함수 구현
-					// if (!ft_strncmp(split[0], "pwd", ft_strlen(split[0])))
-					// 	last_result = ft_pwd();
-					// if (!ft_strncmp(split[0], "cd", ft_strlen(split[0])))
-					// 	last_result = ft_cd(comb_split(split, 1));
-					// execute_command(node, &env);
-
-					exit(0);
-				}
-				else
-				{
-					// 에러
-					perror("fork error : ");
-					exit(0);
-				}
-			}
+			execute_command(&list, node, *node->cmd, env);
 		}
 		else // str = NULL 이라면 (EOF, cntl + D)
 			break;
@@ -144,5 +98,7 @@ int main(int argc, char **argv, char **envp)
 		add_history(line);
 		free_split(split_pipe);
 		free(line);
+		// printf("while문끝부분\n");
+		// ft_pwd(env);
 	}
 }

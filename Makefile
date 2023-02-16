@@ -1,5 +1,5 @@
 CC = cc
-CFLAGS = -Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra -g
 OPTION = -lreadline -L/opt/homebrew/opt/readline/lib
 OPTION2 = -I/opt/homebrew/opt/readline/include
 NAME = minishell
@@ -18,6 +18,7 @@ SRCS =  \
 	reset.c \
 	utils.c \
 	ft_generate_env.c \
+	execute_command.c\
 	count.c
 
 

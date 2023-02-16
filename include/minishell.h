@@ -54,8 +54,8 @@ typedef struct s_mini
 	int error;
 }	t_mini;
 
-int		ft_pwd(void);
-int		ft_cd(char *str);
+int		ft_pwd();
+int		ft_cd(char *str, t_envp *envp);
 void	free_split(char **split);
 char	*comb_split(char **split, int i);
 int		ft_strcmp(char *s1, char *s2);
@@ -67,6 +67,8 @@ t_node	*get_last_node(t_node *node);
 t_envp	*envp_init(char **envp);
 int		count_pipe(char *str);
 int		count_cmd(t_list *list, int max);
+void 	execute_command(t_list *list, t_node *node, char *cmd,t_envp *envp);
+void 	execute_command_not_builtin(t_list *list, t_node *node, t_envp *envp, char *cmd);
 
 
 #endif
