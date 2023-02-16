@@ -69,6 +69,10 @@ int		count_pipe(char *str);
 int		count_cmd(t_list *list, int max);
 void 	execute_command(t_list *list, t_node *node, char *cmd,t_envp *envp);
 void 	execute_command_not_builtin(t_list *list, t_node *node, t_envp *envp, char *cmd);
+void    ft_export(char *str, t_envp *envp);
+void    ft_print_export(t_envp *list);
+void 	Insert(t_envp* list, char **tmp2, char *key1, char *value1);
+void    ft_sort_envp(t_envp *list);
 
 
 #endif

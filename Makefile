@@ -19,6 +19,7 @@ SRCS =  \
 	utils.c \
 	ft_generate_env.c \
 	execute_command.c\
+	ft_export.c\
 	count.c
 
 

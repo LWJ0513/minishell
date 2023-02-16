@@ -53,7 +53,7 @@ void    ft_sort_envp(t_envp *list)
     }
 }
 
-void    ft_export(t_envp *list)
+void    ft_print_export(t_envp *list)
 {
     t_e_node *tmp;
 
