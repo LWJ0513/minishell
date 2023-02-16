@@ -23,6 +23,8 @@ void execute_command(t_list *list, t_node *node, char *cmd, t_envp *envp)
         }
         else if (!ft_strcmp(cmd, "pwd"))
             ft_pwd(envp);
+        else if (!ft_strcmp(cmd, "export"))
+            ft_export(node->cmd[1],envp);
         i++;
     }
 }
