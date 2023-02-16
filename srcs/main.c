@@ -54,7 +54,7 @@ int main(int argc, char **argv, char **envp)
 		{
 			// todo front 예외처리
 			str = cut_front(line);
-			if (!str)
+			if (!str || str[0] == '\0')
 				continue;
 
 			// - pipe 기준으로 split
