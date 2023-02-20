@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/14 14:24:01 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/20 17:21:51 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_envp
 
 typedef struct s_mini
 {
-	int error;
+	int pipe_flag;
 }	t_mini;
 
 int		ft_pwd();
@@ -73,6 +73,6 @@ void    ft_export(char *str, t_envp *envp);
 void    ft_print_export(t_envp *list);
 void 	Insert(t_envp* list, char **tmp2, char *key1, char *value1);
 void    ft_sort_envp(t_envp *list);
-
+char	*eliminate(char *str, char c);
 
 #endif
