@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/20 17:21:51 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/20 20:03:36 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,5 +74,10 @@ void    ft_print_export(t_envp *list);
 void 	Insert(t_envp* list, char **tmp2, char *key1, char *value1);
 void    ft_sort_envp(t_envp *list);
 char	*eliminate(char *str, char c);
+void	print_pipe(int cnt);
+char	*cut_front(char *str);
+int		check_last_pipe(char *str);
+void	free_list(t_list *list, int cnt);
+
 
 #endif

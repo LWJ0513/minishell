@@ -1,51 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/09 17:50:12 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/20 20:16:21 by wonlim           ###   ########.fr       */
+/*   Created: 2023/02/20 19:28:06 by wonlim            #+#    #+#             */
+/*   Updated: 2023/02/20 19:28:24 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
 
-void free_split(char **split)
+int check_last_pipe(char *str)
 {
-	int i;
+	int size = ft_strlen(str);
 
-	i = 0;
-	while (split[i])
+	while (size > 0)
 	{
-		free(split[i]);
-		i++;
+		if (str[size - 1] == '|')
+			return 1;
+		if (str[size - 1] == ' ')
+			size--;
+		else
+			return 0;
 	}
-	free(split);
-}
-
-void free_list(t_list *list, int cnt)
-{
-	t_node *node;
-	int i;
-
-	
-	while (cnt)
-	{
-		node = list->head;
-
-		i = 0;
-		while (i < cnt - 1)
-		{
-			node = node->next;
-			i++;
-		}
-		free_split(node->cmd);
-		node->cmd = 0;
-		node->next = 0;
-		free(node);
-		cnt--;
-	}
-	list->head = 0;
+	return 0;
 }
