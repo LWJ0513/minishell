@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 19:50:22 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/13 21:12:26 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/20 17:42:16 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,33 @@ t_node	*get_last_node(t_node *node)
 	while (node->next)
 		node = node->next;
 	return (node);
+}
+
+char *eliminate(char *str, char c)
+{
+	int i;
+	int j;
+	int count;
+	char *result;
+
+	i = -1;
+	count = 0;
+	while (str[++i])
+	{
+		if (str[i] == c)
+			count++;
+	}
+	result = malloc(sizeof(char) * ft_strlen(str) - count + 1);
+	i = -1;
+	j = 0;
+	while (str[++i])
+	{
+		if (str[i] != c)
+		{
+			result[j] = str[i];
+			j++;
+		}
+	}
+	result[j] = 0;
+	return result;
 }

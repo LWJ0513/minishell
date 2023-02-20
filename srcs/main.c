@@ -77,24 +77,27 @@ int main(int argc, char **argv, char **envp)
 			while (list.cnt_cmd > 0)
 			{
 				printf("pipe ");
-				list.cnt_cmd--;
+				list.cnt_cmd--;		// 얘를 깎아? 이 부분 함수 다시 짜기
 			}
 			line2 = readline("> ");
-		
+
 			str = ft_strjoin(line, "\n");
 			free(line);
 			line = ft_strjoin(str, line2);
-			free(str);
 			free(line2);
+			free(str);
+			line2 = line;
 		}
 
-		if (line)
+		if (line || line2)
 		{
+			line = eliminate(line, '\n');
 			// - 앞 부분 예외처리
 			str = cut_front(line);
 			if (!str || str[0] == '\0')
 			{
 				free(line);
+				free(line2);
 				continue;
 			}
 
@@ -131,30 +134,34 @@ int main(int argc, char **argv, char **envp)
 			if (i != list.cnt_cmd || list.cnt_pipe + 1 != list.cnt_cmd)
 			{
 
-				add_history(line);
+				add_history(line2);
 				printf("Syntax error !\n");
 				// todo free
 				continue;
 			}
 
 			execute_command(&list, node, *node->cmd, env);
-
-			// - 변수 초기화
-			mini.pipe_flag = 0;
-			reset_list(&list);
 		}
 		else // str = NULL 이라면 (EOF, cntl + D)
 			break;
 
 		// system("leaks minishell");
 		if (mini.pipe_flag)
-		add_history(line);
+		{
+			add_history(line2);
+			free(line2);
+		}
+		else
+		{
+			add_history(line);
+			free(line);
+		}
 		free_split(split_pipe);
-		free(line);
 
+		// - 변수 초기화
+		mini.pipe_flag = 0;
+		reset_list(&list);
 		// todo node 연결리스트 free
-		// printf("while문끝부분\n");
-		// ft_pwd(env);
 	}
-	// todo 중간에서 탈출할 때 free 확인하기
+	// todo 중간에서 탈출할 때 free 확인하기 + line free
 }
