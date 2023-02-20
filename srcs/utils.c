@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 19:50:22 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/20 17:42:16 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/20 19:27:46 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,31 @@ char *eliminate(char *str, char c)
 	}
 	result[j] = 0;
 	return result;
+}
+
+void print_pipe(int cnt)
+{
+	while (cnt > 0)
+	{
+		if (cnt > 1)
+			printf("pipe ");
+		else
+			printf("pipe");
+		cnt--;
+	}
+}
+
+char *cut_front(char *str)
+{
+
+	while (*str == ' ' || *str == '|')
+	{
+		if (*str == '|')
+		{
+			printf("zsh: parse error near `|'\n");
+			return 0;
+		}
+		str++;
+	}
+	return str;
 }

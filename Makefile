@@ -18,9 +18,10 @@ SRCS =  \
 	reset.c \
 	utils.c \
 	ft_generate_env.c \
-	execute_command.c\
-	ft_export.c\
-	count.c
+	execute_command.c \
+	ft_export.c \
+	count.c \
+	check.c
 
 
 OBJS = $(MANDATORY:c=o)
