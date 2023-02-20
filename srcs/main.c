@@ -31,7 +31,6 @@ int main(int argc, char **argv, char **envp)
 		;
 	// todo env free
 
-
 	if (argc != 1 || !argv)
 		exit(0);
 
@@ -40,7 +39,7 @@ int main(int argc, char **argv, char **envp)
 
 	while (1)
 	{
-		system("leaks minishell");
+		
 
 		if (!mini.pipe_flag)
 			line = readline("minishell $ "); // malloc
@@ -48,27 +47,29 @@ int main(int argc, char **argv, char **envp)
 		{
 			print_pipe(list.cnt_cmd);
 			line2 = readline("> ");
-
+system("leaks minishell");
 			str = ft_strjoin(line, "\n");
+			system("leaks minishell");
+
 			free(line);
-			line = ft_strjoin(str, line2);
+			line = ft_strjoin(str, line2); // malloc
 			free(line2);
 			free(str);
-			line2 = line; // malloc
-			line = 0;
+			line2 = 0;
+			str =0 ;
+			
 		}
+		
 
-		if (line || line2)
+		if (line)
 		{
-			line = eliminate(line, '\n'); // malloc
+			line2 = eliminate(line, '\n'); // malloc
 			// - 앞 부분 예외처리
-			str = cut_front(line);
+			str = cut_front(line2);
 			if (!str || str[0] == '\0')
 			{
-				if (line)
-					free(line);
-				else
-					free(line2);
+				free(line);
+				free(line2);
 				continue;
 			}
 
@@ -101,38 +102,37 @@ int main(int argc, char **argv, char **envp)
 				mini.pipe_flag++;
 				free_list(&list, list.cnt_cmd);
 				list.head = 0;
+
 				continue;
 			}
 			if (i != list.cnt_cmd || list.cnt_pipe + 1 != list.cnt_cmd)
 			{
 				add_history(line2);
 				printf("Syntax error !\n");
+				free(line);
 				free(line2);
 				free_list(&list, list.cnt_cmd);
 				continue;
 			}
 
-			execute_command(&list, node, *node->cmd, env);
+			// execute_command(&list, node, *node->cmd, env);
 		}
 		else // str = NULL 이라면 (EOF, cntl + D)
 			break;
 
 		if (mini.pipe_flag)
-		{
 			add_history(line2);
-			free(line2);
-		}
 		else
-		{
 			add_history(line);
-			free(line);
-		}
+		free(line);
+		free(line2);
+
 		free_list(&list, list.cnt_cmd);
 
 		// - 변수 초기화
 		mini.pipe_flag = 0;
 		reset_list(&list);
 
-		system("leaks minishell");
+		// system("leaks minishell");
 	}
 }
