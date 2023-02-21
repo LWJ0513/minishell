@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 19:50:22 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/20 19:27:46 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/21 15:37:48 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@ t_node	*make_node(char *str)
 {
 	t_node	*node;
 
-	node = malloc(sizeof(t_node));
+	node = (t_node *)malloc(sizeof(t_node));
+	if (!node)
+	{
+		printf("실패\n");
+	}
 	reset_node(node);
 	node->cmd = ft_split(str, ' ');
 	return (node);
@@ -45,7 +49,9 @@ char *eliminate(char *str, char c)
 		if (str[i] == c)
 			count++;
 	}
-	result = malloc(sizeof(char) * ft_strlen(str) - count + 1);
+	result = malloc(sizeof(char) * (ft_strlen(str) - count + 1));
+	if (!result)
+		return 0;
 	i = -1;
 	j = 0;
 	while (str[++i])

@@ -25,10 +25,8 @@ int main(int argc, char **argv, char **envp)
 	t_mini mini;
 	// int last_result;
 
-	env = 0;
-	// env = envp_init(envp);
-	if (env || envp)
-		;
+	env = envp_init(envp);
+
 	// todo env free
 
 	if (argc != 1 || !argv)
@@ -39,7 +37,6 @@ int main(int argc, char **argv, char **envp)
 
 	while (1)
 	{
-		
 
 		if (!mini.pipe_flag)
 			line = readline("minishell $ "); // malloc
@@ -47,23 +44,24 @@ int main(int argc, char **argv, char **envp)
 		{
 			print_pipe(list.cnt_cmd);
 			line2 = readline("> ");
-system("leaks minishell");
+
 			str = ft_strjoin(line, "\n");
-			system("leaks minishell");
 
 			free(line);
 			line = ft_strjoin(str, line2); // malloc
 			free(line2);
 			free(str);
 			line2 = 0;
-			str =0 ;
-			
+			str = 0;
 		}
-		
 
 		if (line)
 		{
 			line2 = eliminate(line, '\n'); // malloc
+			if (!line2){
+				free(line);
+				exit(0);
+			}
 			// - 앞 부분 예외처리
 			str = cut_front(line2);
 			if (!str || str[0] == '\0')
@@ -102,7 +100,7 @@ system("leaks minishell");
 				mini.pipe_flag++;
 				free_list(&list, list.cnt_cmd);
 				list.head = 0;
-
+				free(line2);
 				continue;
 			}
 			if (i != list.cnt_cmd || list.cnt_pipe + 1 != list.cnt_cmd)
@@ -115,15 +113,15 @@ system("leaks minishell");
 				continue;
 			}
 
-			// execute_command(&list, node, *node->cmd, env);
+			execute_command(&list, node, *node->cmd, env);
 		}
 		else // str = NULL 이라면 (EOF, cntl + D)
 			break;
 
-		if (mini.pipe_flag)
-			add_history(line2);
-		else
+		if (!mini.pipe_flag)
 			add_history(line);
+		else
+			add_history(line2);
 		free(line);
 		free(line2);
 
@@ -133,6 +131,6 @@ system("leaks minishell");
 		mini.pipe_flag = 0;
 		reset_list(&list);
 
-		// system("leaks minishell");
+		// system("leaks --list -- minishell");
 	}
 }
