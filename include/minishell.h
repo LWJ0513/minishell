@@ -78,6 +78,6 @@ void	print_pipe(int cnt);
 char	*cut_front(char *str);
 int		check_last_pipe(char *str);
 void	free_list(t_list *list, int cnt);
-
+void 	execute_command_2(t_list *list, t_node *node, char *cmd, t_envp *envp, char **envp1);
 
 #endif

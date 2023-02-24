@@ -113,7 +113,7 @@ int main(int argc, char **argv, char **envp)
 				continue;
 			}
 
-			execute_command(&list, node, *node->cmd, env);
+			execute_command_2(&list, node, *node->cmd, env, envp);
 		}
 		else // str = NULL 이라면 (EOF, cntl + D)
 			break;

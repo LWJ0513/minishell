@@ -1,70 +1,54 @@
 #include "../include/minishell.h"
 
-void execute_command(t_list *list, t_node *node, char *cmd, t_envp *envp)
+void execute_command_2(t_list *list, t_node *node, char *cmd, t_envp *envp, char **envp1)
 {
-    if (cmd)
-	    ;
-    int i;
+    if (!node | !cmd | !envp | !envp1)
+        ;
+    pid_t pid;
+    t_node *tmp;
+    tmp =list->head;
+    int i, status=0;
     i = 0;
-    // int status;
-    while (i < list->cnt_cmd)
+    int pipes[list->cnt_pipe][2];
+    while (i < list->cnt_pipe)
     {
-        node = list->head;
-
-        int j = 0;
-        while (j < i)
-        {
-            node = node->next;
-            j++;
+        if (pipe(pipes[i]) == -1) {
+            perror("pipe");
+            exit(EXIT_FAILURE);
         }
-        if (!ft_strcmp(cmd, "cd"))
-        {
-            ft_cd(node->cmd[1],envp);
-        }
-        else if (!ft_strcmp(cmd, "pwd"))
-            ft_pwd(envp);
-        else if (!ft_strcmp(cmd, "export"))
-            ft_export(node->cmd[1],envp);
         i++;
     }
-}
-
-void execute_command_not_builtin(t_list *list, t_node *node, t_envp *envp, char *cmd)
-{
-    if (envp)
-	    ;
-    if (cmd)
-	    ;
-    int i;
     i = 0;
-    int status;
-    while (i < list->cnt_cmd)
+    while (i < list->cnt_pipe + 1)
     {
-        node = list->head;
-
-        list->pid = fork();
-
-        if (list->pid > 0)
+        pid = fork();
+        if (pid == -1)
         {
-            waitpid(list->pid, &status, 0);
-            i++;
+            perror("fork");
+            exit(EXIT_FAILURE);
         }
-        else if (list->pid == 0)
+        else if (pid == 0)
         {
-            // 자식
-            int j = 0;
-            while (j < i)
-            {
-                node = node->next;
-                j++;
+            if(i < list->cnt_pipe){
+                dup2(pipes[i][1], STDOUT_FILENO);
             }
-            exit(0);
+            if (i != 0){
+                dup2(pipes[i-1][0], STDIN_FILENO);
+            }
+
+            for (int j = 0; j < list->cnt_pipe; j++){
+                close(pipes[j][0]);
+                close(pipes[j][1]);
+            }
+            execvp(tmp->cmd[0], tmp->cmd);
         }
-        else
-        {
-            // 에러
-            perror("fork error : ");
-            exit(0);
-        }
+        tmp = tmp->next;
+        i++;
     }
+    for(int j = 0; j < list->cnt_pipe; j++){
+        close(pipes[j][0]);
+        close(pipes[j][1]);
+    }
+    waitpid(pid, &status, 0);
+    
 }
