@@ -18,6 +18,7 @@ int main(int argc, char **argv, char **envp)
 	char *line;
 	char *line2;
 	char **split_pipe;
+	char **path;
 	t_list list;
 	t_node *node;
 	t_node *last_node;
@@ -25,7 +26,9 @@ int main(int argc, char **argv, char **envp)
 	t_mini mini;
 	// int last_result;
 
+	// - **envp를 노드로 바꿈
 	env = envp_init(envp);
+	path = ft_split(get_path(env), ':'); // malloc
 
 	// todo env free
 
@@ -37,7 +40,6 @@ int main(int argc, char **argv, char **envp)
 
 	while (1)
 	{
-
 		if (!mini.pipe_flag)
 			line = readline("minishell $ "); // malloc
 		else
@@ -58,7 +60,8 @@ int main(int argc, char **argv, char **envp)
 		if (line)
 		{
 			line2 = eliminate(line, '\n'); // malloc
-			if (!line2){
+			if (!line2)
+			{
 				free(line);
 				exit(0);
 			}
@@ -112,7 +115,7 @@ int main(int argc, char **argv, char **envp)
 				free_list(&list, list.cnt_cmd);
 				continue;
 			}
-
+			init_cmd(path, &list);
 			execute_command_2(&list, node, *node->cmd, env, envp);
 		}
 		else // str = NULL 이라면 (EOF, cntl + D)
