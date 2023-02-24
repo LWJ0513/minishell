@@ -12,22 +12,6 @@
 
 #include "../../include/minishell.h"
 
-char *get_path(t_envp *env)
-{
-	t_e_node *node = env->head;
-
-	while (node)
-	{
-		if (!ft_strcmp(node->key, "PATH"))
-		{
-			return node->value;
-		}
-		node = node->next;
-	}
-	return 0;
-}
-
-
 int main(int argc, char **argv, char **envp)
 {
 	char *str;
@@ -44,14 +28,7 @@ int main(int argc, char **argv, char **envp)
 
 	// - **envp를 노드로 바꿈
 	env = envp_init(envp);
-
-	// PATH 내용을 콜론을 기준으로 split -> 맨 처음만 초기화
-	path = ft_split(get_path(env), ':'); 	// malloc
-
-	// todo  while문 안에서  명령어 전체를 확인하면서 경로와 연결해 실행파일이 있는지 확인한다.
-	// todo 찾을 필요가 없는 명령어에 대한 예외처리
-	// todo 없으면 널을 리턴한다.
-	// todo 찾게 되면 명령어 문자열을 경로 문자열로 변경해 저장한다.
+	path = ft_split(get_path(env), ':'); // malloc
 
 	// todo env free
 
@@ -63,7 +40,6 @@ int main(int argc, char **argv, char **envp)
 
 	while (1)
 	{
-
 		if (!mini.pipe_flag)
 			line = readline("minishell $ "); // malloc
 		else
@@ -139,7 +115,7 @@ int main(int argc, char **argv, char **envp)
 				free_list(&list, list.cnt_cmd);
 				continue;
 			}
-
+			init_cmd(path, &list);
 			execute_command_2(&list, node, *node->cmd, env, envp);
 		}
 		else // str = NULL 이라면 (EOF, cntl + D)
