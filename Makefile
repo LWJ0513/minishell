@@ -24,7 +24,8 @@ SRCS_PAR = \
 	reset.c \
 	utils.c \
 	count.c \
-	check.c
+	check.c \
+	valid_path.c
 
 OBJS = $(MANDATORY_EXE:c=o) $(MANDATORY_PAR:c=o)
 
