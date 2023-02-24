@@ -1,29 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check.c                                            :+:      :+:    :+:   */
+/*   count.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/20 19:28:06 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/20 19:28:24 by wonlim           ###   ########.fr       */
+/*   Created: 2023/02/14 13:28:37 by wonlim            #+#    #+#             */
+/*   Updated: 2023/02/24 15:27:27 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-int check_last_pipe(char *str)
+int count_pipe(char *str)
 {
-	int size = ft_strlen(str);
+	int i;
+	int count;
 
-	while (size > 0)
+	i = 0;
+	count = 0;
+	while (str[i])
 	{
-		if (str[size - 1] == '|')
-			return 1;
-		if (str[size - 1] == ' ')
-			size--;
-		else
-			return 0;
+		if (str[i] == '|')
+			count++;
+		i++;
 	}
-	return 0;
+	return (count);
+}
+
+int count_cmd(t_list *list, int max)
+{
+	int i;
+	int count;
+	t_node *node;
+
+	i = 0;
+	count = 0;
+	node = list->head;
+	while (i < max)
+	{
+		if (node->cmd[0])
+			count++;
+		node = node->next;
+		i++;
+	}
+	return (count);
 }
