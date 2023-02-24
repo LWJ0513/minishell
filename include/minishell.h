@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/20 20:03:36 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/24 20:20:06 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,9 @@ char	*cut_front(char *str);
 int		check_last_pipe(char *str);
 void	free_list(t_list *list, int cnt);
 void 	execute_command_2(t_list *list, t_node *node, char *cmd, t_envp *envp, char **envp1);
+char	*get_path(t_envp *env);
+int		cmp_builtin(char *cmd);
+void	search_path(char **path, t_node *node);
+void	init_cmd(char **path, t_list *list);
 
 #endif
