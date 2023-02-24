@@ -21,11 +21,14 @@ SRCS_PAR = \
 	main.c \
 	free.c \
 	comb_split.c \
-	reset.c \
 	utils.c \
 	count.c \
-	check.c \
-	valid_path.c
+	valid_cmd.c \
+	exception_handling.c \
+	init.c \
+	readline.c \
+	set_node.c \
+	history.c
 
 OBJS = $(MANDATORY_EXE:c=o) $(MANDATORY_PAR:c=o)
 

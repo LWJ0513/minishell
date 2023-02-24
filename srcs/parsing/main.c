@@ -12,128 +12,56 @@
 
 #include "../../include/minishell.h"
 
+int main_sub(t_mini *mini, t_list *list, char **envp)
+{
+	mini->line2 = eliminate(mini->line, '\n'); // malloc
+	if (!mini->line2)
+	{
+		free(mini->line);
+		exit(0);	// todo 바로 종료?
+	}
+	mini->str = cut_front(mini->line2);
+	if (!mini->str || mini->str[0] == '\0')
+	{
+		free(mini->line);
+		free(mini->line2);
+		return (1);
+	}
+	list->cnt_pipe = count_pipe(mini->str);
+	set_node(ft_split(mini->str, '|'), list, mini);
+	if (exception_handling(mini->str, list, mini))
+		return (1);
+	valid_cmd(mini->path, list);
+	execute_command_2(list, mini->env, envp);
+	return (0);
+}
+
 int main(int argc, char **argv, char **envp)
 {
-	char *str;
-	char *line;
-	char *line2;
-	char **split_pipe;
-	char **path;
 	t_list list;
-	t_node *node;
-	t_node *last_node;
-	t_envp *env;
 	t_mini mini;
-	// int last_result;
-
-	// - **envp를 노드로 바꿈
-	env = envp_init(envp);
-	path = ft_split(get_path(env), ':'); // malloc
-
-	// todo env free
 
 	if (argc != 1 || !argv)
 		exit(0);
-
-	mini.pipe_flag = 0;
-	reset_list(&list);
-
+	init_mini(&mini);
+	init_list(&list);
+	mini.env = envp_init(envp);
+	mini.path = ft_split(get_path(mini.env), ':'); // malloc
 	while (1)
 	{
-		if (!mini.pipe_flag)
-			line = readline("minishell $ "); // malloc
-		else
+		ft_readline(&mini, &list);
+		if (mini.line)
 		{
-			print_pipe(list.cnt_cmd);
-			line2 = readline("> ");
-
-			str = ft_strjoin(line, "\n");
-
-			free(line);
-			line = ft_strjoin(str, line2); // malloc
-			free(line2);
-			free(str);
-			line2 = 0;
-			str = 0;
-		}
-
-		if (line)
-		{
-			line2 = eliminate(line, '\n'); // malloc
-			if (!line2)
-			{
-				free(line);
-				exit(0);
-			}
-			// - 앞 부분 예외처리
-			str = cut_front(line2);
-			if (!str || str[0] == '\0')
-			{
-				free(line);
-				free(line2);
+			if (main_sub(&mini, &list, envp))
 				continue;
-			}
-
-			// - pipe 기준으로 split
-			list.cnt_pipe = count_pipe(str);
-			split_pipe = ft_split(str, '|');
-
-			// - command 를 노드화
-			int i = 0;
-			while (split_pipe[i])
-			{
-				node = make_node(split_pipe[i]); // malloc node~
-				if (list.head == 0)
-				{
-					list.head = node;
-				}
-				else
-				{
-					last_node = get_last_node(list.head);
-					last_node->next = node;
-				}
-				i++;
-			}
-			list.cnt_cmd = count_cmd(&list, i);
-			free_split(split_pipe);
-
-			// - 예외처리
-			if (check_last_pipe(str) && list.cnt_pipe == list.cnt_cmd)
-			{
-				mini.pipe_flag++;
-				free_list(&list, list.cnt_cmd);
-				list.head = 0;
-				free(line2);
-				continue;
-			}
-			if (i != list.cnt_cmd || list.cnt_pipe + 1 != list.cnt_cmd)
-			{
-				add_history(line2);
-				printf("Syntax error !\n");
-				free(line);
-				free(line2);
-				free_list(&list, list.cnt_cmd);
-				continue;
-			}
-			init_cmd(path, &list);
-			execute_command_2(&list, node, *node->cmd, env, envp);
 		}
 		else // str = NULL 이라면 (EOF, cntl + D)
 			break;
-
-		if (!mini.pipe_flag)
-			add_history(line);
-		else
-			add_history(line2);
-		free(line);
-		free(line2);
-
-		free_list(&list, list.cnt_cmd);
-
-		// - 변수 초기화
+		history(&mini);
+		free_main(&mini, &list);
 		mini.pipe_flag = 0;
-		reset_list(&list);
-
-		// system("leaks --list -- minishell");
+		init_list(&list);
 	}
+	// todo env free
+	// todo path free해줘야할..걸?
 }

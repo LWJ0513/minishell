@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:50:12 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/24 15:27:25 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/24 22:19:00 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void free_list(t_list *list, int cnt)
 	t_node *node;
 	int i;
 
-	
 	while (cnt)
 	{
 		node = list->head;
@@ -48,4 +47,11 @@ void free_list(t_list *list, int cnt)
 		cnt--;
 	}
 	list->head = 0;
+}
+
+void free_main(t_mini *mini, t_list *list)
+{
+	free(mini->line);
+	free(mini->line2);
+	free_list(list, list->cnt_cmd);
 }

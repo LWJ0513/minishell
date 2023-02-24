@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/24 20:20:06 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/25 00:51:32 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,14 @@ typedef struct s_envp
 
 typedef struct s_mini
 {
+	t_envp *env;
 	int pipe_flag;
+	int cnt_node;
+	char *str;
+	char *line;
+	char *line2;
+	char **path;
+
 }	t_mini;
 
 int		ft_pwd();
@@ -61,8 +68,8 @@ char	*comb_split(char **split, int i);
 int		ft_strcmp(char *s1, char *s2);
 void	ft_env(char **envp);
 t_node	*make_node(char *str);
-void	reset_list(t_list *list);
-void	reset_node(t_node *node);
+void	init_list(t_list *list);
+void	init_node(t_node *node);
 t_node	*get_last_node(t_node *node);
 t_envp	*envp_init(char **envp);
 int		count_pipe(char *str);
@@ -78,10 +85,17 @@ void	print_pipe(int cnt);
 char	*cut_front(char *str);
 int		check_last_pipe(char *str);
 void	free_list(t_list *list, int cnt);
-void 	execute_command_2(t_list *list, t_node *node, char *cmd, t_envp *envp, char **envp1);
+void 	execute_command_2(t_list *list, t_envp *envp, char **envp1);
 char	*get_path(t_envp *env);
 int		cmp_builtin(char *cmd);
 void	search_path(char **path, t_node *node);
-void	init_cmd(char **path, t_list *list);
+void	valid_cmd(char **path, t_list *list);
+int		exception_handling(char *str, t_list *list, t_mini *mini);
+void	init_mini(t_mini *mini);
+void	set_node(char **split_pipe, t_list *list, t_mini *mini);
+void	ft_readline(t_mini *mini, t_list *list);
+void	free_main(t_mini *mini, t_list *list);
+void	history(t_mini *mini);
+int		count_char(char *str, char c);
 
 #endif
