@@ -1,48 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   count.c                                            :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/14 13:28:37 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/14 13:28:51 by wonlim           ###   ########.fr       */
+/*   Created: 2023/02/09 17:50:12 by wonlim            #+#    #+#             */
+/*   Updated: 2023/02/24 15:27:25 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-int count_pipe(char *str)
+void free_split(char **split)
 {
 	int i;
-	int count;
 
 	i = 0;
-	count = 0;
-	while (str[i])
+	while (split[i])
 	{
-		if (str[i] == '|')
-			count++;
+		free(split[i]);
 		i++;
 	}
-	return (count);
+	free(split);
 }
 
-int count_cmd(t_list *list, int max)
+void free_list(t_list *list, int cnt)
 {
-	int i;
-	int count;
 	t_node *node;
+	int i;
 
-	i = 0;
-	count = 0;
-	node = list->head;
-	while (i < max)
+	
+	while (cnt)
 	{
-		if (node->cmd[0])
-			count++;
-		node = node->next;
-		i++;
+		node = list->head;
+
+		i = 0;
+		while (i < cnt - 1)
+		{
+			node = node->next;
+			i++;
+		}
+		free_split(node->cmd);
+		node->cmd = 0;
+		node->next = 0;
+		free(node);
+		cnt--;
 	}
-	return (count);
+	list->head = 0;
 }

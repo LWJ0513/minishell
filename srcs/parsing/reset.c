@@ -6,11 +6,11 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 19:15:39 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/13 19:37:11 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/24 15:27:06 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 void reset_list(t_list *list)
 {

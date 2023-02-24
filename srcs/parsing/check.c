@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   comb_split.c                                       :+:      :+:    :+:   */
+/*   check.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/09 17:59:47 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/09 20:06:49 by wonlim           ###   ########.fr       */
+/*   Created: 2023/02/20 19:28:06 by wonlim            #+#    #+#             */
+/*   Updated: 2023/02/24 15:27:33 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
-char *comb_split(char **split, int i)
+int check_last_pipe(char *str)
 {
-	char *str;
-	char *tmp;
+	int size = ft_strlen(str);
 
-	str = malloc(0);
-	while (split[i])
+	while (size > 0)
 	{
-		tmp = ft_strjoin(str, split[i]);
-		if (str)
-			free(str);
-		if (split[i + 1] != NULL)
-		{
-			str = ft_strjoin(tmp, " ");
-			free(tmp);
-		}
+		if (str[size - 1] == '|')
+			return 1;
+		if (str[size - 1] == ' ')
+			size--;
 		else
-			str = tmp;
-
-		i++;
+			return 0;
 	}
-	return (str);
+	return 0;
 }

@@ -6,11 +6,11 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:51:37 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/13 22:05:11 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/02/24 15:25:31 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../include/minishell.h"
+#include "../../include/minishell.h"
 
 int ft_cd(char *str, t_envp *envp)
 {

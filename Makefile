@@ -5,26 +5,28 @@ OPTION2 = -I/opt/homebrew/opt/readline/include
 NAME = minishell
 RM = rm -rf
 
-MANDATORY = $(addprefix srcs/, $(SRCS))
+MANDATORY_EXE = $(addprefix srcs/execute/, $(SRCS_EXE))
+MANDATORY_PAR = $(addprefix srcs/parsing/, $(SRCS_PAR))
 
-SRCS =  \
-	main.c \
+SRCS_EXE =  \
 	ft_pwd.c \
 	ft_cd.c \
-	free.c \
-	comb_split.c \
 	ft_strcmp.c \
 	ft_env.c \
-	reset.c \
-	utils.c \
 	ft_generate_env.c \
 	execute_command.c \
-	ft_export.c \
+	ft_export.c
+	
+SRCS_PAR = \
+	main.c \
+	free.c \
+	comb_split.c \
+	reset.c \
+	utils.c \
 	count.c \
 	check.c
 
-
-OBJS = $(MANDATORY:c=o)
+OBJS = $(MANDATORY_EXE:c=o) $(MANDATORY_PAR:c=o)
 
 %.o : %c
 	$(CC) $(OPTION) $(CFLAGS) -c -o $@ $^
