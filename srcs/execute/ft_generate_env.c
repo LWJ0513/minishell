@@ -48,7 +48,7 @@ void ft_print_export(t_envp *list)
     tmp = list->head;
     while (tmp)
     {
-        printf("%s=%s\n", tmp->key, tmp->value);
+        printf("declare -x %s=%s\n", tmp->key, tmp->value);
         tmp = tmp->next;
     }
 }
@@ -66,13 +66,48 @@ void Insert(t_envp *list, char **tmp2, char *key1, char *value1)
         list->head = newnode;
     else
     {
-        newnode->next = tmp;
-        tmp->prev = newnode;
-        list->head = newnode;
+        while (tmp->next != NULL)
+            tmp = tmp->next;
+        tmp ->next = newnode;
+        newnode->prev=tmp;
+
+        // newnode->next = tmp;
+        // tmp->prev = newnode;
+        // list->head = newnode;
     }
 }
 
 t_envp *envp_init(char **envp)
+{
+    t_envp *new_env;
+    char **tmp;
+    size_t i;
+
+    i = 0;
+    new_env = (t_envp *)malloc(sizeof(t_envp));
+    new_env->head = NULL;
+    if (!new_env)
+        printf("error");
+    while (*(envp + i))
+    {
+        tmp = ft_split(*(envp + i), '=');
+        Insert(new_env, tmp, tmp[0], tmp[1]);
+        i++;
+    }
+    // t_e_node *tmp1 = new_env -> head;
+
+    // tmp1 = new_env -> head;
+    // while(tmp1)
+    // {
+    //     free(tmp1->split1);
+    //     tmp1 = tmp1->next;
+    // } 메모리누수처리
+    // ft_sort_envp(new_env);
+
+    return (new_env);
+}
+
+t_envp *envp_exp_init(char **envp)
 {
     t_envp *new_env;
     char **tmp;

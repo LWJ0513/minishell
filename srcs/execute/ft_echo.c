@@ -1,25 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_generate_env.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 15:24:51 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/24 15:35:45 by wonlim           ###   ########.fr       */
+/*   Created: 2023/02/24 15:22:57 by wonlim            #+#    #+#             */
+/*   Updated: 2023/02/24 15:26:39 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void    ft_env(t_envp *envp)
+void ft_echo(char *s)
 {
-    t_e_node *tmp;
-
-    tmp = envp->head;
-    while (tmp)
-    {
-        printf("%s=%s\n", tmp->key, tmp->value);
-        tmp=tmp->next;
-    }
+    printf("%s\n",s);
 }

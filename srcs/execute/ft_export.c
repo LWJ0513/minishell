@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-void    ft_export(char *str, t_envp *envp)
+void    ft_export(char *str, t_mini *mini)
 {
     char    **tmp;
 
@@ -20,11 +20,13 @@ void    ft_export(char *str, t_envp *envp)
     if (tmp)
         ;
     if (!str)
-        ft_print_export(envp);
+        ft_print_export(mini->env_exp);
     else
     {
         tmp =ft_split(str,'=');
-        Insert(envp, tmp, tmp[0], tmp[1]);
-        ft_sort_envp(envp);
+        Insert(mini->env, tmp, tmp[0], tmp[1]);
+        Insert(mini->env_exp, tmp, tmp[0], tmp[1]);
+
+        ft_sort_envp(mini->env_exp);
     }
 }

@@ -12,9 +12,52 @@
 
 #include "../../include/minishell.h"
 
-void execute_command_2(t_list *list, t_node *node, char *cmd, t_envp *envp, char **envp1)
+void    execute_builtin(t_list *list, t_node *tmp, t_mini *mini)
 {
-    if (!node | !cmd | !envp | !envp1)
+    char *cmd;
+
+    if (list)
+        ;
+
+    cmd  = tmp->cmd[0];
+    if (!ft_strcmp(cmd, "echo"))
+        ft_echo(tmp->cmd[1]);
+    else if (!ft_strcmp(cmd, "cd"))
+        ft_cd(tmp->cmd[1],mini->env);
+    else if (!ft_strcmp(cmd, "env"))
+        ft_env(mini->env);
+    else if (!ft_strcmp(cmd, "pwd"))
+        ft_pwd();
+    else if (!ft_strcmp(cmd, "export"))
+        ft_export(tmp->cmd[1], mini);
+    else if (!ft_strcmp(cmd, "exit"))
+        ft_exit();
+    else if (!ft_strcmp(cmd, "unset"))
+        ft_unset(tmp->cmd[1], mini);
+}
+
+int     is_builtin(char *cmd)
+{
+    if (!ft_strcmp(cmd, "echo"))
+        return (1);
+    else if (!ft_strcmp(cmd, "cd"))
+        return (1);
+    else if (!ft_strcmp(cmd, "env"))
+        return (1);
+    else if (!ft_strcmp(cmd, "pwd"))
+        return (1);
+    else if (!ft_strcmp(cmd, "export"))
+        return (2);
+    else if (!ft_strcmp(cmd, "exit"))
+        return (2);
+    else if (!ft_strcmp(cmd, "unset"))
+        return (2);
+    return (0);
+}
+
+void execute_command_2(t_list *list, t_mini *mini, char **envp1)
+{
+    if (!envp1)
         ;
     pid_t pid;
     t_node *tmp;
@@ -33,6 +76,13 @@ void execute_command_2(t_list *list, t_node *node, char *cmd, t_envp *envp, char
     i = 0;
     while (i < list->cnt_pipe + 1)
     {
+        if (is_builtin(tmp->cmd[0]) == 2)
+        {
+            execute_builtin(list, tmp, mini);
+            tmp = tmp->next;
+            i++;
+            continue;
+        }
         pid = fork();
         if (pid == -1)
         {
@@ -52,7 +102,15 @@ void execute_command_2(t_list *list, t_node *node, char *cmd, t_envp *envp, char
                 close(pipes[j][0]);
                 close(pipes[j][1]);
             }
-            execvp(tmp->cmd[0], tmp->cmd);
+            if (is_builtin(tmp->cmd[0]))
+            {
+                execute_builtin(list, tmp, mini);
+                exit(0);
+            }
+            else
+            {
+                execvp(tmp->cmd[0], tmp->cmd);
+            }
         }
         tmp = tmp->next;
         i++;
