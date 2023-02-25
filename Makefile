@@ -15,7 +15,10 @@ SRCS_EXE =  \
 	ft_env.c \
 	ft_generate_env.c \
 	execute_command.c \
-	ft_export.c
+	ft_export.c\
+	ft_echo.c\
+	ft_exit.c\
+	ft_unset.c
 	
 SRCS_PAR = \
 	main.c \

@@ -52,6 +52,7 @@ typedef struct s_envp
 typedef struct s_mini
 {
 	t_envp *env;
+	t_envp *env_exp;
 	int pipe_flag;
 	int cnt_node;
 	char *str;
@@ -66,7 +67,7 @@ int		ft_cd(char *str, t_envp *envp);
 void	free_split(char **split);
 char	*comb_split(char **split, int i);
 int		ft_strcmp(char *s1, char *s2);
-void	ft_env(char **envp);
+void	ft_env(t_envp *envp);
 t_node	*make_node(char *str);
 void	init_list(t_list *list);
 void	init_node(t_node *node);
@@ -74,9 +75,7 @@ t_node	*get_last_node(t_node *node);
 t_envp	*envp_init(char **envp);
 int		count_pipe(char *str);
 int		count_cmd(t_list *list, int max);
-void 	execute_command(t_list *list, t_node *node, char *cmd,t_envp *envp);
-void 	execute_command_not_builtin(t_list *list, t_node *node, t_envp *envp, char *cmd);
-void    ft_export(char *str, t_envp *envp);
+void    ft_export(char *str, t_mini *mini);
 void    ft_print_export(t_envp *list);
 void 	Insert(t_envp* list, char **tmp2, char *key1, char *value1);
 void    ft_sort_envp(t_envp *list);
@@ -85,7 +84,7 @@ void	print_pipe(int cnt);
 char	*cut_front(char *str);
 int		check_last_pipe(char *str);
 void	free_list(t_list *list, int cnt);
-void 	execute_command_2(t_list *list, t_envp *envp, char **envp1);
+void 	execute_command_2(t_list *list, t_mini *mini, char **envp1);
 char	*get_path(t_envp *env);
 int		cmp_builtin(char *cmd);
 void	search_path(char **path, t_node *node);
@@ -97,5 +96,12 @@ void	ft_readline(t_mini *mini, t_list *list);
 void	free_main(t_mini *mini, t_list *list);
 void	history(t_mini *mini);
 int		count_char(char *str, char c);
+
+void	ft_echo(char *s);
+void	ft_unset(char *str, t_mini *mini);
+void	ft_exit();
+
+t_envp *envp_exp_init(char **envp);
+
 
 #endif

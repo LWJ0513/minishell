@@ -32,7 +32,7 @@ int main_sub(t_mini *mini, t_list *list, char **envp)
 	if (exception_handling(mini->str, list, mini))
 		return (1);
 	valid_cmd(mini->path, list);
-	execute_command_2(list, mini->env, envp);
+	execute_command_2(list, mini, envp);
 	return (0);
 }
 
@@ -46,6 +46,7 @@ int main(int argc, char **argv, char **envp)
 	init_mini(&mini);
 	init_list(&list);
 	mini.env = envp_init(envp);
+	mini.env_exp = envp_exp_init(envp);
 	mini.path = ft_split(get_path(mini.env), ':'); // malloc
 	while (1)
 	{
