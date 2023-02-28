@@ -47,10 +47,8 @@ int ft_cd(char *str, t_envp *envp)
     else if (ret==-1000)
     {
         ret = chdir(str);
-    }
-    else if (ret)
-    {
-        perror("cd");
+        if (ret != 0)
+            perror("cd");
     }
     free(str);
     return (ret);

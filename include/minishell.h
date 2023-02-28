@@ -97,7 +97,7 @@ void	free_main(t_mini *mini, t_list *list);
 void	history(t_mini *mini);
 int		count_char(char *str, char c);
 
-void	ft_echo(char *s);
+void ft_echo(char *s1, char *s2);
 void	ft_unset(char *str, t_mini *mini);
 void	ft_exit(t_node *tmp, t_list *list);
 

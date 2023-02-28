@@ -12,7 +12,10 @@
 
 #include "../../include/minishell.h"
 
-void ft_echo(char *s)
+void ft_echo(char *s1, char *s2)
 {
-    printf("%s\n",s);
+    if (ft_strcmp(s2, "-n") == 0)
+        printf("%s",s1);
+    else
+        printf("%s\n",s1);
 }
