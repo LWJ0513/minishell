@@ -78,7 +78,7 @@ void execute_command_2(t_list *list, t_mini *mini, char **envp1)
     i = 0;
     while (i < list->cnt_pipe + 1)
     {
-        if (is_builtin(tmp->cmd[0]) == 2)
+        if (is_builtin(tmp->cmd[0]) == 2 || is_builtin(tmp->cmd[0]) == 1)
         {
             execute_builtin(list, tmp, mini);
             tmp = tmp->next;
