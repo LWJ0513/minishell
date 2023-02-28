@@ -99,7 +99,7 @@ int		count_char(char *str, char c);
 
 void	ft_echo(char *s);
 void	ft_unset(char *str, t_mini *mini);
-void	ft_exit();
+void	ft_exit(t_node *tmp, t_list *list);
 
 t_envp *envp_exp_init(char **envp);
 

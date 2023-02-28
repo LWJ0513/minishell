@@ -12,7 +12,11 @@
 
 #include "../../include/minishell.h"
 
-void    ft_exit()
+void    ft_exit(t_node *tmp, t_list *list)
 {
-    exit(0);
+    if (tmp==list->head)
+    {
+        printf("exit\n");
+        exit(0);
+    }
 }

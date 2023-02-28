@@ -31,7 +31,7 @@ void    execute_builtin(t_list *list, t_node *tmp, t_mini *mini)
     else if (!ft_strcmp(cmd, "export"))
         ft_export(tmp->cmd[1], mini);
     else if (!ft_strcmp(cmd, "exit"))
-        ft_exit();
+        ft_exit(tmp, list);
     else if (!ft_strcmp(cmd, "unset"))
         ft_unset(tmp->cmd[1], mini);
 }
