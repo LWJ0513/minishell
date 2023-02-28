@@ -12,10 +12,10 @@
 
 #include "../../include/minishell.h"
 
-void ft_echo(char *s1, char *s2)
+void ft_echo(t_node *tmp)
 {
-    if (ft_strcmp(s2, "-n") == 0)
-        printf("%s",s1);
+    if (!ft_strcmp(tmp->cmd[1], "-n"))
+        printf("%s",tmp->cmd[2]);
     else
-        printf("%s\n",s1);
+        printf("%s\n",tmp->cmd[1]);
 }
