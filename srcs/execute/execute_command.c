@@ -21,7 +21,9 @@ void    execute_builtin(t_list *list, t_node *tmp, t_mini *mini)
 
     cmd  = tmp->cmd[0];
     if (!ft_strcmp(cmd, "echo"))
-        ft_echo(tmp->cmd[0], tmp->cmd[1]);
+    {
+        ft_echo(tmp);
+    }
     else if (!ft_strcmp(cmd, "cd"))
         ft_cd(tmp->cmd[1],mini->env);
     else if (!ft_strcmp(cmd, "env"))
