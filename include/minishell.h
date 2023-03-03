@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/25 00:51:32 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/03 19:20:46 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,20 @@
 # include <stdlib.h>
 # include <fcntl.h>
 
+typedef struct s_redirection
+{
+	struct t_red	*prev;
+	int				flag;
+	char			*str;
+	struct t_red	*next;
+}	t_red;
+
 typedef struct s_node
 {
-	int				result;
-	char			**cmd;
-	struct s_node	*next;
+	struct s_node			*prev;
+	struct s_redirection	*r_node;
+	char					**cmd;
+	struct s_node			*next;
 }	t_node;
 
 typedef struct s_list
