@@ -23,9 +23,8 @@
 
 typedef struct s_redirection
 {
-	struct t_red	*prev;
 	int				flag;
-	char			*str;
+	char			*file;
 	struct t_red	*next;
 }	t_red;
 
@@ -33,8 +32,9 @@ typedef struct s_node
 {
 	struct s_node			*prev;
 	struct s_redirection	*r_node;
-	char					**cmd;
 	struct s_node			*next;
+	char				*cmd;
+	char			**option;
 }	t_node;
 
 typedef struct s_list
