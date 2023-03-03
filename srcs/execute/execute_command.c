@@ -111,7 +111,7 @@ void execute_command_2(t_list *list, t_mini *mini, char **envp1)
             }
             else
             {
-                execvp(tmp->cmd[0], tmp->cmd);
+                execve(tmp->cmd[0], tmp->cmd,envp1);
             }
         }
         tmp = tmp->next;
@@ -124,3 +124,47 @@ void execute_command_2(t_list *list, t_mini *mini, char **envp1)
     waitpid(pid, &status, 0);
     
 }
+
+// void	re_out(char *file_path)
+// {
+// 	int	fd;
+
+// 	fd = open(file_path, O_WRONLY | O_TRUNC | O_CREAT, 0644);
+// 	if (fd < 0)
+// 	{
+// 		ft_error("open fail");
+// 	}
+// 	if (dup2(fd, STDOUT_FILENO) == -1)
+// 	{
+// 		ft_error("dup2 fail");
+// 	}
+// 	close(fd);
+// }
+
+// void	re_out_append(char *file_path)
+// {
+// 	int	fd;
+
+// 	fd = open(file_path, O_WRONLY | O_CREAT, 0644);
+// 	if (fd < 0)
+// 	{
+// 		ft_error("open fail");
+// 	}
+// 	if (dup2(fd, STDOUT_FILENO) == -1)
+// 	{
+// 		ft_error("dup2 fail");
+// 	}
+// 	close(fd);
+// }
+
+// void	re_in(char *file_path)
+// {
+// 	int	fd;
+
+// 	fd = open(file_path, O_RDONLY);
+// 	if (fd < 0)
+// 		ft_error("open fail");
+// 	if (dup2(fd, STDIN_FILENO) == -1)
+// 		ft_error("dup2 fail");
+// 	close(fd);
+// }
