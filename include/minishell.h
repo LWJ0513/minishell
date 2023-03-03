@@ -19,6 +19,7 @@
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <fcntl.h>
 
 typedef struct s_node
 {
@@ -102,6 +103,12 @@ void	ft_unset(char *str, t_mini *mini);
 void	ft_exit(t_node *tmp, t_list *list);
 
 t_envp *envp_exp_init(char **envp);
+
+void	re_out_append(char *file_path);
+void	re_out(char *file_path);
+void	re_in(char *file_path);
+void	ft_error(char *message);
+
 
 
 #endif

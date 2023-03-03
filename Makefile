@@ -18,7 +18,10 @@ SRCS_EXE =  \
 	ft_export.c\
 	ft_echo.c\
 	ft_exit.c\
-	ft_unset.c
+	ft_unset.c\
+	here_doc.c\
+	ft_re.c\
+	ft_error.c
 	
 SRCS_PAR = \
 	main.c \
