@@ -14,8 +14,23 @@
 
 void ft_echo(t_node *tmp)
 {
-    if (!ft_strcmp(tmp->cmd[1], "-n"))
-        printf("%s",tmp->cmd[2]);
+    unsigned long i;
+    if (!ft_strcmp(tmp->option[1], "-n"))
+    {
+        i = 2;
+        while (i < ft_strlen(tmp->option[0]) - 1)
+        {
+            printf("%s ",tmp->option[i++]);
+        }
+        printf("%s",tmp->option[i]);
+    }
     else
-        printf("%s\n",tmp->cmd[1]);
+    {
+        i = 1;
+        while (i < ft_strlen(tmp->option[0]) - 1)
+        {
+            printf("%s ",tmp->option[i++]);
+        }
+        printf("%s\n",tmp->option[i]);
+    }
 }
