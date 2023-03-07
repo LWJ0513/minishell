@@ -19,23 +19,23 @@ void    execute_builtin(t_list *list, t_node *tmp, t_mini *mini)
     if (list)
         ;
 
-    cmd  = tmp->cmd[0];
+    cmd  = tmp->cmd;
     if (!ft_strcmp(cmd, "echo"))
     {
         ft_echo(tmp);
     }
     else if (!ft_strcmp(cmd, "cd"))
-        ft_cd(tmp->cmd[1],mini->env);
+        ft_cd(tmp->option[1],mini->env);
     else if (!ft_strcmp(cmd, "env"))
         ft_env(mini->env);
     else if (!ft_strcmp(cmd, "pwd"))
         ft_pwd();
     else if (!ft_strcmp(cmd, "export"))
-        ft_export(tmp->cmd[1], mini);
+        ft_export(tmp->option[1], mini);
     else if (!ft_strcmp(cmd, "exit"))
         ft_exit(tmp, list);
     else if (!ft_strcmp(cmd, "unset"))
-        ft_unset(tmp->cmd[1], mini);
+        ft_unset(tmp->option[1], mini);
 }
 
 int     is_builtin(char *cmd)
@@ -78,7 +78,7 @@ void execute_command_2(t_list *list, t_mini *mini, char **envp1)
     i = 0;
     while (i < list->cnt_pipe + 1)
     {
-        if (is_builtin(tmp->cmd[0]) == 2 || is_builtin(tmp->cmd[0]) == 1)
+        if (is_builtin(tmp->cmd) == 2 || is_builtin(tmp->cmd) == 1)
         {
             execute_builtin(list, tmp, mini);
             tmp = tmp->next;
@@ -104,14 +104,14 @@ void execute_command_2(t_list *list, t_mini *mini, char **envp1)
                 close(pipes[j][0]);
                 close(pipes[j][1]);
             }
-            if (is_builtin(tmp->cmd[0]))
+            if (is_builtin(tmp->cmd))
             {
                 execute_builtin(list, tmp, mini);
                 exit(0);
             }
             else
             {
-                execve(tmp->cmd[0], tmp->cmd,envp1);
+                execve(tmp->cmd, tmp->option,envp1);
             }
         }
         tmp = tmp->next;
