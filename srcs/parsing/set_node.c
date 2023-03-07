@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set.c                                              :+:      :+:    :+:   */
+/*   set_node.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:59:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/25 00:14:03 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/07 15:34:49 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_node	*make_node(char *str)
 	node = (t_node *)malloc(sizeof(t_node));
 	if (!node)
 	{
-		printf("실패\n");
+		printf("실패\n");	// todo
 	}
 	init_node(node);
 	node->cmd = ft_split(str, ' ');
@@ -48,11 +48,13 @@ void set_node(char **split_pipe, t_list *list, t_mini *mini)
 		if (list->head == 0)
 		{
 			list->head = node;
+			node->prev = 0;
 		}
 		else
 		{
 			last_node = get_last_node(list->head);
 			last_node->next = node;
+			node->prev = last_node;
 		}
 		i++;
 	}
