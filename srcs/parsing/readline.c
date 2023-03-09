@@ -6,13 +6,13 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:37:48 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/25 00:16:00 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/10 00:51:57 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void print_pipe(int cnt)
+void	print_pipe(int cnt)
 {
 	while (cnt > 0)
 	{
@@ -24,7 +24,7 @@ void print_pipe(int cnt)
 	}
 }
 
-void ft_readline(t_mini *mini, t_list *list)
+void	ft_readline(t_mini *mini, t_list *list)
 {
 	if (!mini->pipe_flag)
 		mini->line = readline("minishell $ ");

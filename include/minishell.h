@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/09 23:31:30 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/10 01:01:18 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,9 @@ void	ft_error(char *message);
 int		check_redirection(char *str, int i, int *end);
 int		has_redirection(char *str);
 int		count_options(t_red *r, int *index);
+void	make_r_node(t_node *node, char *str, int i, int end);
+t_node	*get_last_node(t_node *node);
+t_red	*get_last_r_node(t_red *node);
 
 
 

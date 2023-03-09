@@ -6,16 +6,16 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:35:22 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/25 00:29:16 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/10 00:57:15 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int check_last_pipe(char *str)
+int	check_last_pipe(char *str)
 {
-	int size;
-	
+	int	size;
+
 	size = ft_strlen(str);
 	while (size > 0)
 	{
@@ -29,7 +29,7 @@ int check_last_pipe(char *str)
 	return (0);
 }
 
-int exception_handling(char *str, t_list *list, t_mini *mini)
+int	exception_handling(char *str, t_list *list, t_mini *mini)
 {
 	if (check_last_pipe(str) && list->cnt_pipe == list->cnt_cmd)
 	{
