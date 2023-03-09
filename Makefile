@@ -35,7 +35,8 @@ SRCS_PAR = \
 	readline.c \
 	set_node.c \
 	history.c \
-	redirection.c
+	redirection.c \
+	set_r_node.c
 
 OBJS = $(MANDATORY_EXE:c=o) $(MANDATORY_PAR:c=o)
 

@@ -6,13 +6,13 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 20:05:21 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/09 23:44:16 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/10 00:54:18 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int cmp_builtin(char *cmd)
+int	cmp_builtin(char *cmd)
 {
 	if (!ft_strcmp(cmd, "echo"))
 		return (0);
@@ -31,11 +31,11 @@ int cmp_builtin(char *cmd)
 	return (1);
 }
 
-void search_path(char **path, t_node *node)
+void	search_path(char **path, t_node *node)
 {
-	char *tmp;
-	char *direction;
-	int i;
+	char	*direction;
+	char	*tmp;
+	int		i;
 
 	i = 0;
 	while (path[i])
@@ -47,17 +47,17 @@ void search_path(char **path, t_node *node)
 		{
 			free(node->cmd);
 			node->cmd = direction;
-			return;
+			return ;
 		}
 		free(direction);
 		i++;
 	}
 }
 
-void valid_cmd(char **path, t_list *list)
+void	valid_cmd(char **path, t_list *list)
 {
-	t_node *node;
-	
+	t_node	*node;
+
 	node = list->head;
 	while (node)
 	{

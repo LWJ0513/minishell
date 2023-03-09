@@ -6,15 +6,15 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:50:12 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/09 23:45:19 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/10 00:54:34 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void free_split(char **split)
+void	free_split(char **split)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (split[i])
@@ -25,15 +25,14 @@ void free_split(char **split)
 	free(split);
 }
 
-void free_list(t_list *list, int cnt)
+void	free_list(t_list *list, int cnt)
 {
-	t_node *node;
-	int i;
+	t_node	*node;
+	int		i;
 
 	while (cnt)
 	{
 		node = list->head;
-
 		i = 0;
 		while (i < cnt - 1)
 		{
@@ -49,7 +48,7 @@ void free_list(t_list *list, int cnt)
 	list->head = 0;
 }
 
-void free_main(t_mini *mini, t_list *list)
+void	free_main(t_mini *mini, t_list *list)
 {
 	free(mini->line);
 	free(mini->line2);

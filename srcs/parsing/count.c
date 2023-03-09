@@ -6,16 +6,16 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:28:37 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/09 23:44:30 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/10 00:50:04 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int count_pipe(char *str)
+int	count_pipe(char *str)
 {
-	int i;
-	int count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;
@@ -28,11 +28,11 @@ int count_pipe(char *str)
 	return (count);
 }
 
-int count_cmd(t_list *list, int max)
+int	count_cmd(t_list *list, int max)
 {
-	t_node *node;
-	int i;
-	int count;
+	t_node	*node;
+	int		count;
+	int		i;
 
 	i = 0;
 	count = 0;
@@ -47,9 +47,9 @@ int count_cmd(t_list *list, int max)
 	return (count);
 }
 
-int count_char(char *str, char c)
+int	count_char(char *str, char c)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (*str)
@@ -61,10 +61,10 @@ int count_char(char *str, char c)
 	return (count);
 }
 
-int count_options(t_red *r, int *index)
+int	count_options(t_red *r, int *index)
 {
-	int count;
-	int i;
+	int	count;
+	int	i;
 
 	count = 0;
 	i = 0;

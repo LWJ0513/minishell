@@ -6,20 +6,20 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/13 19:50:22 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/25 00:50:33 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/10 00:55:14 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char *eliminate(char *str, char c)
+char	*eliminate(char *str, char c)
 {
-	char *result;
-	int i;
+	char	*result;
+	int		i;
 
 	result = malloc(ft_strlen(str) - count_char(str, c) + 1);
 	if (!result)
-		return 0;
+		return (0);
 	i = 0;
 	while (*str)
 	{
@@ -34,24 +34,24 @@ char *eliminate(char *str, char c)
 	return (result);
 }
 
-char *cut_front(char *str)
+char	*cut_front(char *str)
 {
 	while (*str == ' ' || *str == '|')
 	{
 		if (*str == '|')
 		{
 			printf("zsh: parse error near `|'\n");
-			return 0;
+			return (0);
 		}
 		str++;
 	}
-	return str;
+	return (str);
 }
 
-char *get_path(t_envp *env)
+char	*get_path(t_envp *env)
 {
-	t_e_node *node;
-	
+	t_e_node	*node;
+
 	node = env->head;
 	while (node)
 	{
