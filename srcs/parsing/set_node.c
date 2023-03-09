@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:59:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/09 23:31:16 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/09 23:47:47 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void set_node(char **split_pipe, t_list *list, t_mini *mini)
 		}
 		i++;
 	}
-	// list->cnt_cmd = count_cmd(list, i);
+	list->cnt_cmd = count_cmd(list, i);
 	free_split(split_pipe);
 	mini->cnt_node = i;
 }

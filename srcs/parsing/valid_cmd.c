@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 20:05:21 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/25 00:50:28 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/09 23:44:16 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ void search_path(char **path, t_node *node)
 	while (path[i])
 	{
 		tmp = ft_strjoin(path[i], "/");
-		direction = ft_strjoin(tmp, node->cmd[0]);
+		direction = ft_strjoin(tmp, node->cmd);
 		free(tmp);
 		if (!access(direction, F_OK))
 		{
-			free(node->cmd[0]);
-			node->cmd[0] = direction;
+			free(node->cmd);
+			node->cmd = direction;
 			return;
 		}
 		free(direction);
@@ -61,7 +61,7 @@ void valid_cmd(char **path, t_list *list)
 	node = list->head;
 	while (node)
 	{
-		if (cmp_builtin(node->cmd[0]))
+		if (cmp_builtin(node->cmd))
 			search_path(path, node);
 		node = node->next;
 	}

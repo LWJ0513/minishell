@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:28:37 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/09 23:30:57 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/09 23:44:30 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int count_cmd(t_list *list, int max)
 	node = list->head;
 	while (i < max)
 	{
-		if (node->cmd[0])
+		if (node->cmd)
 			count++;
 		node = node->next;
 		i++;
