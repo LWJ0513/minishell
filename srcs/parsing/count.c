@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:28:37 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/25 00:51:24 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/09 23:30:57 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,27 @@ int count_char(char *str, char c)
 		if (*str == c)
 			count++;
 		str++;
+	}
+	return (count);
+}
+
+int count_options(t_red *r, int *index)
+{
+	int count;
+	int i;
+
+	count = 0;
+	i = 0;
+	while (r)
+	{
+		if (r->flag == 0)
+		{
+			if (*index == -1)
+				*index = i;
+			count++;
+		}
+		i++;
+		r = r->next;
 	}
 	return (count);
 }
