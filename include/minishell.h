@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/03 19:20:46 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/09 23:31:30 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ typedef struct s_redirection
 {
 	int				flag;
 	char			*file;
-	struct t_red	*next;
+	struct s_redirection	*next;
 }	t_red;
 
 typedef struct s_node
@@ -117,6 +117,9 @@ void	re_out_append(char *file_path);
 void	re_out(char *file_path);
 void	re_in(char *file_path);
 void	ft_error(char *message);
+int		check_redirection(char *str, int i, int *end);
+int		has_redirection(char *str);
+int		count_options(t_red *r, int *index);
 
 
 
