@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:50:12 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/24 22:19:00 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/09 23:45:19 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void free_list(t_list *list, int cnt)
 			node = node->next;
 			i++;
 		}
-		free_split(node->cmd);
+		free(node->cmd);
 		node->cmd = 0;
 		node->next = 0;
 		free(node);
