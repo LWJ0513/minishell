@@ -16,12 +16,16 @@ void ft_unset(char *str, t_mini *mini)
 {
     t_e_node *tmp;
 
+    if (str==NULL)
+    {
+        return ;
+    }
     tmp = mini->env->head;
     while(tmp)
     {
         if (!ft_strcmp(tmp->key, str))
         {
-            printf("key : %s\n",tmp->key);
+            // printf("key : %s\n",tmp->key);
             tmp->prev->next=tmp->next;
             tmp->next->prev=tmp->prev;
             free(tmp);
@@ -33,7 +37,7 @@ void ft_unset(char *str, t_mini *mini)
     {
         if (!ft_strcmp(tmp->key, str))
         {
-            printf("key : %s\n",tmp->key);
+            // printf("key : %s\n",tmp->key);
             tmp->prev->next=tmp->next;
             tmp->next->prev=tmp->prev;
             free(tmp);
