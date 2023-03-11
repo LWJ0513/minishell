@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:34:29 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/10 00:49:25 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/11 18:06:17 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,16 @@ int	left_redirection(char *str, int i, int *end)
 		i++;
 		while (str[i] == ' ')
 			i++;
-		while (str[i + 1] != ' ' && str[i + 1] != '>' && str[i + 1] != '<')
+		while (str[i + 1] != ' ' && str[i + 1] != '>' \
+		&& str[i + 1] != '<' && str[i + 1] != '\0')
 			i++;
 		*end = ++i;
 		return (4);
 	}
 	while (str[i] == ' ')
 		i++;
-	while (str[i + 1] != ' ' && str[i + 1] != '>' && str[i + 1] != '<')
+	while (str[i + 1] != ' ' && str[i + 1] != '>' \
+	&& str[i + 1] != '<' && str[i + 1] != '\0')
 		i++;
 	*end = ++i;
 	return (3);
@@ -53,14 +55,16 @@ int	right_redirection(char *str, int i, int *end)
 		i++;
 		while (str[i] == ' ')
 			i++;
-		while (str[i + 1] != ' ' && str[i + 1] != '>' && str[i + 1] != '<')
+		while (str[i + 1] != ' ' && str[i + 1] != '>' \
+		&& str[i + 1] != '<' && str[i + 1] != '\0')
 			i++;
 		*end = ++i;
 		return (2);
 	}
 	while (str[i] == ' ')
 		i++;
-	while (str[i + 1] != ' ' && str[i + 1] != '>' && str[i + 1] != '<')
+	while (str[i + 1] != ' ' && str[i + 1] != '>' \
+	&& str[i + 1] != '<' && str[i + 1] != '\0')
 		i++;
 	*end = ++i;
 	return (1);
@@ -77,7 +81,7 @@ int	check_redirection(char *str, int i, int *end)
 	else
 	{
 		while (ft_isprint(str[i]) && str[i] != ' ' \
-		&& str[i] != '>' && str[i] != '<')
+		&& str[i] != '>' && str[i] != '<' && str[i + 1] != '\0')
 			i++;
 		*end = i;
 		result = 0;
