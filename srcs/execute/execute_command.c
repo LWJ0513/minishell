@@ -12,6 +12,32 @@
 
 #include "../../include/minishell.h"
 
+void check_heredoc(t_node *node)
+{
+    if (node)
+        ;
+}
+
+void check_redirect(t_node *node)
+{
+    t_red *tmp;
+
+    tmp = node->r_node;
+    while (tmp)
+    {
+        if (tmp->flag==1)
+        {
+            printf("check here?\n");
+            re_out(tmp->file);
+        }
+        else if (tmp->flag==2)
+            re_out_append(tmp->file);
+        else if (tmp->flag==3)
+            re_in(tmp->file);
+        tmp=tmp->next;
+    }
+}
+
 void    execute_builtin(t_list *list, t_node *tmp, t_mini *mini)
 {
     char *cmd;
@@ -59,6 +85,7 @@ int     is_builtin(char *cmd)
 
 void execute_command_2(t_list *list, t_mini *mini, char **envp1)
 {
+    printf("list->head->r_node->flag : %d list->head->r_node->file : %s\n",list->head->r_node->flag,list->head->r_node->file);
     if (!envp1)
         ;
     pid_t pid;
@@ -78,6 +105,8 @@ void execute_command_2(t_list *list, t_mini *mini, char **envp1)
     i = 0;
     while (i < list->cnt_pipe + 1)
     {
+        check_heredoc(list->head);
+        check_redirect(list->head);
         if (is_builtin(tmp->cmd) == 2 || is_builtin(tmp->cmd) == 1)
         {
             execute_builtin(list, tmp, mini);
