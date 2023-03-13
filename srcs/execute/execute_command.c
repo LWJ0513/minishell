@@ -27,11 +27,14 @@ void check_redirect(t_node *node)
     {
         if (tmp->flag==1)
         {
-            printf("check here?\n");
+            close(STDIN_FILENO);
             re_out(tmp->file);
         }
         else if (tmp->flag==2)
+        {
+            close(STDIN_FILENO);
             re_out_append(tmp->file);
+        }
         else if (tmp->flag==3)
             re_in(tmp->file);
         tmp=tmp->next;
