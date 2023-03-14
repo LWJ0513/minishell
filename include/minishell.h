@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/10 01:01:18 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/13 21:32:13 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ void	re_out_append(char *file_path);
 void	re_out(char *file_path);
 void	re_in(char *file_path);
 void	ft_error(char *message);
-int		check_redirection(char *str, int i, int *end);
+int		check_redirection(char *str, int *i, int *end);
 int		has_redirection(char *str);
 int		count_options(t_red *r, int *index);
 void	make_r_node(t_node *node, char *str, int i, int end);
