@@ -6,27 +6,29 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 00:25:55 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/10 00:59:13 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/14 15:39:18 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	set_file(t_red *r, char *str, int *i, int *end)
+void	set_file(t_red *r, char *str, int *index, int *end)
 {
+	int	i;
 	int	j;
 
-	r->file = malloc((int)(*end - *i + 1));
+	i = *index;
+	r->file = malloc((int)(*end - i + 1));
 	// todo 널가드
 	j = 0;
-	while (*i < *end)
+	while (i < *end)
 	{
-		r->file[j] = str[*i];
+		r->file[j] = str[i];
 		j++;
-		*i += 1;
+		i++;
 	}
 	r->file[j] = '\0';
-	*i = *end;
+	*index = *end;
 }
 
 void	set_cmd_options(t_node *node, int index, int i, int j)
@@ -76,7 +78,7 @@ void	make_r_node(t_node *node, char *str, int i, int end)
 			last_node = get_last_r_node(node->r_node);
 			last_node->next = r;
 		}
-		r->flag = check_redirection(str, i, &end);
+		r->flag = check_redirection(str, &i, &end);
 		set_file(r, str, &i, &end);
 		while (str[i] == ' ')
 			i++;
