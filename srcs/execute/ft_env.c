@@ -5,21 +5,30 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 15:24:51 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/24 15:35:45 by wonlim           ###   ########.fr       */
+/*   Created: 2023/01/23 18:01:29 by him               #+#    #+#             */
+/*   Updated: 2023/03/30 02:26:52 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void    ft_env(t_envp *envp)
+void	ft_env(t_cmd	*cmd)
 {
-    t_e_node *tmp;
+	t_env	*env;
 
-    tmp = envp->head;
-    while (tmp)
-    {
-        printf("%s=%s\n", tmp->key, tmp->value);
-        tmp=tmp->next;
-    }
+	if (cmd->content)
+	{
+		ft_putstr_fd(*cmd->content, 2);
+		ft_putstr_fd(": No such file or diretoty\n", 2);
+		g_info.last_exit_num = 127;
+		return ;
+	}
+	env = g_info.env_lst;
+	while (env)
+	{
+		if (env->value)
+			printf("%s=%s\n", env->key, env->value);
+		env = env->next;
+	}
+	g_info.last_exit_num = 0;
 }

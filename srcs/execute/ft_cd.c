@@ -5,51 +5,51 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/09 17:51:37 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/24 15:25:31 by wonlim           ###   ########.fr       */
+/*   Created: 2023/01/23 17:55:18 by him               #+#    #+#             */
+/*   Updated: 2023/03/30 02:26:08 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int ft_cd(char *str, t_envp *envp)
+void	edit_pwd(char	*cwd)
 {
-    int ret;
-    char *tmp;
-    if (!envp)
-		exit(0);
+	t_env	*env_pwd;
+	t_env	*env_oldpwd;
 
-    ret = -1000;
-    if (!str)
-    {
-        ret = chdir(getenv("HOME"));   
-    }
-    else if (!ft_strcmp(str,"~") || !ft_strcmp(str,"~/"))
-    {
-        ret = chdir(getenv("HOME"));
-    }
-    else if (!ft_strcmp(str, "~"))
-    {
-        ret = chdir(getenv("HOME"));
-    }
-    else if (!ft_strncmp(str, "..", 2))
-    {
-        tmp = ft_strjoin(ft_strjoin(getcwd(0, 0), "/"), str);
-        ret = chdir(tmp);
-        free(tmp);
-    }
-    else if (!ft_strncmp(str, "./", 2))
-    {
-        tmp = ft_strjoin(ft_strjoin(getcwd(0, 0), "/"), str);
-        ret = chdir(tmp);
-        free(tmp);
-    }
-    else if (ret==-1000)
-    {
-        ret = chdir(str);
-        if (ret != 0)
-            perror("cd");
-    }
-    free(str);
-    return (ret);
+	env_pwd = find_env_add("PWD");
+	env_oldpwd = find_env_add("OLDPWD");
+	if (env_oldpwd->value)
+		free(env_oldpwd->value);
+	env_oldpwd->value = env_pwd->value;
+	if (cwd)
+		env_pwd->value = ft_strdup(cwd);
+	else
+		env_pwd->value = ft_strdup("");
+	if (!env_pwd->value)
+		ft_error_exit("malloc error", 1);
+}
+
+void	ft_cd(t_cmd	*cmd)
+{
+	char	get_cwd[PATH_MAX];
+	char	*path;
+
+	if (!cmd)
+		return ;
+	if (!cmd->content || *cmd->content == 0)
+	{
+		ft_putstr_fd("plese check argument\n", 2);
+		g_info.last_exit_num = 1;
+		return ;
+	}
+	path = *cmd->content;
+	if (chdir(path) || !getcwd(get_cwd, PATH_MAX))
+	{
+		ft_putstr_fd("fail diretory change\n", 2);
+		g_info.last_exit_num = 1;
+		return ;
+	}
+	edit_pwd(get_cwd);
+	g_info.last_exit_num = 0;
 }

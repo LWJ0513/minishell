@@ -1,41 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   readline.c                                         :+:      :+:    :+:   */
+/*   exit_error.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 21:37:48 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/10 00:51:57 by wonlim           ###   ########.fr       */
+/*   Created: 2023/01/26 14:48:52 by him               #+#    #+#             */
+/*   Updated: 2023/03/30 17:40:12 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	print_pipe(int cnt)
+
+void	ft_error_exit(char *str, int error_no)
 {
-	while (cnt > 0)
-	{
-		if (cnt > 1)
-			printf("pipe ");
-		else
-			printf("pipe");
-		cnt--;
-	}
+	write(2, str, ft_strlen(str));
+	write(2, "\n", 1);
+	exit(error_no);
 }
 
-void	ft_readline(t_mini *mini, t_list *list)
+void	ft_command_error(char *cmd)
 {
-	if (!mini->pipe_flag)
-		mini->line = readline("minishell $ ");
-	else
+	if (cmd == 0 || *cmd == 0)
 	{
-		print_pipe(list->cnt_cmd);
-		mini->line2 = readline("> ");
-		mini->str = ft_strjoin(mini->line, "\n");
-		free(mini->line);
-		mini->line = ft_strjoin(mini->str, mini->line2);
-		free(mini->line2);
-		free(mini->str);
+		ft_putstr_fd(": command not found\n", 2);
+		exit (127);
 	}
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(": command not found\n", 2);
+	g_info.last_exit_num = 127;
+	exit(127);
 }

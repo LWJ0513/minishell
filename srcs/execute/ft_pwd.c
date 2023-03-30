@@ -5,35 +5,22 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 15:24:36 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/24 15:26:10 by wonlim           ###   ########.fr       */
+/*   Created: 2023/01/23 18:37:51 by him               #+#    #+#             */
+/*   Updated: 2023/03/30 02:27:15 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int    ft_pwd()
+void	ft_pwd(void)
 {
-    printf("%s\n",getcwd(0,0));
-    // t_e_node *tmp;
+	char	get_cwd[PATH_MAX];
 
-    // tmp=envp->head;
-
-    // while (*(tmp->next->key))
-    // {
-    //     // printf("tmp->key : %s\n",tmp->key);
-    //     if (!ft_strcmp(tmp->key, "PWD"))
-    //     {
-    //         printf("%s\n",tmp->value);
-    //         return (0);
-    //     }
-    //     tmp=tmp->next;
-    // }
-    return (0);
-    // char *buf;
-    
-    // buf = getcwd(0, 0);
-    // printf("%s\n", buf);
-    // free(buf);
-    // return (0);
+	if (!getcwd(get_cwd, PATH_MAX))
+	{
+		ft_putstr_fd("pwd error\n", 1);
+		exit (1);
+	}
+	printf("%s\n", get_cwd);
+	g_info.last_exit_num = 0;
 }

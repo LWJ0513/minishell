@@ -1,86 +1,119 @@
 /* ************************************************************************** */
-/*                                                             `               */
+/*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/08 21:40:19 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/09 14:47:54 by wonlim           ###   ########.fr       */
+/*   Created: 2023/01/23 18:03:27 by him               #+#    #+#             */
+/*   Updated: 2023/03/30 02:27:03 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int is_key(t_mini *mini, char *key)
+int	name_check(char *str)
 {
-    t_e_node *tmp;
-
-    tmp=mini->env->head;
-    while(tmp)
-    {
-        if (!ft_strcmp(tmp->key, key))
-            return (1);
-        tmp=tmp->next;
-    }
-
-    return (0);
+	if (!str || *str == 0)
+	{
+		ft_putstr_fd("not a valid identifier\n", 2);
+		g_info.last_exit_num = 1;
+		return (0);
+	}
+	if (!str || (*str == '_' && !ft_isalpha(*str)))
+		return (0);
+	str++;
+	while (*str)
+	{
+		if ((!ft_isalpha(*str) && !ft_isdigit(*str) && *str != '_'))
+		{
+			ft_putstr_fd("not a valid identifier\n", 2);
+			g_info.last_exit_num = 1;
+			return (0);
+		}
+		str++;
+	}
+	g_info.last_exit_num = 0;
+	return (1);
 }
 
-void    change_value(t_mini *mini, char *key, char *value)
+char	**find_key_value(char	*key_value)
 {
-    t_e_node *tmp;
+	char			**res;
+	unsigned int	len;
 
-    tmp = mini->env->head;
-    while (tmp)
-    {
-        if (!ft_strcmp(tmp->key, key))
-        {
-            ft_strlcpy(tmp->value, value, ft_strlen(value) + 1);
-            return ;
-        }
-        tmp=tmp->next; 
-    }
+	if (!ft_strchr(key_value, '='))
+	{
+		res = malloc(sizeof(char *) * 2);
+		if (!res)
+			ft_error_exit("malloc error", 1);
+		res[0] = ft_strdup(key_value);
+		res[1] = 0;
+		return (res);
+	}
+	res = malloc(sizeof(char *) * 3);
+	if (!res)
+		ft_error_exit("malloc error", 1);
+	len = ft_strchr(key_value, '=') - key_value;
+	res[0] = malloc(sizeof(char) * len + 1);
+	if (!res[0])
+		ft_error_exit("malloc error", 1);
+	ft_strlcpy(res[0], key_value, len + 1);
+	res[1] = ft_strdup(key_value + len + 1);
+	res[2] = 0;
+	return (res);
 }
 
-void    change_value_exp(t_mini *mini, char *key, char *value)
+void	export_null_print(void)
 {
-    t_e_node *tmp;
+	t_env	*env;
 
-    tmp = mini->env_exp->head;
-    while (tmp)
-    {
-        if (!ft_strcmp(tmp->key, key))
-        {
-            ft_strlcpy(tmp->value, value, ft_strlen(value) + 1);
-            return ;
-        }
-        tmp=tmp->next; 
-    }
+	env = g_info.env_lst;
+	while (env)
+	{
+		printf("declare -x %s", env->key);
+		if (env->value)
+			printf("=\"%s\"", env->value);
+		printf("\n");
+		env = env->next;
+	}
+	g_info.last_exit_num = 0;
 }
 
-void    ft_export(char *str, t_mini *mini)
+void	free_env_arr(char	**str)
 {
-    char    **tmp;
+	unsigned int	i;
 
-    tmp = NULL;
-    if (tmp)
-        ;
-    if (!str)
-        ft_print_export(mini->env_exp);
-    else
-    {
-        tmp =ft_split(str,'=');
-        if (is_key(mini, tmp[0]))
-        {
-            change_value(mini, tmp[0],tmp[1]);
-            change_value_exp(mini, tmp[0],tmp[1]);
-        }
-        else
-        {
-            Insert(mini->env, tmp, tmp[0], tmp[1]);
-            Insert(mini->env_exp, tmp, tmp[0], tmp[1]);
-        }
-        ft_sort_envp(mini->env_exp);
-    }
+	i = -1;
+	while (str && str[++i])
+		free(str[i]);
+	free(str);
+}
+
+void	ft_export(char **str)
+{
+	t_env	*temp;
+	char	**env_arr;
+	size_t	i;
+
+	i = -1;
+	if (!str)
+	{
+		export_null_print();
+		return ;
+	}
+	while (str[++i])
+	{
+		env_arr = find_key_value(str[i]);
+		if (name_check(env_arr[0]))
+		{
+			temp = find_env_add(env_arr[0]);
+			if (env_arr[1] != 0)
+			{
+				free(temp->value);
+				temp->value = ft_strdup(env_arr[1]);
+			}
+		}
+		free_env_arr(env_arr);
+	}
 }

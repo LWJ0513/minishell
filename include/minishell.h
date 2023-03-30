@@ -6,124 +6,166 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/13 21:32:13 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/30 19:04:09 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "readline/history.h"
-# include "readline/readline.h"
 # include "../libft/libft.h"
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <termios.h>
+# include <sys/stat.h>
 
-typedef struct s_redirection
-{
-	int				flag;
-	char			*file;
-	struct s_redirection	*next;
-}	t_red;
+# define PATH_MAX 4096
 
-typedef struct s_node
+typedef enum e_rdir_type
 {
-	struct s_node			*prev;
-	struct s_redirection	*r_node;
-	struct s_node			*next;
-	char				*cmd;
-	char			**option;
-}	t_node;
+	RDIR,		// 0  >
+	R_RDIR,		// 1  <
+	D_RDIR,		// 2  >>
+	HEREDOC		// 3  <<
+}	t_rdir_type;
 
-typedef struct s_list
+typedef struct s_rdir
 {
-	t_node	*head;
-	pid_t	pid;
-	int		cnt_pipe;
-	int		cnt_cmd;
-}	t_list;
+	int				type;			// t_rdir_type 넣는 변수
+	int				here_doc_fd;	// 무조건 0으로 
+	char			*with;			// 파일 이름 또는 eof (리다이렉션 문자 다음에 오는 거)
+	struct s_rdir	*next;
+}	t_rdir;
 
-typedef struct s_e_node
+typedef struct s_cmd
 {
-	char    **split1;
-	char	*key;
-	char	*value;
-	struct s_e_node *next;
-	struct s_e_node *prev;
-}	t_e_node;
+	char			*name;			// 명령어 ls
+	char			**content;		// 명령어 빼고 옵션  -a -l null
+	struct s_rdir	*rdir;			// 리다이렉션 정보 넣는 연결리스트
+	int				is_heredoc;		// << 이거 있는지만 체크 . 있으면 1 없으면 0
+	struct s_cmd	*next;
+}	t_cmd;
 
-typedef struct s_envp
+typedef struct s_env
 {
-	struct s_e_node *head;
-}	t_envp;
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
+
+typedef struct s_info
+{
+	struct s_env	*env_lst;
+	int				last_exit_num;
+}	t_info;
+
+extern t_info	g_info;
 
 typedef struct s_mini
 {
-	t_envp *env;
-	t_envp *env_exp;
+	t_cmd	*cmds;
 	int pipe_flag;
+	int cnt_pipe;
+	int cnt_cmd;
 	int cnt_node;
-	char *str;
 	char *line;
 	char *line2;
-	char **path;
-
+	char *str;
 }	t_mini;
 
-int		ft_pwd();
-int		ft_cd(char *str, t_envp *envp);
-void	free_split(char **split);
-char	*comb_split(char **split, int i);
-int		ft_strcmp(char *s1, char *s2);
-void	ft_env(t_envp *envp);
-t_node	*make_node(char *str);
-void	init_list(t_list *list);
-void	init_node(t_node *node);
-t_node	*get_last_node(t_node *node);
-t_envp	*envp_init(char **envp);
-int		count_pipe(char *str);
-int		count_cmd(t_list *list, int max);
-void    ft_export(char *str, t_mini *mini);
-void    ft_print_export(t_envp *list);
-void 	Insert(t_envp* list, char **tmp2, char *key1, char *value1);
-void    ft_sort_envp(t_envp *list);
-char	*eliminate(char *str, char c);
-void	print_pipe(int cnt);
-char	*cut_front(char *str);
-int		check_last_pipe(char *str);
-void	free_list(t_list *list, int cnt);
-void 	execute_command_2(t_list *list, t_mini *mini, char **envp1);
-char	*get_path(t_envp *env);
-int		cmp_builtin(char *cmd);
-void	search_path(char **path, t_node *node);
-void	valid_cmd(char **path, t_list *list);
-int		exception_handling(char *str, t_list *list, t_mini *mini);
+
+// parse
+void	init_envp(char **envp);
+void	ft_error_exit(char *str, int error_no);
+void	set_terminal(void);
+void set_signal();
+void	ft_readline(t_mini *mini);
 void	init_mini(t_mini *mini);
-void	set_node(char **split_pipe, t_list *list, t_mini *mini);
-void	ft_readline(t_mini *mini, t_list *list);
-void	free_main(t_mini *mini, t_list *list);
+char	*eliminate(char *str, char c);
+char	*cut_front(char *str);
+void	set_cmd_node(char **split_pipe, t_mini *mini);
+int	has_redirection(char *str);
+void	make_rdir_node(t_cmd *node, char *str, int i, int end);
+int	check_redirection(char *str, int *i, int *end);
+int	count_options(t_rdir *r, int *index);
+int	count_cmd(t_mini *mini, int max);
+int	exception_handling(char *str, t_mini *mini);
+int	count_pipe(char *str);
+void free_split(char **split);
+void free_cmd(t_cmd *head, int cnt);
+void	free_main(t_mini *mini);
 void	history(t_mini *mini);
-int		count_char(char *str, char c);
+int	count_char(char *str, char c);
+void ignore_signal(void);
 
-void 	ft_echo(t_node *tmp);
-void	ft_unset(char *str, t_mini *mini);
-void	ft_exit(t_node *tmp, t_list *list);
+void rl_replace_line(const char *text, int clear_undo);
 
-t_envp *envp_exp_init(char **envp);
+//ft_strjoin2.c
+char	**ft_strjoin2(char *str, char **arr);
 
-void	re_out_append(char *file_path);
-void	re_out(char *file_path);
-void	re_in(char *file_path);
-void	ft_error(char *message);
-int		check_redirection(char *str, int *i, int *end);
-int		has_redirection(char *str);
-int		count_options(t_red *r, int *index);
-void	make_r_node(t_node *node, char *str, int i, int end);
-t_node	*get_last_node(t_node *node);
-t_red	*get_last_r_node(t_red *node);
+// find_env_add.c
+t_env	*find_env_add(char *key);
 
+// ft_error_exit.c
+void	ft_command_error(char *cmd);
+
+// ft_builtin.c
+void	single_builtin(t_cmd *cmd);
+int		check_builtin(char *cmd_name);
+int		is_builtin(t_cmd *cmd);
+
+// find_env.c
+t_env	*find_env(char *key);
+
+// ft_strcmp.c
+int		ft_strcmp(const char *str1, const char *str2);
+
+// ft_execute.c
+void	execute(t_cmd	*cmd);
+
+// ft_rdir.c
+int		ft_rdir(t_rdir *rdir);
+
+// ft_exit.c
+void	ft_exit(t_cmd	*cmd);
+
+// ft_cd.c
+void	ft_cd(t_cmd	*cmd);
+
+// ft_echo.c
+void	ft_echo(t_cmd	*cmd);
+
+// ft_env.c
+void	ft_env(t_cmd	*cmd);
+
+// ft_pwd.c
+void	ft_pwd(void);
+
+// ft_export.c
+void	ft_export(char **str);
+
+// ft_unset.c
+void	ft_unset(t_cmd *cmd);
+
+// ft_fork.c
+void	ft_fork(int pipe_cnt, t_cmd *cmd);
+
+// ft_here_doc.c
+int		check_heredoc(t_cmd *cmd);
+
+// ft_exe.c
+void	ft_exe(t_cmd *cmd, t_env *env);
+
+// signal.c
+void	heredoc_sigint_handler(int signo);
+
+// here_util.c
+void	doc_util(int num, char *buff, int fd);
+char	**lst_to_arr(t_env *envs);
 
 
 #endif

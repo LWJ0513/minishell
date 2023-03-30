@@ -1,36 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   comb_split.c                                       :+:      :+:    :+:   */
+/*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/09 17:59:47 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/10 00:53:24 by wonlim           ###   ########.fr       */
+/*   Created: 2023/03/29 17:25:42 by wonlim            #+#    #+#             */
+/*   Updated: 2023/03/30 19:07:19 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char	*comb_split(char **split, int i)
+void init_envp(char **envp)
 {
-	char	*str;
-	char	*tmp;
+	char **split;
+	int i;
+	t_env *node;
+	t_env *last;
 
-	str = malloc(0);
-	while (split[i])
+	i = 0;
+	last = 0;
+	while (envp[i])
 	{
-		tmp = ft_strjoin(str, split[i]);
-		if (str)
-			free(str);
-		if (split[i + 1] != NULL)
-		{
-			str = ft_strjoin(tmp, " ");
-			free(tmp);
-		}
+		split = ft_split(envp[i], '=');
+		node = malloc(sizeof(t_env));
+		if (!node)
+			ft_error_exit("malloc error", 1);
+		node->key = split[0];
+		node->value = split[1];
+		node->next = 0;
+		free(split);
+		if (!last)
+			g_info.env_lst = node;
 		else
-			str = tmp;
+			last->next = node;
+		last = node;
+		node = 0;
 		i++;
 	}
-	return (str);
 }
