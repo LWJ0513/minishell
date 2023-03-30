@@ -1,36 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_generate_env.c                                  :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 15:22:57 by wonlim            #+#    #+#             */
-/*   Updated: 2023/02/24 15:26:39 by wonlim           ###   ########.fr       */
+/*   Created: 2023/01/23 17:59:35 by him               #+#    #+#             */
+/*   Updated: 2023/03/30 02:26:12 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void ft_echo(t_node *tmp)
+int	check_n(char	*content)
 {
-    unsigned long i;
-    if (!ft_strcmp(tmp->option[1], "-n"))
-    {
-        i = 2;
-        while (i < ft_strlen(tmp->option[0]) - 1)
-        {
-            printf("%s ",tmp->option[i++]);
-        }
-        printf("%s",tmp->option[i]);
-    }
-    else
-    {
-        i = 1;
-        while (i < ft_strlen(tmp->option[0]) - 1)
-        {
-            printf("%s ",tmp->option[i++]);
-        }
-        printf("%s\n",tmp->option[i]);
-    }
+	if (!content)
+		return (0);
+	if (*content == '-')
+		content++;
+	else
+		return (0);
+	while (*content == 'n')
+		content++;
+	if (*content == 0)
+		return (1);
+	return (0);
+}
+
+void	ft_echo(t_cmd	*cmd)
+{
+	int		n;
+	char	**str;
+
+	n = 0;
+	str = cmd->content;
+	if (str)
+	{
+		n = check_n(*str);
+		while (*str)
+		{
+			if (check_n(*str) && n == 1)
+				str++;
+			else
+			{
+				if (n == 1)
+					n++;
+				ft_putstr_fd(*str, 1);
+				if (*++str)
+					write(1, " ", 1);
+			}
+		}
+	}
+	if (!n)
+		write(1, "\n", 1);
+	g_info.last_exit_num = 0;
 }

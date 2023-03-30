@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:28:37 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/10 00:50:04 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/30 01:11:15 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,18 +28,18 @@ int	count_pipe(char *str)
 	return (count);
 }
 
-int	count_cmd(t_list *list, int max)
+int	count_cmd(t_mini *mini, int max)
 {
-	t_node	*node;
+	t_cmd	*node;
 	int		count;
 	int		i;
 
 	i = 0;
 	count = 0;
-	node = list->head;
+	node = mini->cmds;
 	while (i < max)
 	{
-		if (node->cmd)
+		if (node->name)
 			count++;
 		node = node->next;
 		i++;
@@ -61,7 +61,7 @@ int	count_char(char *str, char c)
 	return (count);
 }
 
-int	count_options(t_red *r, int *index)
+int	count_options(t_rdir *r, int *index)
 {
 	int	count;
 	int	i;
@@ -70,10 +70,10 @@ int	count_options(t_red *r, int *index)
 	i = 0;
 	while (r)
 	{
-		if (r->flag == 0)
+		if (r->type == -1)
 		{
 			if (*index == -1)
-				*index = i;
+				*index = i;	//?
 			count++;
 		}
 		i++;

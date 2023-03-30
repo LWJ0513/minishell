@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/13 19:50:22 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/10 00:55:14 by wonlim           ###   ########.fr       */
+/*   Created: 2023/03/30 00:04:59 by wonlim            #+#    #+#             */
+/*   Updated: 2023/03/30 17:42:02 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*eliminate(char *str, char c)
 
 	result = malloc(ft_strlen(str) - count_char(str, c) + 1);
 	if (!result)
-		return (0);
+		ft_error_exit("malloc error", 1);
 	i = 0;
 	while (*str)
 	{
@@ -46,18 +46,4 @@ char	*cut_front(char *str)
 		str++;
 	}
 	return (str);
-}
-
-char	*get_path(t_envp *env)
-{
-	t_e_node	*node;
-
-	node = env->head;
-	while (node)
-	{
-		if (!ft_strcmp(node->key, "PATH"))
-			return (node->value);
-		node = node->next;
-	}
-	return (0);
 }

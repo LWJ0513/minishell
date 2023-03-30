@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   find_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/24 21:36:01 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/10 00:51:26 by wonlim           ###   ########.fr       */
+/*   Created: 2023/01/26 21:49:00 by him               #+#    #+#             */
+/*   Updated: 2023/03/30 16:04:18 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	init_node(t_node *node)
+t_env	*find_env(char *key)
 {
-	ft_bzero(node, sizeof(t_node));
-}
+	t_env	*temp;
 
-void	init_list(t_list *list)
-{
-	ft_bzero(list, sizeof(t_list));
-	list->pid = -1;
-}
-
-void	init_mini(t_mini *mini)
-{
-	ft_bzero(mini, sizeof(t_mini));
+	temp = g_info.env_lst;
+	while (temp && ft_strcmp(temp->key, key))
+		temp = temp->next;
+	if (!temp)
+		return (0);
+	return (temp);
 }

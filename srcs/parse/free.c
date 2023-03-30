@@ -6,15 +6,15 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:50:12 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/10 00:54:34 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/30 18:59:46 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	free_split(char **split)
+void free_split(char **split)
 {
-	int	i;
+	int i;
 
 	i = 0;
 	while (split[i])
@@ -25,32 +25,62 @@ void	free_split(char **split)
 	free(split);
 }
 
-void	free_list(t_list *list, int cnt)
+int count_rdir(t_rdir *node)
 {
-	t_node	*node;
-	int		i;
+	int cnt;
 
-	while (cnt)
+	cnt = 0;
+	while (node)
 	{
-		node = list->head;
-		i = 0;
-		while (i < cnt - 1)
-		{
-			node = node->next;
-			i++;
-		}
-		free(node->cmd);
-		node->cmd = 0;
-		node->next = 0;
-		free(node);
-		cnt--;
+		cnt++;
+		node = node->next;
 	}
-	list->head = 0;
+	return (cnt);
 }
 
-void	free_main(t_mini *mini, t_list *list)
+void free_rdir(t_rdir *head, int cnt)
+{
+	t_rdir *node;
+	t_rdir *next_node;
+
+	node = head;
+	while (cnt)
+	{
+		next_node = node->next;
+		free(node->with);
+		free(node);
+		node = next_node;
+		cnt--;
+	}
+}
+
+void free_cmd(t_cmd *head, int cnt)
+{
+	t_cmd *node;
+	t_cmd *next_node;
+
+	node = head;
+	while (cnt)
+	{
+		next_node = node->next;
+		if (node->name)
+			free(node->name);
+		if (node->content)
+			free_split(node->content);
+		if (node->rdir)
+			free_rdir(node->rdir, count_rdir(node->rdir));
+
+		free(node);
+		node = next_node;
+		cnt--;
+	}
+}
+
+void	free_main(t_mini *mini)
 {
 	free(mini->line);
 	free(mini->line2);
-	free_list(list, list->cnt_cmd);
+	// free(mini->str); // ???
+	free_cmd(mini->cmds, mini->cnt_cmd);
+	
 }

@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:34:29 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/14 15:50:41 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/03/30 20:21:49 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	left_redirection(char *str, int *index, int *end)
 		&& str[i + 1] != '<' && str[i + 1] != '\0')
 			i++;
 		*end = ++i;
-		return (4);
+		return (HEREDOC);
 	}
 	i++;
 	while (str[i] == ' ')
@@ -51,7 +51,7 @@ int	left_redirection(char *str, int *index, int *end)
 	&& str[i + 1] != '<' && str[i + 1] != '\0')
 		i++;
 	*end = ++i;
-	return (3);
+	return (R_RDIR);
 }
 
 int	right_redirection(char *str, int *index, int *end)
@@ -69,7 +69,7 @@ int	right_redirection(char *str, int *index, int *end)
 		&& str[i + 1] != '<' && str[i + 1] != '\0')
 			i++;
 		*end = ++i;
-		return (2);
+		return (D_RDIR);
 	}
 	i++;
 	while (str[i] == ' ')
@@ -79,24 +79,26 @@ int	right_redirection(char *str, int *index, int *end)
 	&& str[i + 1] != '<' && str[i + 1] != '\0')
 		i++;
 	*end = ++i;
-	return (1);
+	return (RDIR);
 }
 
-int	check_redirection(char *str, int *i, int *end)
+int	check_redirection(char *str, int *index, int *end)
 {
 	int	result;
+	int i;
 
-	if (str[*i] == '<')
-		result = left_redirection(str, i, end);
-	else if (str[*i] == '>')
-		result = right_redirection(str, i, end);
+	i = *index;
+	if (str[i] == '<')
+		result = left_redirection(str, index, end);
+	else if (str[i] == '>')
+		result = right_redirection(str, index, end);
 	else
 	{
-		while (ft_isprint(str[*i]) && str[*i] != ' ' \
-		&& str[*i] != '>' && str[*i] != '<' && str[*i + 1] != '\0')
-			*i += 1;
-		*end = *i;
-		result = 0;
+		while (ft_isprint(str[i]) && str[i] != ' ' \
+		&& str[i] != '>' && str[i] != '<' && str[i + 1] != '\0')
+			i++;
+		*end = i;
+		result = -1;
 	}
 	return (result);
 }
