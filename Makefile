@@ -46,7 +46,10 @@ SRCS_PAR = \
 	set_rdir_node.c \
 	signal.c \
 	terminal.c \
-	utils.c
+	utils.c \
+	valid_quotation.c \
+	replace.c \
+	replace_env.c
 
 OBJS = $(MANDATORY_EXE:c=o) $(MANDATORY_PAR:c=o)
 

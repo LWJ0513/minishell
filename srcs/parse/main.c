@@ -62,10 +62,15 @@ int main_sub(t_mini *mini)
 		return (1);
 	}
 	mini->cnt_pipe = count_pipe(mini->str);
+	if (valid_quotation(mini->str, mini))
+	{
+		return (1);
+	}
+// printf("str : %s\n\n", mini->str);
 	set_cmd_node(ft_split(mini->str, '|'), mini);
-
 	if (exception_handling(mini->str, mini))
 		return (1);
+// print_test(mini);
 	execute(mini->cmds);
 	return (0);
 }
