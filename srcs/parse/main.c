@@ -33,10 +33,13 @@ void print_test(t_mini *mini)
 		printf("is_heredoc : %d\n", cmd->is_heredoc);
 		printf("name : %s \n", cmd->name);
 		int i = 0;
-		while (cmd->content[i])
+		if (cmd->content)
 		{
-			printf("content[%d] : %s\n", i, cmd->content[i]);
-			i++;
+			while (cmd->content[i])
+			{
+				printf("content[%d] : %s\n", i, cmd->content[i]);
+				i++;
+			}
 		}
 		printf("\n[rdir]-----\n");
 		r = cmd->rdir;
@@ -66,11 +69,11 @@ int main_sub(t_mini *mini)
 	{
 		return (1);
 	}
-// printf("str : %s\n\n", mini->str);
+	// printf("str : %s\n\n", mini->str);
 	set_cmd_node(ft_split(mini->str, '|'), mini);
 	if (exception_handling(mini->str, mini))
 		return (1);
-// print_test(mini);
+	// print_test(mini);
 	execute(mini->cmds);
 	return (0);
 }
@@ -96,7 +99,7 @@ int main(int argc, char **argv, char **envp)
 
 		history(&mini);
 		free_main(&mini);
-		mini.pipe_flag = 0;
+		// mini.pipe_flag = 0;
 		ft_bzero(&mini, sizeof(t_mini));
 	}
 }

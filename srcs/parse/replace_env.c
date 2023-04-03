@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 13:18:52 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/03 13:34:47 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/03 14:21:38 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ t_env *cmpenv(char *env)
 
 t_env *get_env(char *str, int start, int end)
 {
+	t_env *node;
 	char *env;
 	int j;
 
@@ -109,5 +110,12 @@ t_env *get_env(char *str, int start, int end)
 		start++;
 	}
 	env[j] = '\0';
+	if (!ft_strcmp(env, "?"))
+	{
+		node = malloc(sizeof(t_env));
+		node->key = "?";
+		node->value = ft_itoa(g_info.last_exit_num);
+		return (node);
+	}
 	return cmpenv(env);
 }

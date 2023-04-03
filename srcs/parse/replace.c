@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 13:16:44 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/03 13:34:17 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/03 14:49:55 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int when_env(t_mini *mini, int i, int quotation_flag)
 
 	i++;
 	start = i;
-	while (mini->str[i] != '\'' && mini->str[i] != '\"' && mini->str[i] != ' ')
+	while (mini->str[i] != '\'' && mini->str[i] != '\"' && mini->str[i] != ' ' && mini->str[i] != '\0')
 	{
 		i++;
 	}
@@ -54,6 +54,7 @@ int when_env(t_mini *mini, int i, int quotation_flag)
 		replace = replace_env(mini->str, start - 1, end, get_env(mini->str, start, end));
 		free(mini->str);
 		mini->str = replace;
+		return start + ft_strlen(replace) -1;
 	}
 
 	return i;
@@ -102,7 +103,7 @@ void when_double_quotation(t_mini *mini, int i, int *quotation_flag, int *double
 void replace(t_mini *mini, int quotation_flag, int double_quotation_flag)
 {
 	int i;
-	
+
 	i = 0;
 	while (mini->str[i])
 	{

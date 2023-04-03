@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 23:16:26 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/03 13:33:56 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/03 14:37:54 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ int valid_quotation(char *str, t_mini *mini)
 
 	// todo 따옴표, 쌍따옴표가 있는지 검사한다.
 
-	if (!ft_strchr(str, '\'') && !ft_strchr(str, '\"'))
-		return 0;
+	// if (!ft_strchr(str, '\'') && !ft_strchr(str, '\"'))
+	// 	return 0;
 
 	// todo 있을 경우 짝수인지 검사한다.
 	quotation_cnt = check_quotation_even(str, '\'');

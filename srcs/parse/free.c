@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:50:12 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/30 18:59:46 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/03 14:42:23 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void free_cmd(t_cmd *head, int cnt)
 void	free_main(t_mini *mini)
 {
 	free(mini->line);
-	free(mini->line2);
+	// free(mini->line2);
 	// free(mini->str); // ???
 	free_cmd(mini->cmds, mini->cnt_cmd);
 	

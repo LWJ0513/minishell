@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:59:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/30 20:26:20 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/03 14:54:05 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,12 @@ void set_content(t_cmd *node)
 	int i;
 	int j;
 
+	if (!node->content[1])
+	{
+		free(node->content);
+		node->content = NULL;
+		return;
+	}
 	before = node->content;
 	i = 0;
 	while (before[i])
