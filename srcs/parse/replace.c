@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 13:16:44 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/03 14:49:55 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/03 18:07:46 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int when_env(t_mini *mini, int i, int quotation_flag)
 	int start;
 	int end;
 	char *replace;
+	char *value;
 
 	i++;
 	start = i;
@@ -51,53 +52,61 @@ int when_env(t_mini *mini, int i, int quotation_flag)
 
 	if (quotation_flag < 1)
 	{
-		replace = replace_env(mini->str, start - 1, end, get_env(mini->str, start, end));
+		value = get_env(mini->str, start, end);
+		replace = replace_env(mini->str, start - 1, end, value);
 		free(mini->str);
 		mini->str = replace;
-		return start + ft_strlen(replace) -1;
+		if (value)
+			return start + ft_strlen(value) -1;
+		else
+			return start -1;
 	}
 
-	return i;
+	return i ;
 }
 
-void when_quotation(t_mini *mini, int i, int *quotation_flag, int *double_quotation_flag)
+void when_quotation(t_mini *mini, int *i, int *quotation_flag, int *double_quotation_flag)
 {
 	char *replace;
 
 	if (*quotation_flag == 0 && *double_quotation_flag == 0)
 	{
 		*quotation_flag = 1;
-		replace = delete (mini->str, i);
+		replace = delete (mini->str, *i);
 		free(mini->str);
 		mini->str = replace;
 	}
 	else if (*quotation_flag == 1 && *double_quotation_flag == 0)
 	{
 		*quotation_flag = 0;
-		replace = delete (mini->str, i);
+		replace = delete (mini->str, *i);
 		free(mini->str);
 		mini->str = replace;
 	}
+	else
+		*i += 1;
 }
 
-void when_double_quotation(t_mini *mini, int i, int *quotation_flag, int *double_quotation_flag)
+void when_double_quotation(t_mini *mini, int *i, int *quotation_flag, int *double_quotation_flag)
 {
 	char *replace;
 
 	if (*quotation_flag == 0 && *double_quotation_flag == 0)
 	{
 		*double_quotation_flag = 1;
-		replace = delete (mini->str, i);
+		replace = delete (mini->str, *i);
 		free(mini->str);
 		mini->str = replace;
 	}
 	else if (*quotation_flag == 0 && *double_quotation_flag == 1)
 	{
 		*double_quotation_flag = 0;
-		replace = delete (mini->str, i);
+		replace = delete(mini->str, *i);
 		free(mini->str);
 		mini->str = replace;
 	}
+	else
+		*i += 1;
 }
 
 void replace(t_mini *mini, int quotation_flag, int double_quotation_flag)
@@ -109,16 +118,17 @@ void replace(t_mini *mini, int quotation_flag, int double_quotation_flag)
 	{
 		if (mini->str[i] == '$')
 		{
-			i = when_env(mini, i, quotation_flag);
+			i = when_env(mini, i, quotation_flag) ;
 		}
 		else if (mini->str[i] == '\'')
 		{
-			when_quotation(mini, i, &quotation_flag, &double_quotation_flag);
+			when_quotation(mini, &i, &quotation_flag, &double_quotation_flag);
 		}
 		else if (mini->str[i] == '\"')
 		{
-			when_double_quotation(mini, i, &quotation_flag, &double_quotation_flag);
+			when_double_quotation(mini, &i, &quotation_flag, &double_quotation_flag);
 		}
-		i++;
+		else
+			i++;
 	}
 }

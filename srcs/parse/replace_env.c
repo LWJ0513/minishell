@@ -6,29 +6,29 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 13:18:52 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/03 14:21:38 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/03 17:32:34 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int count_env(t_env *node)
-{
-	int i;
+// int count_env(t_env *node)
+// {
+// 	int i;
 
-	i = 0;
-	if (node)
-	{
-		while (node->value[i])
-		{
-			i++;
-		}
-	}
+// 	i = 0;
+// 	if (node)
+// 	{
+// 		while (node->value[i])
+// 		{
+// 			i++;
+// 		}
+// 	}
 
-	return i;
-}
+// 	return i;
+// }
 
-char *replace_env(char *str, int start, int end, t_env *node)
+char *replace_env(char *str, int start, int end, char *value)
 {
 	int i;
 	int j;
@@ -36,10 +36,13 @@ char *replace_env(char *str, int start, int end, t_env *node)
 	int env_len;
 	char *replace;
 
-	if (!node)
+	if (!value)
+	{
 		start -= 1;
-
-	env_len = count_env(node);
+		env_len = 0;
+	}
+	else
+		env_len = ft_strlen(value);
 
 	replace = malloc(ft_strlen(str) - (end - start) + env_len + 1);
 	i = 0;
@@ -50,12 +53,12 @@ char *replace_env(char *str, int start, int end, t_env *node)
 		i++;
 		j++;
 	}
-	if (node)
+	if (value)
 	{
 		k = 0;
-		while (node->value[k])
+		while (value[k])
 		{
-			replace[j] = node->value[k];
+			replace[j] = value[k];
 			k++;
 			j++;
 		}
@@ -72,11 +75,10 @@ char *replace_env(char *str, int start, int end, t_env *node)
 		i++;
 	}
 	replace[j] = '\0';
-	free(node);
 	return replace;
 }
 
-t_env *cmpenv(char *env)
+char *cmpenv(char *env)
 {
 	t_env *node;
 
@@ -86,7 +88,7 @@ t_env *cmpenv(char *env)
 	{
 		if (!ft_strcmp(node->key, env))
 		{
-			return node;
+			return node->value;
 		}
 		node = node->next;
 	}
@@ -94,9 +96,8 @@ t_env *cmpenv(char *env)
 	return 0;
 }
 
-t_env *get_env(char *str, int start, int end)
+char *get_env(char *str, int start, int end)
 {
-	t_env *node;
 	char *env;
 	int j;
 
@@ -112,10 +113,7 @@ t_env *get_env(char *str, int start, int end)
 	env[j] = '\0';
 	if (!ft_strcmp(env, "?"))
 	{
-		node = malloc(sizeof(t_env));
-		node->key = "?";
-		node->value = ft_itoa(g_info.last_exit_num);
-		return (node);
+		return (ft_itoa(g_info.last_exit_num));
 	}
 	return cmpenv(env);
 }

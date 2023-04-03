@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/03 13:20:52 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/03 15:26:37 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ int	count_char(char *str, char c);
 void ignore_signal(void);
 int valid_quotation(char *str, t_mini *mini);
 void replace(t_mini *mini, int quotation_flag, int double_quotation_flag);
-t_env *get_env(char *str, int start, int end);
-char *replace_env(char *str, int start, int end, t_env *node);
+char *get_env(char *str, int start, int end);
+char *replace_env(char *str, int start, int end, char *node);
 
 
 
