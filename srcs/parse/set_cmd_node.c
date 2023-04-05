@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:59:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 16:47:06 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/05 17:21:17 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,7 @@ t_cmd *make_cmd_node(char *s)
 		ft_error_exit("malloc error", 1);
 	ft_bzero(node, sizeof(t_cmd));
 	str = cut_back(s);
+	
 	if (has_redirection(str))
 		make_rdir_node(node, str, 0, 0);
 	else

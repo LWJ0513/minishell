@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 13:16:44 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 01:12:59 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/05 17:29:56 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,10 +114,10 @@ void replace_content(t_cmd *node, int quotation_flag, int double_quotation_flag)
 	int i;
 	int j;
 
-	i = 0;
 	j = 0;
 	while (node->content[j])
 	{
+		i = 0;
 		while (node->content[j][i])
 		{
 			if (node->content[j][i] == '$')
