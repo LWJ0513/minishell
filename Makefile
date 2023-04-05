@@ -51,7 +51,9 @@ SRCS_PAR = \
 	valid_quotation.c \
 	replace_content.c \
 	replace_name.c \
-	replace_env.c
+	replace_env.c \
+	split_pipe.c \
+	replace_with.c
 	
 
 OBJS = $(MANDATORY_EXE:c=o) $(MANDATORY_PAR:c=o)

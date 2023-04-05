@@ -73,7 +73,7 @@ int main_sub(t_mini *mini)
 	}
 	// printf("str : %s\n\n", mini->str);
 
-	set_cmd_node(ft_split(mini->str, '|'), mini);
+	set_cmd_node(mini);
 	if (exception_handling(mini->str, mini))
 		return (1);
 	// print_test(mini);

@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 00:25:55 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 16:46:04 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/05 20:04:44 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ void make_rdir_node(t_cmd *node, char *str, int i, int end)
 	set_rdir_node(node);
 
 	replace_name(node, 0, 0);
+	replace_with(node, 0, 0);
 	if (!ft_strcmp(node->content[0], ""))
 	{
 		free(node->content[0]);

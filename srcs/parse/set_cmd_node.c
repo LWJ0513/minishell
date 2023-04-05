@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:59:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 17:21:17 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/05 19:54:18 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,18 @@ void set_content(t_cmd *node)
 	node->content = after;
 }
 
-char *cut_back(char *s)
+char *cut_back_front(char *s)
 {
 	char *str;
+	int start;
 	int i;
 	int cnt;
 
+	start = 0;
 	if (!s)
 		return 0;
+	while (s[start] == ' ')
+		start++;
 	i = ft_strlen(s) - 1;
 	cnt = 0;
 	while (s[i] == ' ')
@@ -92,14 +96,17 @@ char *cut_back(char *s)
 		cnt++;
 		i--;
 	}
-	str = malloc(ft_strlen(s) - cnt + 1);
+	int size = ft_strlen(s) - cnt - start;
+	str = malloc(size + 1);
 	i = 0;
-	while (i < (int)ft_strlen(s) -cnt ){
-		str[i] = s[i];
+	while (i < size)
+	{
+		str[i] = s[start];
 		i++;
+		start++;
 	}
-	str[i] = '\0';
-	return str;
+	str[start] = '\0';
+	return (str);
 }
 
 t_cmd *make_cmd_node(char *s)
@@ -111,8 +118,9 @@ t_cmd *make_cmd_node(char *s)
 	if (!node)
 		ft_error_exit("malloc error", 1);
 	ft_bzero(node, sizeof(t_cmd));
-	str = cut_back(s);
-	
+
+	str = cut_back_front(s);
+	// printf("str  : %s\n", str);
 	if (has_redirection(str))
 		make_rdir_node(node, str, 0, 0);
 	else
@@ -127,12 +135,16 @@ t_cmd *make_cmd_node(char *s)
 	return (node);
 }
 
-void set_cmd_node(char **split_pipe, t_mini *mini)
+void set_cmd_node(t_mini *mini)
 {
 	t_cmd *node;
 	t_cmd *last_node;
 	int i;
+	char **split_pipe;
 
+	// split_pipe = ft_split(mini->str, '|');
+	
+	split_pipe = ft_split_pipe(mini->str);
 	i = 0;
 	while (split_pipe[i])
 	{
