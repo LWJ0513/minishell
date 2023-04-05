@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:35:22 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/30 19:13:07 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/05 17:12:48 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int check_redirection_error(t_cmd *node, t_rdir *r, int i)
 
 int exception_handling(char *str, t_mini *mini)
 {
+	t_rdir *node;
+
 	if (check_last_pipe(str) && mini->cnt_pipe == mini->cnt_cmd)
 	{
 		ft_printf("마지막이 파이프고 파이프 갯수랑 명령어 갯수가 똗ㄱ같음\n");
@@ -85,6 +87,12 @@ int exception_handling(char *str, t_mini *mini)
 		free_cmd(mini->cmds, mini->cnt_cmd);
 		mini->cmds = 0;
 		return (1);
+	}
+	node = mini->cmds->rdir;
+	while (node){
+		if (!ft_strcmp(node->with, ""))
+			ft_error_exit("syntax error!", 1);
+		node = node->next;
 	}
 	return (0);
 }

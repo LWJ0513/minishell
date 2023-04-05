@@ -47,6 +47,8 @@ void print_test(t_mini *mini)
 		{
 			printf("type : %d\n", r->type);
 			printf("with : %s\n", r->with);
+			printf("with : %p\n", r->with);
+			printf("with : %d\n", r->with[0]);
 			r = r->next;
 		}
 		cmd = cmd->next;
@@ -65,11 +67,12 @@ int main_sub(t_mini *mini)
 		return (1);
 	}
 	mini->cnt_pipe = count_pipe(mini->str);
-	if (valid_quotation(mini->str, mini))
+	if (valid_quotation(mini->str))
 	{
 		return (1);
 	}
 	// printf("str : %s\n\n", mini->str);
+
 	set_cmd_node(ft_split(mini->str, '|'), mini);
 	if (exception_handling(mini->str, mini))
 		return (1);
@@ -91,15 +94,16 @@ int main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		ft_readline(&mini);
-
-		if (main_sub(&mini))
-			continue;
-		// else // str = NULL 이라면 (EOF, cntl + D)
+		main_sub(&mini);
+		// if (main_sub(&mini))
+		// 	continue;
+		// else // str = NULL 이라면 (EOF, cntl +mD)
 		// 	break;
 
 		history(&mini);
 		free_main(&mini);
 		// mini.pipe_flag = 0;
 		ft_bzero(&mini, sizeof(t_mini));
+		// system("leaks minishell");
 	}
 }

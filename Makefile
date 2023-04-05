@@ -42,14 +42,17 @@ SRCS_PAR = \
 	main.c \
 	readline.c \
 	redirection.c \
+	ft_split2.c \
 	set_cmd_node.c \
 	set_rdir_node.c \
 	signal.c \
 	terminal.c \
 	utils.c \
 	valid_quotation.c \
-	replace.c \
+	replace_content.c \
+	replace_name.c \
 	replace_env.c
+	
 
 OBJS = $(MANDATORY_EXE:c=o) $(MANDATORY_PAR:c=o)
 

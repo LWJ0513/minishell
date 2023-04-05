@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:50:12 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/03 14:42:23 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/05 00:52:13 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ void free_cmd(t_cmd *head, int cnt)
 	t_cmd *next_node;
 
 	node = head;
+	if (!node)
+		return;
 	while (cnt)
 	{
 		next_node = node->next;
@@ -76,11 +78,12 @@ void free_cmd(t_cmd *head, int cnt)
 	}
 }
 
-void	free_main(t_mini *mini)
+void free_main(t_mini *mini)
 {
-	free(mini->line);
+	if (mini->line)
+		free(mini->line);
 	// free(mini->line2);
 	// free(mini->str); // ???
-	free_cmd(mini->cmds, mini->cnt_cmd);
-	
+	if (mini->cmds)
+		free_cmd(mini->cmds, mini->cnt_cmd);
 }

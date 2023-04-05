@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:59:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/03 18:07:51 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/05 16:47:06 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,21 +77,50 @@ void set_content(t_cmd *node)
 	node->content = after;
 }
 
-t_cmd *make_cmd_node(char *str)
+char *cut_back(char *s)
+{
+	char *str;
+	int i;
+	int cnt;
+
+	if (!s)
+		return 0;
+	i = ft_strlen(s) - 1;
+	cnt = 0;
+	while (s[i] == ' ')
+	{
+		cnt++;
+		i--;
+	}
+	str = malloc(ft_strlen(s) - cnt + 1);
+	i = 0;
+	while (i < (int)ft_strlen(s) -cnt ){
+		str[i] = s[i];
+		i++;
+	}
+	str[i] = '\0';
+	return str;
+}
+
+t_cmd *make_cmd_node(char *s)
 {
 	t_cmd *node;
+	char *str;
 
 	node = malloc(sizeof(t_cmd));
 	if (!node)
 		ft_error_exit("malloc error", 1);
 	ft_bzero(node, sizeof(t_cmd));
+	str = cut_back(s);
 	if (has_redirection(str))
 		make_rdir_node(node, str, 0, 0);
 	else
 	{
-		node->content = ft_split(str, ' ');
+		node->content = ft_split2(str);
+		replace_content(node, 0, 0);
 		node->name = node->content[0];
 	}
+	free(str);
 	set_content(node);
 	has_heredoc(node);
 	return (node);
@@ -116,8 +145,6 @@ void set_cmd_node(char **split_pipe, t_mini *mini)
 			last_node = get_last_cmd_node(mini->cmds);
 			last_node->next = node;
 		}
-		// replace(node, 0, 0);
-
 		i++;
 	}
 	mini->cnt_cmd = count_cmd(mini, i);

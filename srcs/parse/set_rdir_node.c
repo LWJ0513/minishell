@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 00:25:55 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/30 20:22:44 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/05 16:46:04 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ void set_cmd_options(t_cmd *node, int index, int i, int j)
 		{
 			if (i == index)
 				node->name = r->with;
-			node->content[j] = r->with;
+			else
+				node->content[j++] = r->with;
 			r->with = 0;
-			j++;
 		}
 		r = r->next;
 		i++;
@@ -77,7 +77,6 @@ void set_rdir_node(t_cmd *cmd)
 	t_rdir *next;
 
 	node = cmd->rdir;
-	;
 	while (node)
 	{
 		head = cmd->rdir;
@@ -85,19 +84,13 @@ void set_rdir_node(t_cmd *cmd)
 		if (node->type == -1)
 		{
 			if (node == head)
-			{
 				cmd->rdir = next;
-			}
 			else
-			{
 				prev->next = next;
-			}
 			free(node);
 		}
 		else
-		{
 			prev = node;
-		}
 		node = next;
 	}
 }
@@ -123,10 +116,21 @@ void make_rdir_node(t_cmd *node, char *str, int i, int end)
 			last_node->next = r;
 		}
 		r->type = check_redirection(str, &i, &end);
+		// printf("i : %d\nend : %d\n", i, end);
 		set_file(r, str, &i, &end);
+		// printf("%s\n", r->with);
 		while (str[i] == ' ')
 			i++;
 	}
 	set_cmd_options(node, -1, 0, 0);
 	set_rdir_node(node);
+
+	replace_name(node, 0, 0);
+	if (!ft_strcmp(node->content[0], ""))
+	{
+		free(node->content[0]);
+		free(node->content);
+		node->content = 0;
+	}
+	replace_content(node, 0, 0);
 }

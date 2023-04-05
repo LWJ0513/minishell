@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 18:32:35 by him               #+#    #+#             */
-/*   Updated: 2023/03/30 02:27:11 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/05 13:41:36 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	read_doc(int *fd, char *with)
 	while (1)
 	{
 		buff = readline("heredoc> ");
+		if (buff == 0)
+			exit(0);
 		if (ft_strcmp(buff, with) == 0)
 		{
 			write(fd[1], "\0", 1);

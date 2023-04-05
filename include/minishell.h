@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/03 15:26:37 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/05 14:32:32 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*cut_front(char *str);
 void	set_cmd_node(char **split_pipe, t_mini *mini);
 int	has_redirection(char *str);
 void	make_rdir_node(t_cmd *node, char *str, int i, int end);
-int	check_redirection(char *str, int *i, int *end);
+int	check_redirection(char *str, int *index, int *end);
 int	count_options(t_rdir *r, int *index);
 int	count_cmd(t_mini *mini, int max);
 int	exception_handling(char *str, t_mini *mini);
@@ -101,11 +101,14 @@ void	free_main(t_mini *mini);
 void	history(t_mini *mini);
 int	count_char(char *str, char c);
 void ignore_signal(void);
-int valid_quotation(char *str, t_mini *mini);
-void replace(t_mini *mini, int quotation_flag, int double_quotation_flag);
+int valid_quotation(char *str);
+void replace_content(t_cmd *node, int quotation_flag, int double_quotation_flag);
 char *get_env(char *str, int start, int end);
 char *replace_env(char *str, int start, int end, char *node);
+char *delete(char *str, int index);
+void replace_name(t_cmd *node, int quotation_flag, int double_quotation_flag);
 
+char **ft_split2(char *str);
 
 
 void rl_replace_line(const char *text, int clear_undo);
