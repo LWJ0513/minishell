@@ -47,8 +47,6 @@ void print_test(t_mini *mini)
 		{
 			printf("type : %d\n", r->type);
 			printf("with : %s\n", r->with);
-			printf("with : %p\n", r->with);
-			printf("with : %d\n", r->with[0]);
 			r = r->next;
 		}
 		cmd = cmd->next;
@@ -73,10 +71,15 @@ int main_sub(t_mini *mini)
 	}
 	// printf("str : %s\n\n", mini->str);
 
-	set_cmd_node(mini);
+	if (set_cmd_node(mini))
+	{
+		print_test(mini);
+
+		return (1);
+	}
 	if (exception_handling(mini->str, mini))
 		return (1);
-	// print_test(mini);
+	print_test(mini);
 	execute(mini->cmds);
 	return (0);
 }

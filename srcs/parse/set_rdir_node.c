@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 00:25:55 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 20:04:44 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/05 20:59:17 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ void set_file(t_rdir *r, char *str, int *index, int *end)
 	int j;
 
 	i = *index;
+	if (!str[i])
+	{
+		r->with = 0;
+		return;
+	}
 	r->with = malloc((int)(*end - i + 1));
 	if (!r->with)
 		ft_error_exit("malloc error", 1);
@@ -69,7 +74,7 @@ void set_cmd_options(t_cmd *node, int index, int i, int j)
 	node->content[j] = 0;
 }
 
-void set_rdir_node(t_cmd *cmd)
+int set_rdir_node(t_cmd *cmd)
 {
 	t_rdir *head;
 	t_rdir *prev;
@@ -79,6 +84,11 @@ void set_rdir_node(t_cmd *cmd)
 	node = cmd->rdir;
 	while (node)
 	{
+		if (!node->with)
+		{
+			ft_printf("syntax error\n");
+			return 1;
+		}
 		head = cmd->rdir;
 		next = node->next;
 		if (node->type == -1)
@@ -93,9 +103,10 @@ void set_rdir_node(t_cmd *cmd)
 			prev = node;
 		node = next;
 	}
+	return 0;
 }
 
-void make_rdir_node(t_cmd *node, char *str, int i, int end)
+int make_rdir_node(t_cmd *node, char *str, int i, int end)
 {
 	t_rdir *last_node;
 	t_rdir *r;
@@ -123,10 +134,14 @@ void make_rdir_node(t_cmd *node, char *str, int i, int end)
 			i++;
 	}
 	set_cmd_options(node, -1, 0, 0);
-	set_rdir_node(node);
+	if (set_rdir_node(node))
+		return 1;
 
-	replace_name(node, 0, 0);
+	if (node->name)
+		replace_name(node, 0, 0);
 	replace_with(node, 0, 0);
+	if (!node->content)
+		return 0;
 	if (!ft_strcmp(node->content[0], ""))
 	{
 		free(node->content[0]);
@@ -134,4 +149,5 @@ void make_rdir_node(t_cmd *node, char *str, int i, int end)
 		node->content = 0;
 	}
 	replace_content(node, 0, 0);
+	return 0;
 }

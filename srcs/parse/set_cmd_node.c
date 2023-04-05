@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:59:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 19:54:18 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/05 21:01:11 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,10 @@ t_cmd *make_cmd_node(char *s)
 	str = cut_back_front(s);
 	// printf("str  : %s\n", str);
 	if (has_redirection(str))
-		make_rdir_node(node, str, 0, 0);
+	{
+		if (make_rdir_node(node, str, 0, 0))
+			return 0;
+	}
 	else
 	{
 		node->content = ft_split2(str);
@@ -130,12 +133,13 @@ t_cmd *make_cmd_node(char *s)
 		node->name = node->content[0];
 	}
 	free(str);
-	set_content(node);
+	if (node->content)
+		set_content(node);
 	has_heredoc(node);
 	return (node);
 }
 
-void set_cmd_node(t_mini *mini)
+int set_cmd_node(t_mini *mini)
 {
 	t_cmd *node;
 	t_cmd *last_node;
@@ -143,12 +147,14 @@ void set_cmd_node(t_mini *mini)
 	char **split_pipe;
 
 	// split_pipe = ft_split(mini->str, '|');
-	
+
 	split_pipe = ft_split_pipe(mini->str);
 	i = 0;
 	while (split_pipe[i])
 	{
 		node = make_cmd_node(split_pipe[i]);
+		if (!node)
+			return 1;
 		if (mini->cmds == 0)
 		{
 			mini->cmds = node;
@@ -163,4 +169,5 @@ void set_cmd_node(t_mini *mini)
 	mini->cnt_cmd = count_cmd(mini, i);
 	free_split(split_pipe);
 	mini->cnt_node = i;
+	return 0;
 }

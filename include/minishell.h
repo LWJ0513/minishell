@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 20:12:44 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/05 20:47:37 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ void	ft_readline(t_mini *mini);
 void	init_mini(t_mini *mini);
 char	*eliminate(char *str, char c);
 char	*cut_front(char *str);
-void	set_cmd_node(t_mini *mini);
+int	set_cmd_node(t_mini *mini);
 int	has_redirection(char *str);
-void	make_rdir_node(t_cmd *node, char *str, int i, int end);
+int	make_rdir_node(t_cmd *node, char *str, int i, int end);
 int	check_redirection(char *str, int *index, int *end);
 int	count_options(t_rdir *r, int *index);
 int	count_cmd(t_mini *mini, int max);
@@ -111,6 +111,7 @@ void replace_name(t_cmd *node, int quotation_flag, int double_quotation_flag);
 char **ft_split2(char *str);
 char **ft_split_pipe(char *str);
 void replace_with(t_cmd *node, int quotation_flag, int double_quotation_flag);
+char *cut_back_front(char *s);
 
 
 void rl_replace_line(const char *text, int clear_undo);
