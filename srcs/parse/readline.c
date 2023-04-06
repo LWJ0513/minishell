@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:37:48 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/29 20:38:53 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/06 17:25:57 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,7 @@ void ft_readline(t_mini *mini)
 		mini->line = ft_strjoin(mini->str, mini->line2);
 		free(mini->line2);
 		free(mini->str);
+		mini->line2 = 0;
+		mini->str = 0;
 	}
 }

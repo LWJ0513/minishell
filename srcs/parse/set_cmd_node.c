@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:59:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 21:01:11 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/05 21:21:46 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,6 @@ int set_cmd_node(t_mini *mini)
 	t_cmd *last_node;
 	int i;
 	char **split_pipe;
-
-	// split_pipe = ft_split(mini->str, '|');
 
 	split_pipe = ft_split_pipe(mini->str);
 	i = 0;

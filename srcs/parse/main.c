@@ -58,10 +58,15 @@ int main_sub(t_mini *mini)
 {
 	mini->line2 = eliminate(mini->line, '\n'); // malloc
 	mini->str = cut_front(mini->line2);
+	// free(mini->line2);
+	// mini->line2 = 0;
+
 	if (!mini->str || mini->str[0] == '\0')
 	{
 		free(mini->line);
-		free(mini->line2);
+		// free(mini->line2);
+		mini->line = 0;
+		// mini->line2 = 0;
 		return (1);
 	}
 	mini->cnt_pipe = count_pipe(mini->str);
@@ -73,13 +78,11 @@ int main_sub(t_mini *mini)
 
 	if (set_cmd_node(mini))
 	{
-		print_test(mini);
-
 		return (1);
 	}
 	if (exception_handling(mini->str, mini))
 		return (1);
-	print_test(mini);
+	// print_test(mini);
 	execute(mini->cmds);
 	return (0);
 }
@@ -92,21 +95,24 @@ int main(int argc, char **argv, char **envp)
 		exit(0);
 	init_mini(&mini);
 	init_envp(envp);
-	set_terminal();
-	set_signal();
 	while (1)
 	{
+		set_terminal();
+		set_signal();
 		ft_readline(&mini);
-		main_sub(&mini);
-		// if (main_sub(&mini))
-		// 	continue;
+
+		// if (main_sub(&mini);
+		if (main_sub(&mini))
+			continue;
 		// else // str = NULL 이라면 (EOF, cntl +mD)
 		// 	break;
+		// system("leaks minishell");
 
 		history(&mini);
 		free_main(&mini);
-		// mini.pipe_flag = 0;
-		ft_bzero(&mini, sizeof(t_mini));
+		init_mini(&mini);
+		
+
 		// system("leaks minishell");
 	}
 }

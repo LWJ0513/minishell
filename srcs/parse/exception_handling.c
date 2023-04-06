@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:35:22 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 20:39:44 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/06 17:54:50 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,8 @@ int check_redirection_error(t_cmd *node, t_rdir *r, int i)
 			{
 				if (r->with[i] == '>' || r->with[i] == '<')
 				{
-					if (r->with[i] == '>')
-						ft_printf(
-							"bash: syntax error near unexpected token `>'\n");
-					if (r->with[i] == '<')
-						ft_printf(
-							"bash: syntax error near unexpected token `<'\n");
+					ft_printf("bash: syntax error near unexpected token `%c'\n", r->with[i]);
+					g_info.last_exit_num = 258;
 					return (1);
 				}
 				i++;
@@ -64,11 +60,12 @@ int exception_handling(char *str, t_mini *mini)
 
 	if (check_last_pipe(str) && mini->cnt_pipe == mini->cnt_cmd)
 	{
-		ft_printf("마지막이 파이프고 파이프 갯수랑 명령어 갯수가 똗ㄱ같음\n");
+		// ft_printf("마지막이 파이프고 파이프 갯수랑 명령어 갯수가 똗ㄱ같음\n");
 		mini->pipe_flag++;
 		free_cmd(mini->cmds, mini->cnt_cmd);
 		mini->cmds = 0;
 		free(mini->line2);
+		mini->line2 = 0;
 		return (1);
 	}
 	// if (mini->cnt_node != mini->cnt_cmd || mini->cnt_pipe + 1 != mini->cnt_cmd)
@@ -94,6 +91,7 @@ int exception_handling(char *str, t_mini *mini)
 		if (!ft_strcmp(node->with, ""))
 		{
 			printf("syntax error!\n");
+			g_info.last_exit_num = 258;
 			return (1);
 		}
 		node = node->next;

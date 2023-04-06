@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 00:25:55 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 20:59:17 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/05 21:21:21 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int set_rdir_node(t_cmd *cmd)
 		if (!node->with)
 		{
 			ft_printf("syntax error\n");
+			g_info.last_exit_num = 258;
 			return 1;
 		}
 		head = cmd->rdir;
