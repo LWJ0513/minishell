@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 23:16:26 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/03 18:10:52 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/07 14:43:52 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,10 @@ int valid_quotation(char *str)
 		ft_printf("%s", "syntax error!\n");
 		return (1);
 	}
-	if (is_space(str))
-	{
-		ft_printf("%s", ": command not found\n");
-	}
-	// replace(mini, 0, 0);
+	// if (is_space(str))
+	// {
+	// 	ft_printf("%s", ": command not found1\n");
+	// }
 
 	return 0;
 }

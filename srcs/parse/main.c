@@ -78,7 +78,7 @@ int main_sub(t_mini *mini)
 
 	if (set_cmd_node(mini))
 	{
-		return (1);
+		return (0);
 	}
 	if (exception_handling(mini->str, mini))
 		return (1);
@@ -90,6 +90,7 @@ int main_sub(t_mini *mini)
 int main(int argc, char **argv, char **envp)
 {
 	t_mini mini;
+	// int value;
 
 	if (argc != 1 || !argv)
 		exit(0);
@@ -99,15 +100,18 @@ int main(int argc, char **argv, char **envp)
 	{
 		set_terminal();
 		set_signal();
-		ft_readline(&mini);
+		if (ft_readline(&mini))
+			continue;
 
 		// if (main_sub(&mini);
+		
 		if (main_sub(&mini))
 			continue;
 		// else // str = NULL 이라면 (EOF, cntl +mD)
 		// 	break;
 		// system("leaks minishell");
 
+		// print_test(&mini);
 		history(&mini);
 		free_main(&mini);
 		init_mini(&mini);

@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 13:16:44 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 17:29:56 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 02:24:53 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int when_env_content(t_cmd *node, int i, int j, int quotation_flag)
 	int end;
 	char *replace;
 	char *value;
+	int len;
 
 	i++;
 	start = i;
@@ -56,8 +57,12 @@ int when_env_content(t_cmd *node, int i, int j, int quotation_flag)
 		replace = replace_env(node->content[j], start - 1, end, value);
 		free(node->content[j]);
 		node->content[j] = replace;
+		len = ft_strlen(value);
 		if (value)
-			return start + ft_strlen(value) - 1;
+		{
+			free(value);
+			return start + len - 1;
+		}
 		else
 			return start - 1;
 	}

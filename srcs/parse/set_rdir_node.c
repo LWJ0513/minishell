@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 00:25:55 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 21:21:21 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/07 14:35:47 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,12 +84,13 @@ int set_rdir_node(t_cmd *cmd)
 	node = cmd->rdir;
 	while (node)
 	{
-		if (!node->with)
-		{
-			ft_printf("syntax error\n");
-			g_info.last_exit_num = 258;
-			return 1;
-		}
+		// if (!node->with && node->type != -1)
+		// {
+		// 	free_cmd(cmd, mini->cnt_cmd);
+		// 	ft_printf("syntax error\n");
+		// 	g_info.last_exit_num = 258;
+		// 	return 1;
+		// }
 		head = cmd->rdir;
 		next = node->next;
 		if (node->type == -1)
@@ -103,6 +104,25 @@ int set_rdir_node(t_cmd *cmd)
 		else
 			prev = node;
 		node = next;
+	}
+	return 0;
+}
+
+int check_exception(t_cmd *node)
+{
+	t_rdir *r;
+
+	r = node->rdir;
+	while (r)
+	{
+		if (!r->with && r->type != -1)
+		{
+			ft_printf("syntax error.\n");
+			free_cmd(node, 1);
+			return 1;
+		}
+
+		r = r->next;
 	}
 	return 0;
 }
@@ -135,7 +155,10 @@ int make_rdir_node(t_cmd *node, char *str, int i, int end)
 			i++;
 	}
 	set_cmd_options(node, -1, 0, 0);
-	if (set_rdir_node(node))
+
+	set_rdir_node(node); // todo
+
+	if (check_exception(node))
 		return 1;
 
 	if (node->name)

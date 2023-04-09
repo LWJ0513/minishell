@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 20:47:37 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/06 20:58:49 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	init_envp(char **envp);
 void	ft_error_exit(char *str, int error_no);
 void	set_terminal(void);
 void set_signal();
-void	ft_readline(t_mini *mini);
+int	ft_readline(t_mini *mini);
 void	init_mini(t_mini *mini);
 char	*eliminate(char *str, char c);
 char	*cut_front(char *str);

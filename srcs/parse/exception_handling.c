@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:35:22 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/06 17:54:50 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 02:30:41 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,12 @@ int exception_handling(char *str, t_mini *mini)
 	{
 		if (!ft_strcmp(node->with, ""))
 		{
-			printf("syntax error!\n");
+			ft_printf("syntax error!\n");
 			g_info.last_exit_num = 258;
 			return (1);
 		}
 		node = node->next;
 	}
+	
 	return (0);
 }

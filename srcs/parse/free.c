@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:50:12 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/06 17:54:06 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 02:43:06 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,5 @@ void free_main(t_mini *mini)
 	// if (mini->str)
 	// 	free(mini->str);
 	if (mini->cmds)
-		free_cmd(mini->cmds, mini->cnt_cmd);
+		free_cmd(mini->cmds, mini->cnt_node);
 }
