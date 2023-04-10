@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:59:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 17:18:19 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 18:30:22 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ char *cut_back_front(char *s)
 		start++;
 	i = ft_strlen(s) - 1;
 	cnt = 0;
-	while (s[i] == ' ')
+	while ( s[i] == ' ')
 	{
 		cnt++;
 		i--;
@@ -105,7 +105,7 @@ char *cut_back_front(char *s)
 		i++;
 		start++;
 	}
-	str[start] = '\0';
+	str[i] = '\0';
 	return (str);
 }
 
@@ -186,7 +186,12 @@ int set_cmd_node(t_mini *mini)
 	i = 0;
 	while (split_pipe[i])
 	{
-		node = make_cmd_node(split_pipe[i]);
+		if (!ft_strcmp(split_pipe[i], "")){
+			i++;
+			continue;
+		}
+		else 
+			node = make_cmd_node(split_pipe[i]);
 		if (!node)
 		{
 			free_split(split_pipe);

@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:35:22 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 16:33:41 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 18:34:04 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,12 @@ int exception_handling(char *str, t_mini *mini)
 		mini->cmds = 0;
 		free(mini->line2);
 		mini->line2 = 0;
+		return (1);
+	}
+	if (mini->cnt_pipe > mini->cnt_cmd)
+	{
+		ft_printf("syntax error!\n");
+		g_info.last_exit_num = 258;
 		return (1);
 	}
 	// if (mini->cnt_node != mini->cnt_cmd || mini->cnt_pipe + 1 != mini->cnt_cmd)

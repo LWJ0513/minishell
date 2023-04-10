@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 00:25:55 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/07 14:35:47 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 17:59:24 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,25 @@ void set_cmd_options(t_cmd *node, int index, int i, int j)
 	count = count_options(node->rdir, &index);
 	if (!count)
 		return;
+	r = node->rdir;
+
+	if (count == 1)
+	{
+		node->content = 0;
+		while (r)
+		{
+			if (r->type == -1 && i == index)
+			{
+				node->name = r->with;
+				r->with = 0;
+				return;
+			}
+			i++;
+		}
+	}
 	node->content = malloc(sizeof(char *) * (count + 1));
 	if (!node->content)
 		ft_error_exit("malloc error", 1);
-	r = node->rdir;
 	while (r)
 	{
 		if (r->type == -1)

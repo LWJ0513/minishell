@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:34:29 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 15:07:21 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 18:12:41 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int left_redirection(char *str, int i, int *index, int *end)
 		while (str[i] == ' ')
 			i++;
 		*index = i;
-		while (str[i + 1] != ' ' && str[i + 1] != '>' && str[i + 1] != '<' && str[i + 1] != '\0')
+		while (str[i] && str[i + 1] != ' ' && str[i + 1] != '>' && str[i + 1] != '<' && str[i + 1] != '\0')
 			i++;
 		*end = ++i;
 		return (HEREDOC);
@@ -58,7 +58,7 @@ int left_redirection(char *str, int i, int *index, int *end)
 	while (str[i] == ' ')
 		i++;
 	*index = i;
-	while (str[i + 1] != ' ' && str[i + 1] != '>' && str[i + 1] != '<' && str[i + 1] != '\0')
+	while (str[i] && str[i + 1] != ' ' && str[i + 1] != '>' && str[i + 1] != '<' && str[i + 1] != '\0')
 		i++;
 	*end = ++i;
 	return (R_RDIR);
@@ -75,7 +75,7 @@ int right_redirection(char *str, int i, int *index, int *end)
 		while (str[i] == ' ')
 			i++;
 		*index = i;
-		while (str[i + 1] != ' ' && str[i + 1] != '>' && str[i + 1] != '<' && str[i + 1] != '\0')
+		while (str[i] && str[i + 1] != ' ' && str[i + 1] != '>' && str[i + 1] != '<' && str[i + 1] != '\0')
 			i++;
 		*end = ++i;
 		return (D_RDIR);
@@ -84,7 +84,7 @@ int right_redirection(char *str, int i, int *index, int *end)
 	while (str[i] == ' ')
 		i++;
 	*index = i;
-	while (str[i + 1] != ' ' && str[i + 1] != '>' && str[i + 1] != '<' && str[i + 1] != '\0')
+	while (str[i] && str[i + 1] != ' ' && str[i + 1] != '>' && str[i + 1] != '<' && str[i + 1] != '\0')
 		i++;
 	*end = ++i;
 	return (RDIR);
