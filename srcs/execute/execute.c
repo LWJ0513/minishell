@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:54:05 by him               #+#    #+#             */
-/*   Updated: 2023/03/30 02:26:05 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 20:01:14 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	single_command(t_cmd	*cmd)
 	{
 		single_builtin(cmd);
 	}
-	else if (cmd)
+	else if (cmd && cmd->name)
 		ft_fork(0, cmd);
-	else if (!cmd)
+	else if (!cmd || !cmd->name)
 		ft_rdir(cmd->rdir);
 	dup2(p_in, STDIN_FILENO);
 	dup2(p_out, STDOUT_FILENO);
