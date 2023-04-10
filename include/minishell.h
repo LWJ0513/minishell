@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 21:19:20 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/11 04:02:46 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,12 @@ typedef struct s_mini
 	int		cnt_node;
 }	t_mini;
 
+typedef struct s_content_flag
+{
+	int	q_flag;
+	int	dq_flag;
+}	t_content_flag;
+
 void	init_envp(char **envp);
 void	ft_error_exit(char *str, int error_no);
 void	set_terminal(void);
@@ -85,7 +91,7 @@ int		ft_readline(t_mini *mini);
 void	init_mini(t_mini *mini);
 char	*eliminate(char *str, char c);
 char	*cut_front(char *str);
-int		set_cmd_node(t_mini *mini);
+int		set_cmd_node(t_mini *mini, char	**split_pipe, t_cmd	*node, int i);
 int		has_redirection(char *str);
 int		make_rdir_node(t_cmd *node, char *str);
 int		check_redirection(char *str, int *index, int *end);
@@ -100,7 +106,7 @@ void	history(t_mini *mini);
 int		count_char(char *str, char c);
 void	ignore_signal(void);
 int		valid_quotation(char *str);
-void	replace_content(t_cmd *node, int q_flag, int dq_flag);
+void	replace_content(t_cmd *node);
 char	*get_env(char *str, int start, int end);
 char	*replace_env(char *str, int start, int end, char *node);
 char	*delete(char *str, int index);
@@ -113,6 +119,9 @@ void	rl_replace_line(const char *text, int clear_undo);
 int		check_exception(t_cmd *node);
 t_rdir	*get_last_rdir_node(t_rdir *node);
 void	set_cmd_options(t_cmd *node, int index);
+void	syntax_error(void);
+char	*cut_back_front(char *s);
+void	set_content(t_cmd *node);
 
 t_cmd	*get_last_cmd_node(t_cmd *node);
 char	*remake_str(t_cmd *node);

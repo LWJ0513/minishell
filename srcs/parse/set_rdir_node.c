@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 00:25:55 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 21:17:29 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/11 03:56:52 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,6 @@ int	make_rdir_node(t_cmd *node, char *str)
 		free(node->content);
 		node->content = 0;
 	}
-	replace_content(node, 0, 0);
+	replace_content(node);
 	return (0);
 }

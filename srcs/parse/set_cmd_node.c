@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:59:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 23:02:51 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/11 05:00:30 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,75 +35,8 @@ void	has_heredoc(t_cmd *node)
 	}
 }
 
-void	set_content(t_cmd *node)
+t_cmd	*make_cmd_node(char *s, t_cmd *node, char *str)
 {
-	char	**before;
-	char	**after;
-	int		i;
-	int		j;
-
-	if (!node->content[1])
-	{
-		free(node->content);
-		node->content = NULL;
-		return ;
-	}
-	before = node->content;
-	i = 0;
-	while (before[i])
-		i++;
-	after = malloc(sizeof(char *) * i);
-	i = 0;
-	j = 1;
-	while (before[j])
-	{
-		after[i] = before[j];
-		i++;
-		j++;
-	}
-	after[i] = before[j];
-	free(before);
-	node->content = after;
-}
-
-char	*cut_back_front(char *s)
-{
-	char	*str;
-	int		start;
-	int		size;
-	int		cnt;
-	int		i;
-
-	start = 0;
-	if (!s)
-		return (0);
-	while (s[start] == ' ')
-		start++;
-	i = ft_strlen(s) - 1;
-	cnt = 0;
-	while (s[i] == ' ')
-	{
-		cnt++;
-		i--;
-	}
-	size = ft_strlen(s) - cnt - start;
-	str = malloc(size + 1);
-	i = 0;
-	while (i < size)
-	{
-		str[i] = s[start];
-		i++;
-		start++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-t_cmd	*make_cmd_node(char *s)
-{
-	t_cmd	*node;
-	char	*str;
-
 	node = malloc(sizeof(t_cmd));
 	if (!node)
 		ft_error_exit("malloc error", 1);
@@ -120,25 +53,38 @@ t_cmd	*make_cmd_node(char *s)
 	else
 	{
 		node->content = ft_split2(str);
-		replace_content(node, 0, 0);
-		node->name = node->content[0];
+		replace_content(node);
+		if (node->content)
+			node->name = node->content[0];
+		if (node->content)
+			set_content(node);
 	}
 	free(str);
-	if (node->content)
-		set_content(node);
 	has_heredoc(node);
 	return (node);
 }
 
-int	set_cmd_node(t_mini *mini)
+void	handling_node(t_mini *mini, t_cmd *node)
 {
-	t_cmd	*node;
 	t_cmd	*last_node;
-	char	**split_pipe;
-	int		i;
 
-	split_pipe = ft_split_pipe(mini->str);
-	i = 0;
+	if (mini->cmds == 0)
+		mini->cmds = node;
+	else
+	{
+		last_node = get_last_cmd_node(mini->cmds);
+		last_node->next = node;
+	}
+}
+
+int	if_null(char **split_pipe)
+{
+	free_split(split_pipe);
+	return (1);
+}
+
+int	set_cmd_node(t_mini *mini, char	**split_pipe, t_cmd	*node, int i)
+{
 	while (split_pipe[i])
 	{
 		if (!ft_strcmp(split_pipe[i], ""))
@@ -146,13 +92,9 @@ int	set_cmd_node(t_mini *mini)
 			i++;
 			continue ;
 		}
-		else
-			node = make_cmd_node(split_pipe[i]);
+		node = make_cmd_node(split_pipe[i], 0, 0);
 		if (!node)
-		{
-			free_split(split_pipe);
-			return (1);
-		}
+			return (if_null(split_pipe));
 		if (!node->name && !node->rdir)
 		{
 			free(split_pipe[i]);
@@ -160,13 +102,7 @@ int	set_cmd_node(t_mini *mini)
 			free_cmd(node, 1);
 			continue ;
 		}
-		if (mini->cmds == 0)
-			mini->cmds = node;
-		else
-		{
-			last_node = get_last_cmd_node(mini->cmds);
-			last_node->next = node;
-		}
+		handling_node(mini, node);
 		mini->cnt_cmd++;
 		i++;
 	}

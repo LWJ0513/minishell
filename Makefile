@@ -57,7 +57,9 @@ SRCS_PAR = \
 	replace_with.c \
 	get_last_node.c \
 	remake_str.c \
-	set_cmd_option.c
+	set_cmd_option.c \
+	cut_back_front.c \
+	set_content.c
 	
 
 OBJS = $(MANDATORY_EXE:c=o) $(MANDATORY_PAR:c=o)

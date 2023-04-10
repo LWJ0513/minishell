@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:28:37 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 20:40:55 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/11 05:25:31 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	count_cmd(t_mini *mini, int max)
 	node = mini->cmds;
 	while (node && i < max)
 	{
-		if (node->name)
+		if (node->name || node->rdir)
 			count++;
 		node = node->next;
 		i++;

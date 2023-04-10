@@ -6,23 +6,22 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:35:22 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/11 00:44:49 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/11 03:23:15 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int check_exception(t_cmd *node)
+int	check_exception(t_cmd *node)
 {
-	t_rdir *r;
+	t_rdir	*r;
 
 	r = node->rdir;
 	while (r)
 	{
 		if (!r->with && r->type != -1)
 		{
-			ft_printf("syntax error.\n");
-			g_info.last_exit_num = 258;
+			syntax_error();
 			free_cmd(node, 1);
 			return (1);
 		}
@@ -31,9 +30,9 @@ int check_exception(t_cmd *node)
 	return (0);
 }
 
-int check_last_pipe(char *str)
+int	check_last_pipe(char *str)
 {
-	int size;
+	int	size;
 
 	size = ft_strlen(str);
 	while (size > 0)
@@ -48,7 +47,7 @@ int check_last_pipe(char *str)
 	return (0);
 }
 
-int check_redirection_error(t_cmd *node, t_rdir *r, int i)
+int	check_redirection_error(t_cmd *node, t_rdir *r, int i)
 {
 	while (node)
 	{
@@ -60,9 +59,7 @@ int check_redirection_error(t_cmd *node, t_rdir *r, int i)
 			{
 				if (r->with[i] == '>' || r->with[i] == '<')
 				{
-					ft_printf("bash: syntax error near unexpected token `%c'\n",
-							  r->with[i]);
-					g_info.last_exit_num = 258;
+					syntax_error();
 					return (1);
 				}
 				i++;
@@ -74,7 +71,7 @@ int check_redirection_error(t_cmd *node, t_rdir *r, int i)
 	return (0);
 }
 
-int pipe_handling(char *str, t_mini *mini)
+int	pipe_handling(char *str, t_mini *mini)
 {
 	if (check_last_pipe(str) && mini->cnt_pipe == mini->cnt_cmd)
 	{
@@ -87,29 +84,29 @@ int pipe_handling(char *str, t_mini *mini)
 	}
 	if (mini->cnt_pipe > mini->cnt_cmd)
 	{
-		ft_printf("syntax error!\n");
-		g_info.last_exit_num = 258;
+		syntax_error();
 		return (2);
 	}
-	return (0);
-}
-
-int exception_handling(char *str, t_mini *mini)
-{
-	t_rdir *node;
-
-	if (pipe_handling(str, mini))
-		return (1);
 	if (check_redirection_error(mini->cmds, 0, 0))
 	{
 		free_cmd(mini->cmds, mini->cnt_cmd);
 		mini->cmds = 0;
 		return (2);
 	}
+	return (0);
+}
+
+int	exception_handling(char *str, t_mini *mini)
+{
+	t_rdir	*node;
+	int		value;
+
+	value = pipe_handling(str, mini);
+	if (value)
+		return (value);
 	if (mini->cnt_cmd != mini->cnt_node)
 	{
-		ft_printf("syntax error!\n");
-		g_info.last_exit_num = 258;
+		syntax_error();
 		return (2);
 	}
 	if (mini->cmds)
@@ -119,8 +116,7 @@ int exception_handling(char *str, t_mini *mini)
 		{
 			if (!ft_strcmp(node->with, ""))
 			{
-				ft_printf("syntax error!\n");
-				g_info.last_exit_num = 258;
+				syntax_error();
 				return (2);
 			}
 			node = node->next;

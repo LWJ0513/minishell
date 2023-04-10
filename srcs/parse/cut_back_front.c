@@ -1,39 +1,51 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_error.c                                       :+:      :+:    :+:   */
+/*   cut_back_front.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/26 14:48:52 by him               #+#    #+#             */
-/*   Updated: 2023/04/11 05:16:10 by wonlim           ###   ########.fr       */
+/*   Created: 2023/04/11 03:27:10 by wonlim            #+#    #+#             */
+/*   Updated: 2023/04/11 03:30:17 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_error_exit(char *str, int error_no)
+char	*make_str(char *s, int size, int start)
 {
-	write(2, str, ft_strlen(str));
-	write(2, "\n", 1);
-	exit(error_no);
-}
+	char	*str;
+	int		i;
 
-void	ft_command_error(char *cmd)
-{
-	if (cmd == 0 || *cmd == 0)
+	str = malloc(size + 1);
+	i = 0;
+	while (i < size)
 	{
-		ft_putstr_fd(": command not found\n", 2);
-		exit (127);
+		str[i] = s[start];
+		i++;
+		start++;
 	}
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
-	g_info.last_exit_num = 127;
-	exit(127);
+	str[i] = '\0';
+	return (str);
 }
 
-void	syntax_error(void)
+char	*cut_back_front(char *s)
 {
-	printf("syntax error!\n");
-	g_info.last_exit_num = 258;
+	int		start;
+	int		cnt;
+	int		i;
+
+	start = 0;
+	if (!s)
+		return (0);
+	while (s[start] == ' ')
+		start++;
+	i = ft_strlen(s) - 1;
+	cnt = 0;
+	while (s[i] == ' ')
+	{
+		cnt++;
+		i--;
+	}
+	return (make_str(s, ft_strlen(s) - cnt - start, start));
 }

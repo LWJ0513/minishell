@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:40:19 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 23:20:37 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/11 05:00:01 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	main_sub(t_mini *mini)
 	mini->cnt_pipe = count_pipe(mini->str);
 	if (valid_quotation(mini->str))
 		return (1);
-	if (set_cmd_node(mini))
+	if (set_cmd_node(mini, ft_split_pipe(mini->str), 0, 0))
 		return (0);
 	ex = exception_handling(mini->str, mini);
 	if (ex == 1)

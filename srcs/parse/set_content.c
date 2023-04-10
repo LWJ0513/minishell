@@ -1,39 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_error.c                                       :+:      :+:    :+:   */
+/*   set_content.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/26 14:48:52 by him               #+#    #+#             */
-/*   Updated: 2023/04/11 05:16:10 by wonlim           ###   ########.fr       */
+/*   Created: 2023/04/11 03:47:49 by wonlim            #+#    #+#             */
+/*   Updated: 2023/04/11 03:51:10 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_error_exit(char *str, int error_no)
+void	set_content(t_cmd *node)
 {
-	write(2, str, ft_strlen(str));
-	write(2, "\n", 1);
-	exit(error_no);
-}
+	char	**before;
+	char	**after;
+	int		i;
+	int		j;
 
-void	ft_command_error(char *cmd)
-{
-	if (cmd == 0 || *cmd == 0)
+	if (!node->content[1])
 	{
-		ft_putstr_fd(": command not found\n", 2);
-		exit (127);
+		free(node->content);
+		node->content = NULL;
+		return ;
 	}
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
-	g_info.last_exit_num = 127;
-	exit(127);
-}
-
-void	syntax_error(void)
-{
-	printf("syntax error!\n");
-	g_info.last_exit_num = 258;
+	before = node->content;
+	i = 0;
+	while (before[i])
+		i++;
+	after = malloc(sizeof(char *) * i);
+	i = 0;
+	j = 1;
+	while (before[j])
+		after[i++] = before[j++];
+	after[i] = before[j];
+	free(before);
+	node->content = after;
 }

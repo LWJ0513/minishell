@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/31 23:16:26 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 21:37:11 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/11 02:07:28 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	valid_quotation(char *str)
 	if (quotation_cnt % 2 != 0 || double_quotation_cnt % 2 != 0 \
 		|| is_mix(str, 0, 0, 0))
 	{
-		ft_printf("%s", "syntax error!\n");
+		syntax_error();
 		return (1);
 	}
 	return (0);

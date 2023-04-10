@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/30 00:04:59 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 20:26:24 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/11 05:16:14 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	*cut_front(char *str)
 	{
 		if (*str == '|')
 		{
-			printf("zsh: parse error near `|'\n");
+			printf("parse error near `|'\n");
 			return (0);
 		}
 		str++;
