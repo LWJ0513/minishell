@@ -6,23 +6,11 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:37:48 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/06 18:27:55 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 17:07:34 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-void print_pipe(int cnt)
-{
-	while (cnt > 0)
-	{
-		if (cnt > 1)
-			printf("pipe ");
-		else
-			printf("pipe");
-		cnt--;
-	}
-}
 
 int ft_readline(t_mini *mini)
 {
@@ -47,7 +35,7 @@ int ft_readline(t_mini *mini)
 	}
 	else
 	{
-		print_pipe(mini->cnt_cmd);
+
 		mini->line2 = readline("> ");
 		mini->str = ft_strjoin(mini->line, "\n");
 		free(mini->line);

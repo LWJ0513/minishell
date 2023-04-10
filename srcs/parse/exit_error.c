@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 14:48:52 by him               #+#    #+#             */
-/*   Updated: 2023/03/30 17:40:12 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 17:21:21 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ void	ft_command_error(char *cmd)
 		ft_putstr_fd(": command not found\n", 2);
 		exit (127);
 	}
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
+	ft_printf("%s: command not found\n", cmd);
+	// ft_putstr_fd(cmd, 2);
+	// ft_putstr_fd(": command not found\n", 2);
 	g_info.last_exit_num = 127;
 	exit(127);
 }

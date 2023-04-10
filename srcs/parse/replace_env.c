@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 13:18:52 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 02:25:43 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 16:13:29 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ char *replace_env(char *str, int start, int end, char *value)
 
 	if (!value)
 	{
-		start -= 1;
 		env_len = 0;
+		return 0;
 	}
 	else
 		env_len = ft_strlen(value);

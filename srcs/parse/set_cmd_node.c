@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:59:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 02:41:14 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 17:18:19 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ char *cut_back_front(char *s)
 	return (str);
 }
 
-t_cmd *make_cmd_node( char *s)
+t_cmd *make_cmd_node(char *s)
 {
 	t_cmd *node;
 	char *str;
@@ -118,14 +118,14 @@ t_cmd *make_cmd_node( char *s)
 	if (!node)
 		ft_error_exit("malloc error", 1);
 	ft_bzero(node, sizeof(t_cmd));
-
 	str = cut_back_front(s);
-	// printf("str  : %s\n", str);
 	if (has_redirection(str))
 	{
-		if (make_rdir_node( node, str, 0, 0)) {	// todo
+		if (make_rdir_node(node, str, 0, 0))
+		{ 
 			free(str);
-			return 0;}
+			return 0;
+		}
 	}
 	else
 	{
@@ -140,6 +140,41 @@ t_cmd *make_cmd_node( char *s)
 	return (node);
 }
 
+char *remake_str(t_cmd *node)
+{
+	int len;
+	char *str;
+	int i;
+	int j;
+	int k;
+
+	len = 0;
+	i = 0;
+	if (!node->content)
+		return 0;
+	while (node->content[i])
+	{
+		len += ft_strlen(node->content[i]) + 1;
+		i++;
+	}
+	str = malloc(len);
+	i = 0;
+	k = 0;
+	while (node->content[i])
+	{
+		j = 0;
+		while (node->content[i][j])
+		{
+			str[k] = node->content[i][j];
+			k++;
+			j++;
+		}
+		i++;
+	}
+	str[k] = '\0';
+	return str;
+}
+
 int set_cmd_node(t_mini *mini)
 {
 	t_cmd *node;
@@ -151,10 +186,19 @@ int set_cmd_node(t_mini *mini)
 	i = 0;
 	while (split_pipe[i])
 	{
-		node = make_cmd_node( split_pipe[i]);
-		if (!node){
+		node = make_cmd_node(split_pipe[i]);
+		if (!node)
+		{
 			free_split(split_pipe);
-			return 1;}
+			return 1;
+		}
+		if (!node->name && !node->rdir)
+		{
+			free(split_pipe[i]);
+			split_pipe[i] = remake_str(node);
+			free_cmd(node, 1);
+			continue;
+		}
 		if (mini->cmds == 0)
 		{
 			mini->cmds = node;
@@ -164,10 +208,10 @@ int set_cmd_node(t_mini *mini)
 			last_node = get_last_cmd_node(mini->cmds);
 			last_node->next = node;
 		}
-		mini->cnt_cmd++;
+		// mini->cnt_cmd++;
 		i++;
 	}
-	// mini->cnt_cmd = count_cmd(mini, i);
+	mini->cnt_cmd = count_cmd(mini, i);
 	free_split(split_pipe);
 	mini->cnt_node = i;
 	return 0;

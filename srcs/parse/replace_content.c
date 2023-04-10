@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 13:16:44 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 02:24:53 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 16:56:03 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int when_env_content(t_cmd *node, int i, int j, int quotation_flag)
 		len = ft_strlen(value);
 		if (value)
 		{
-			free(value);
 			return start + len - 1;
 		}
 		else
@@ -123,9 +122,9 @@ void replace_content(t_cmd *node, int quotation_flag, int double_quotation_flag)
 	while (node->content[j])
 	{
 		i = 0;
-		while (node->content[j][i])
+		while (node->content[j] && node->content[j][i])
 		{
-			if (node->content[j][i] == '$')
+			if (node->content[j][i] == '$' && node->content[j][i + 1])
 				i = when_env_content(node, i, j, quotation_flag);
 			else if (node->content[j][i] == '\'')
 				when_quotation_content(node, &i, j, &quotation_flag, &double_quotation_flag);

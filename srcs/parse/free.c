@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:50:12 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 02:43:06 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 16:25:37 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void free_split(char **split)
 {
 	int i;
 
+	if (!split)
+		return;
 	i = 0;
 	while (split[i])
 	{
@@ -82,7 +84,6 @@ void free_cmd(t_cmd *head, int cnt)
 
 void free_main(t_mini *mini)
 {
-	// printf("%s\n%s\n%s\n", mini->line, mini->line2, mini->str);
 	if (mini->line)
 		free(mini->line);
 	if (mini->line2)
