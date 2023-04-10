@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:28:37 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 18:29:22 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 20:40:55 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	count_options(t_rdir *r, int *index)
 		if (r->type == -1)
 		{
 			if (*index == -1)
-				*index = i;	//?
+				*index = i;
 			count++;
 		}
 		i++;

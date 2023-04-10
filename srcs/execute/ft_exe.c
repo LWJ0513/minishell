@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 17:30:00 by him               #+#    #+#             */
-/*   Updated: 2023/04/10 18:42:30 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 20:05:42 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*yes_path(char *cmd, t_env *env)
 
 char	*find_path(char *cmd, t_env *env, int *is_path)
 {
-	if ( cmd == 0 || *cmd == 0)
+	if (cmd == 0 || *cmd == 0)
 		ft_command_error(cmd);
 	*is_path = 0;
 	env = find_env("PATH");

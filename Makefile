@@ -29,7 +29,8 @@ SRCS_EXE =  \
 	find_env.c \
 	find_env_add.c \
 	ft_strcmp.c \
-	ft_strjoin2.c
+	ft_strjoin2.c \
+	print_buf.c
 	
 SRCS_PAR = \
 	count.c \
@@ -53,7 +54,10 @@ SRCS_PAR = \
 	replace_name.c \
 	replace_env.c \
 	split_pipe.c \
-	replace_with.c
+	replace_with.c \
+	get_last_node.c \
+	remake_str.c \
+	set_cmd_option.c
 	
 
 OBJS = $(MANDATORY_EXE:c=o) $(MANDATORY_PAR:c=o)

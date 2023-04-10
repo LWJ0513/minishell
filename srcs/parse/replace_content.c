@@ -6,17 +6,17 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 13:16:44 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 16:56:03 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 20:44:20 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-char *delete(char *str, int index)
+char	*delete(char *str, int index)
 {
-	char *new;
-	int i;
-	int j;
+	char	*new;
+	int		i;
+	int		j;
 
 	new = malloc(ft_strlen(str));
 	i = 0;
@@ -31,27 +31,24 @@ char *delete(char *str, int index)
 		i++;
 	}
 	new[j] = '\0';
-
-	return new;
+	return (new);
 }
 
-int when_env_content(t_cmd *node, int i, int j, int quotation_flag)
+int	when_content_env(t_cmd *node, int i, int j, int q_flag)
 {
-	int start;
-	int end;
-	char *replace;
-	char *value;
-	int len;
+	char	*replace;
+	char	*value;
+	int		start;
+	int		end;
+	int		len;
 
 	i++;
 	start = i;
-	while (node->content[j][i] != '\'' && node->content[j][i] != '\"' && node->content[j][i] != ' ' && node->content[j][i] != '\0')
-	{
+	while (node->content[j][i] != '\'' && node->content[j][i] != '\"' \
+	&& node->content[j][i] != ' ' && node->content[j][i] != '\0')
 		i++;
-	}
 	end = i;
-
-	if (quotation_flag < 1)
+	if (q_flag < 1)
 	{
 		value = get_env(node->content[j], start, end);
 		replace = replace_env(node->content[j], start - 1, end, value);
@@ -59,30 +56,27 @@ int when_env_content(t_cmd *node, int i, int j, int quotation_flag)
 		node->content[j] = replace;
 		len = ft_strlen(value);
 		if (value)
-		{
-			return start + len - 1;
-		}
+			return (start + len - 1);
 		else
-			return start - 1;
+			return (start - 1);
 	}
-
-	return i;
+	return (i);
 }
 
-void when_quotation_content(t_cmd *node, int *i, int j, int *quotation_flag, int *double_quotation_flag)
+void	when_content_q(t_cmd *node, int *i, int j, int *q_flag, int *dq_flag)
 {
-	char *replace;
+	char	*replace;
 
-	if (*quotation_flag == 0 && *double_quotation_flag == 0)
+	if (*q_flag == 0 && *dq_flag == 0)
 	{
-		*quotation_flag = 1;
+		*q_flag = 1;
 		replace = delete (node->content[j], *i);
 		free(node->content[j]);
 		node->content[j] = replace;
 	}
-	else if (*quotation_flag == 1 && *double_quotation_flag == 0)
+	else if (*q_flag == 1 && *dq_flag == 0)
 	{
-		*quotation_flag = 0;
+		*q_flag = 0;
 		replace = delete (node->content[j], *i);
 		free(node->content[j]);
 		node->content[j] = replace;
@@ -91,20 +85,20 @@ void when_quotation_content(t_cmd *node, int *i, int j, int *quotation_flag, int
 		*i += 1;
 }
 
-void when_double_quotation_content(t_cmd *node, int *i, int j, int *quotation_flag, int *double_quotation_flag)
+void	when_content_dq(t_cmd *node, int *i, int j, int *q_flag, int *dq_flag)
 {
-	char *replace;
+	char	*replace;
 
-	if (*quotation_flag == 0 && *double_quotation_flag == 0)
+	if (*q_flag == 0 && *dq_flag == 0)
 	{
-		*double_quotation_flag = 1;
+		*dq_flag = 1;
 		replace = delete (node->content[j], *i);
 		free(node->content[j]);
 		node->content[j] = replace;
 	}
-	else if (*quotation_flag == 0 && *double_quotation_flag == 1)
+	else if (*q_flag == 0 && *dq_flag == 1)
 	{
-		*double_quotation_flag = 0;
+		*dq_flag = 0;
 		replace = delete (node->content[j], *i);
 		free(node->content[j]);
 		node->content[j] = replace;
@@ -113,10 +107,10 @@ void when_double_quotation_content(t_cmd *node, int *i, int j, int *quotation_fl
 		*i += 1;
 }
 
-void replace_content(t_cmd *node, int quotation_flag, int double_quotation_flag)
+void	replace_content(t_cmd *node, int q_flag, int dq_flag)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	j = 0;
 	while (node->content[j])
@@ -125,11 +119,11 @@ void replace_content(t_cmd *node, int quotation_flag, int double_quotation_flag)
 		while (node->content[j] && node->content[j][i])
 		{
 			if (node->content[j][i] == '$' && node->content[j][i + 1])
-				i = when_env_content(node, i, j, quotation_flag);
+				i = when_content_env(node, i, j, q_flag);
 			else if (node->content[j][i] == '\'')
-				when_quotation_content(node, &i, j, &quotation_flag, &double_quotation_flag);
+				when_content_q(node, &i, j, &q_flag, &dq_flag);
 			else if (node->content[j][i] == '\"')
-				when_double_quotation_content(node, &i, j, &quotation_flag, &double_quotation_flag);
+				when_content_dq(node, &i, j, &q_flag, &dq_flag);
 			else
 				i++;
 		}

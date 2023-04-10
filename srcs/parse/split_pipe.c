@@ -6,14 +6,13 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 19:16:36 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 19:50:51 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 20:50:27 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-
-int cnt_cmd(char *str, int count, int flag, char c)
+int	cnt_cmd(char *str, int count, int flag, char c)
 {
 	if (ft_strlen(str) > 0)
 		count++;
@@ -34,17 +33,17 @@ int cnt_cmd(char *str, int count, int flag, char c)
 			str++;
 			while (*str == ' ')
 				str++;
-			continue;
+			continue ;
 		}
 		str++;
 	}
 	return (count);
 }
 
-int count_pipe_len(char *str, int flag)
+int	count_pipe_len(char *str, int flag)
 {
-	int count;
-	char c;
+	int		count;
+	char	c;
 
 	count = 0;
 	while (str[count])
@@ -60,15 +59,15 @@ int count_pipe_len(char *str, int flag)
 				flag = 0;
 		}
 		else if (str[count] == '|' && !flag)
-			break;
+			break ;
 		count++;
 	}
 	return (count);
 }
 
-void init_cmd(char **words, char *str, int count, int i)
+void	init_cmd(char **words, char *str, int count, int i)
 {
-	int j;
+	int	j;
 
 	while (*str == ' ')
 		str++;
@@ -88,26 +87,23 @@ void init_cmd(char **words, char *str, int count, int i)
 		words[i][j] = '\0';
 		i++;
 		if (!*str)
-			break;
+			break ;
 		str++;
 	}
 	words[i] = 0;
 }
 
-char **ft_split_pipe(char *s)
+char	**ft_split_pipe(char *s)
 {
-	char **words;
-	int count;
+	char	**words;
+	int		count;
 
 	if (!s)
 		return (0);
 	count = cnt_cmd(s, 0, 0, 0);
-
 	words = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!words)
-	ft_error_exit("malloc error", 1);
-	
+		ft_error_exit("malloc error", 1);
 	init_cmd(words, s, 0, 0);
-
-	return words;
+	return (words);
 }

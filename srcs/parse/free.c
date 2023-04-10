@@ -6,18 +6,18 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/09 17:50:12 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 16:25:37 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 23:02:40 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void free_split(char **split)
+void	free_split(char **split)
 {
-	int i;
+	int	i;
 
 	if (!split)
-		return;
+		return ;
 	i = 0;
 	while (split[i])
 	{
@@ -27,9 +27,9 @@ void free_split(char **split)
 	free(split);
 }
 
-int count_rdir(t_rdir *node)
+int	count_rdir(t_rdir *node)
 {
-	int cnt;
+	int	cnt;
 
 	cnt = 0;
 	while (node)
@@ -40,13 +40,13 @@ int count_rdir(t_rdir *node)
 	return (cnt);
 }
 
-void free_rdir(t_rdir *head, int cnt)
+void	free_rdir(t_rdir *head, int cnt)
 {
-	t_rdir *node;
-	t_rdir *next_node;
+	t_rdir	*node;
+	t_rdir	*next_node;
 
 	if (!head)
-		return;
+		return ;
 	node = head;
 	while (cnt)
 	{
@@ -58,14 +58,14 @@ void free_rdir(t_rdir *head, int cnt)
 	}
 }
 
-void free_cmd(t_cmd *head, int cnt)
+void	free_cmd(t_cmd *head, int cnt)
 {
-	t_cmd *node;
-	t_cmd *next_node;
+	t_cmd	*node;
+	t_cmd	*next_node;
 
 	node = head;
 	if (!node)
-		return;
+		return ;
 	while (cnt)
 	{
 		next_node = node->next;
@@ -75,21 +75,18 @@ void free_cmd(t_cmd *head, int cnt)
 			free_split(node->content);
 		if (node->rdir)
 			free_rdir(node->rdir, count_rdir(node->rdir));
-
 		free(node);
 		node = next_node;
 		cnt--;
 	}
 }
 
-void free_main(t_mini *mini)
+void	free_main(t_mini *mini)
 {
 	if (mini->line)
 		free(mini->line);
 	if (mini->line2)
 		free(mini->line2);
-	// if (mini->str)
-	// 	free(mini->str);
 	if (mini->cmds)
-		free_cmd(mini->cmds, mini->cnt_node);
+		free_cmd(mini->cmds, mini->cnt_cmd);
 }

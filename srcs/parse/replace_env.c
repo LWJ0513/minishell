@@ -6,104 +6,65 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 13:18:52 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 16:13:29 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 21:46:51 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-// int count_env(t_env *node)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	if (node)
-// 	{
-// 		while (node->value[i])
-// 		{
-// 			i++;
-// 		}
-// 	}
-
-// 	return i;
-// }
-
-char *replace_env(char *str, int start, int end, char *value)
+char	*replace_env(char *str, int start, int end, char *value)
 {
-	int i;
-	int j;
-	int k;
-	int env_len;
-	char *replace;
+	char	*replace;
+	int		i;
+	int		j;
+	int		k;
 
 	if (!value)
-	{
-		env_len = 0;
-		return 0;
-	}
-	else
-		env_len = ft_strlen(value);
-
-	replace = malloc(ft_strlen(str) - (end - start) + env_len + 1);
+		return (0);
+	replace = malloc(ft_strlen(str) - (end - start) + ft_strlen(value) + 1);
 	i = 0;
 	j = 0;
 	while (i < start)
-	{
-		replace[j] = str[i];
-		i++;
-		j++;
-	}
+		replace[j++] = str[i++];
 	if (value)
 	{
 		k = 0;
 		while (value[k])
-		{
-			replace[j] = value[k];
-			k++;
-			j++;
-		}
+			replace[j++] = value[k++];
 		i = end;
 	}
 	else
-	{
 		i = end;
-	}
 	while (i < (int)ft_strlen(str))
-	{
-		replace[j] = str[i];
-		j++;
-		i++;
-	}
+		replace[j++] = str[i++];
 	replace[j] = '\0';
-	return replace;
+	return (replace);
 }
 
-char *cmpenv(char *env)
+char	*cmpenv(char *env)
 {
-	t_env *node;
+	t_env	*node;
 
 	node = g_info.env_lst;
-
 	while (node)
 	{
 		if (!ft_strcmp(node->key, env))
 		{
 			free(env);
-			return node->value;
+			return (node->value);
 		}
 		node = node->next;
 	}
 	free(env);
-	return 0;
+	return (0);
 }
 
-char *get_env(char *str, int start, int end)
+char	*get_env(char *str, int start, int end)
 {
-	char *env;
-	int j;
+	char	*env;
+	int		j;
 
-	env = malloc(end - start + 1); // malloc
-
+	env = malloc(end - start + 1);
 	j = 0;
 	while (start < end)
 	{
@@ -115,7 +76,7 @@ char *get_env(char *str, int start, int end)
 	if (!ft_strcmp(env, "?"))
 	{
 		free(env);
-		return (ft_itoa(g_info.last_exit_num)); // malloc
+		return (ft_itoa(g_info.last_exit_num));
 	}
-	return cmpenv(env);
+	return (cmpenv(env));
 }

@@ -6,18 +6,18 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 17:25:42 by wonlim            #+#    #+#             */
-/*   Updated: 2023/03/30 19:07:19 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 20:07:27 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void init_envp(char **envp)
+void	init_envp(char **envp)
 {
-	char **split;
-	int i;
-	t_env *node;
-	t_env *last;
+	t_env	*node;
+	t_env	*last;
+	char	**split;
+	int		i;
 
 	i = 0;
 	last = 0;

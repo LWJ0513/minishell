@@ -6,57 +6,54 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 20:11:24 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 20:30:24 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 20:40:31 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int when_env_with(t_rdir *r, int i, int quotation_flag)
+int	when_with_env(t_rdir *r, int i, int q_flag)
 {
-	int start;
-	int end;
-	char *replace;
-	char *value;
+	char	*replace;
+	char	*value;
+	int		start;
+	int		end;
 
 	i++;
 	start = i;
-	while (r->with[i] != '\'' && r->with[i] != '\"' && r->with[i] != ' ' && r->with[i] != '\0')
-	{
+	while (r->with[i] != '\'' && r->with[i] != '\"' \
+	&& r->with[i] != ' ' && r->with[i] != '\0')
 		i++;
-	}
 	end = i;
-
-	if (quotation_flag < 1)
+	if (q_flag < 1)
 	{
 		value = get_env(r->with, start, end);
 		replace = replace_env(r->with, start - 1, end, value);
 		free(r->with);
 		r->with = replace;
 		if (value)
-			return start + ft_strlen(value) - 1;
+			return (start + ft_strlen(value) - 1);
 		else
-			return start - 1;
+			return (start - 1);
 	}
-
-	return i;
+	return (i);
 }
 
-void when_quotation_with(t_rdir *node, int *i, int *quotation_flag, int *double_quotation_flag)
+void	when_with_q(t_rdir *node, int *i, int *q_flag, int *dq_flag)
 {
-	char *replace;
+	char	*replace;
 
-	if (*quotation_flag == 0 && *double_quotation_flag == 0)
+	if (*q_flag == 0 && *dq_flag == 0)
 	{
-		*quotation_flag = 1;
-		replace = delete (node->with, *i);
+		*q_flag = 1;
+		replace = delete(node->with, *i);
 		free(node->with);
 		node->with = replace;
 	}
-	else if (*quotation_flag == 1 && *double_quotation_flag == 0)
+	else if (*q_flag == 1 && *dq_flag == 0)
 	{
-		*quotation_flag = 0;
-		replace = delete (node->with, *i);
+		*q_flag = 0;
+		replace = delete(node->with, *i);
 		free(node->with);
 		node->with = replace;
 	}
@@ -64,21 +61,21 @@ void when_quotation_with(t_rdir *node, int *i, int *quotation_flag, int *double_
 		*i += 1;
 }
 
-void when_double_quotation_with(t_rdir *node, int *i, int *quotation_flag, int *double_quotation_flag)
+void	when_with_dq(t_rdir *node, int *i, int *q_flag, int *dq_flag)
 {
-	char *replace;
+	char	*replace;
 
-	if (*quotation_flag == 0 && *double_quotation_flag == 0)
+	if (*q_flag == 0 && *dq_flag == 0)
 	{
-		*double_quotation_flag = 1;
-		replace = delete (node->with, *i);
+		*dq_flag = 1;
+		replace = delete(node->with, *i);
 		free(node->with);
 		node->with = replace;
 	}
-	else if (*quotation_flag == 0 && *double_quotation_flag == 1)
+	else if (*q_flag == 0 && *dq_flag == 1)
 	{
-		*double_quotation_flag = 0;
-		replace = delete (node->with, *i);
+		*dq_flag = 0;
+		replace = delete(node->with, *i);
 		free(node->with);
 		node->with = replace;
 	}
@@ -86,10 +83,10 @@ void when_double_quotation_with(t_rdir *node, int *i, int *quotation_flag, int *
 		*i += 1;
 }
 
-void replace_with(t_cmd *node, int quotation_flag, int double_quotation_flag)
+void	replace_with(t_cmd *node, int q_flag, int dq_flag)
 {
-	int i;
-	t_rdir *r;
+	t_rdir	*r;
+	int		i;
 
 	i = 0;
 	r = node->rdir;
@@ -98,11 +95,11 @@ void replace_with(t_cmd *node, int quotation_flag, int double_quotation_flag)
 		while (r->with[i])
 		{
 			if (r->with[i] == '$')
-				i = when_env_with(r, i, quotation_flag);
+				i = when_with_env(r, i, q_flag);
 			else if (r->with[i] == '\'')
-				when_quotation_with(r, &i, &quotation_flag, &double_quotation_flag);
+				when_with_q(r, &i, &q_flag, &dq_flag);
 			else if (r->with[i] == '\"')
-				when_double_quotation_with(r, &i, &quotation_flag, &double_quotation_flag);
+				when_with_dq(r, &i, &q_flag, &dq_flag);
 			else
 				i++;
 		}

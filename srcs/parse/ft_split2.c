@@ -6,13 +6,13 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 18:15:33 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/05 19:26:33 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 21:44:08 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int count_words(char *str, int count, int flag, char c)
+int	count_words(char *str, int count, int flag, char c)
 {
 	if (ft_strlen(str) > 0)
 		count++;
@@ -33,32 +33,35 @@ int count_words(char *str, int count, int flag, char c)
 			str++;
 			while (*str == ' ')
 				str++;
-			continue;
+			continue ;
 		}
 		str++;
 	}
 	return (count);
 }
 
-int count_len(char *str, int *space, int flag)
+void	change_flag(char *str, int *flag, char *c, int count)
 {
-	int count;
-	char c;
-	int space_i;
+	if (!(*flag))
+	{
+		*flag = 1;
+		*c = str[count];
+	}
+	else if (*flag && *c == str[count])
+		*flag = 0;
+}
+
+int	count_len(char *str, int *space, int flag)
+{
+	int		space_i;
+	int		count;
+	char	c;
 
 	count = 0;
 	while (str[count])
 	{
 		if (str[count] == '\'' || str[count] == '\"')
-		{
-			if (!flag)
-			{
-				flag = 1;
-				c = str[count];
-			}
-			else if (flag && c == str[count])
-				flag = 0;
-		}
+			change_flag(str, &flag, &c, count);
 		else if (str[count] == ' ' && !flag)
 		{
 			*space = 0;
@@ -68,17 +71,17 @@ int count_len(char *str, int *space, int flag)
 				*space += 1;
 				space_i++;
 			}
-			break;
+			break ;
 		}
 		count++;
 	}
 	return (count);
 }
 
-void init_words2(char **words, char *str, int count, int i)
+void	init_words2(char **words, char *str, int count, int i)
 {
-	int j;
-	int space;
+	int	space;
+	int	j;
 
 	while (*str == ' ')
 		str++;
@@ -103,12 +106,11 @@ void init_words2(char **words, char *str, int count, int i)
 	}
 	words[i] = 0;
 }
-// todo 문장의 뒤 고ㅇ백은 밖에서 자고 들ㅓㅗㄴ다고 가정
 
-char **ft_split2(char *s)
+char	**ft_split2(char *s)
 {
-	char **words;
-	int count;
+	char	**words;
+	int		count;
 
 	if (!s)
 		return (0);
@@ -117,6 +119,5 @@ char **ft_split2(char *s)
 	if (!words)
 		ft_error_exit("malloc error", 1);
 	init_words2(words, s, 0, 0);
-
 	return (words);
 }

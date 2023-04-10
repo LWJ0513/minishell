@@ -6,15 +6,33 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:35:22 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 18:34:04 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/11 00:14:42 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int check_last_pipe(char *str)
+int	check_exception(t_cmd *node)
 {
-	int size;
+	t_rdir	*r;
+
+	r = node->rdir;
+	while (r)
+	{
+		if (!r->with && r->type != -1)
+		{
+			ft_printf("syntax error.\n");
+			free_cmd(node, 1);
+			return (1);
+		}
+		r = r->next;
+	}
+	return (0);
+}
+
+int	check_last_pipe(char *str)
+{
+	int	size;
 
 	size = ft_strlen(str);
 	while (size > 0)
@@ -29,7 +47,7 @@ int check_last_pipe(char *str)
 	return (0);
 }
 
-int check_redirection_error(t_cmd *node, t_rdir *r, int i)
+int	check_redirection_error(t_cmd *node, t_rdir *r, int i)
 {
 	while (node)
 	{
@@ -41,7 +59,8 @@ int check_redirection_error(t_cmd *node, t_rdir *r, int i)
 			{
 				if (r->with[i] == '>' || r->with[i] == '<')
 				{
-					ft_printf("bash: syntax error near unexpected token `%c'\n", r->with[i]);
+					ft_printf("bash: syntax error near unexpected token `%c'\n", \
+						r->with[i]);
 					g_info.last_exit_num = 258;
 					return (1);
 				}
@@ -54,13 +73,10 @@ int check_redirection_error(t_cmd *node, t_rdir *r, int i)
 	return (0);
 }
 
-int exception_handling(char *str, t_mini *mini)
+int	pipe_handling(char *str, t_mini *mini)
 {
-	t_rdir *node;
-
 	if (check_last_pipe(str) && mini->cnt_pipe == mini->cnt_cmd)
 	{
-		// ft_printf("마지막이 파이프고 파이프 갯수랑 명령어 갯수가 똗ㄱ같음\n");
 		mini->pipe_flag++;
 		free_cmd(mini->cmds, mini->cnt_cmd);
 		mini->cmds = 0;
@@ -72,24 +88,27 @@ int exception_handling(char *str, t_mini *mini)
 	{
 		ft_printf("syntax error!\n");
 		g_info.last_exit_num = 258;
-		return (1);
+		return (2);
 	}
-	// if (mini->cnt_node != mini->cnt_cmd || mini->cnt_pipe + 1 != mini->cnt_cmd)
-	// {
-	// 	ft_printf("노드 갯수랑 명령어 갯수가 다르거나 || 파이프개수+1이랑 명령어 개수가 다를 때\n");
-	// 	add_history(mini->line2);
-	// 	printf("Syntax error !\n");
-	// 	free(mini->line);
-	// 	free(mini->line2);
-	// 	free_cmd(mini->cmds, mini->cnt_cmd);
-	// 	mini->cmds = 0;
-	// 	return (1);
-	// }
+	return (0);
+}
+
+int	exception_handling(char *str, t_mini *mini)
+{
+	t_rdir	*node;
+
+	if (pipe_handling(str, mini))
+		return (1);
 	if (check_redirection_error(mini->cmds, 0, 0))
 	{
 		free_cmd(mini->cmds, mini->cnt_cmd);
 		mini->cmds = 0;
-		return (1);
+		return (2);
+	}
+	if (mini->cnt_cmd != mini->cnt_node)
+	{
+		printf("여기!\n");
+		return (2);
 	}
 	if (mini->cmds)
 	{
@@ -100,7 +119,7 @@ int exception_handling(char *str, t_mini *mini)
 			{
 				ft_printf("syntax error!\n");
 				g_info.last_exit_num = 258;
-				return (1);
+				return (2);
 			}
 			node = node->next;
 		}

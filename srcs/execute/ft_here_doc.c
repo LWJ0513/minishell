@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/23 18:32:35 by him               #+#    #+#             */
-/*   Updated: 2023/04/05 13:41:36 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 20:13:51 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ void	read_doc(int *fd, char *with)
 
 	len = 0;
 	close(fd[0]);
-	signal(SIGINT, heredoc_sigint_handler);
 	while (1)
 	{
 		buff = readline("heredoc> ");
@@ -36,9 +35,7 @@ void	read_doc(int *fd, char *with)
 			ft_putstr_fd("heredoc> Too many characters in the document.", 2);
 			doc_util(0, buff, fd[1]);
 		}
-		write(fd[1], buff, ft_strlen(buff));
-		write(fd[1], "\n", 1);
-		free(buff);
+		print_buff(buff, fd[1]);
 	}
 	doc_util(1, buff, fd[1]);
 }
@@ -65,7 +62,10 @@ int	make_here_doc(t_rdir *rdir)
 	if (pid == -1)
 		ft_error_exit("fork error", 1);
 	if (pid == 0)
+	{
+		signal(SIGINT, heredoc_sigint_handler);
 		read_doc(fd, rdir->with);
+	}
 	close(fd[1]);
 	wait(&status);
 	status = status >> 8;

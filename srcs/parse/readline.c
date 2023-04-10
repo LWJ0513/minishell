@@ -6,15 +6,27 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:37:48 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 17:07:34 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 23:17:44 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int ft_readline(t_mini *mini)
+void	when_readline_else(t_mini *mini)
 {
-	char *test;
+	mini->line2 = readline("> ");
+	mini->str = ft_strjoin(mini->line, "\n");
+	free(mini->line);
+	mini->line = ft_strjoin(mini->str, mini->line2);
+	free(mini->line2);
+	free(mini->str);
+	mini->line2 = 0;
+	mini->str = 0;
+}
+
+int	ft_readline(t_mini *mini)
+{
+	char	*test;
 
 	if (!mini->pipe_flag)
 	{
@@ -29,21 +41,11 @@ int ft_readline(t_mini *mini)
 		{
 			free(mini->line);
 			free(test);
-			return 1;
+			return (1);
 		}
 		free(test);
 	}
 	else
-	{
-
-		mini->line2 = readline("> ");
-		mini->str = ft_strjoin(mini->line, "\n");
-		free(mini->line);
-		mini->line = ft_strjoin(mini->str, mini->line2);
-		free(mini->line2);
-		free(mini->str);
-		mini->line2 = 0;
-		mini->str = 0;
-	}
-	return 0;
+		when_readline_else(mini);
+	return (0);
 }

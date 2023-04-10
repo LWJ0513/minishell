@@ -1,33 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exit_error.c                                       :+:      :+:    :+:   */
+/*   remake_str.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/26 14:48:52 by him               #+#    #+#             */
-/*   Updated: 2023/04/10 20:06:15 by wonlim           ###   ########.fr       */
+/*   Created: 2023/04/10 20:34:15 by wonlim            #+#    #+#             */
+/*   Updated: 2023/04/10 21:38:34 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	ft_error_exit(char *str, int error_no)
+char	*remake_str(t_cmd *node)
 {
-	write(2, str, ft_strlen(str));
-	write(2, "\n", 1);
-	exit(error_no);
-}
+	char	*str;
+	int		len;
+	int		i;
+	int		j;
+	int		k;
 
-void	ft_command_error(char *cmd)
-{
-	if (cmd == 0 || *cmd == 0)
+	len = 0;
+	i = 0;
+	if (!node->content)
+		return (0);
+	while (node->content[i])
+		len += ft_strlen(node->content[i++]) + 1;
+	str = malloc(len);
+	i = 0;
+	k = 0;
+	while (node->content[i])
 	{
-		ft_putstr_fd(": command not found\n", 2);
-		exit (127);
+		j = 0;
+		while (node->content[i][j])
+			str[k++] = node->content[i][j++];
+		i++;
 	}
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": command not found\n", 2);
-	g_info.last_exit_num = 127;
-	exit(127);
+	str[k] = '\0';
+	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/06 20:58:49 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/10 21:19:20 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,26 @@
 
 typedef enum e_rdir_type
 {
-	RDIR,		// 0  >
-	R_RDIR,		// 1  <
-	D_RDIR,		// 2  >>
-	HEREDOC		// 3  <<
+	RDIR,
+	R_RDIR,
+	D_RDIR,
+	HEREDOC
 }	t_rdir_type;
 
 typedef struct s_rdir
 {
-	int				type;			// t_rdir_type 넣는 변수
-	int				here_doc_fd;	// 무조건 0으로 
-	char			*with;			// 파일 이름 또는 eof (리다이렉션 문자 다음에 오는 거)
+	int				type;
+	int				here_doc_fd;
+	char			*with;
 	struct s_rdir	*next;
 }	t_rdir;
 
 typedef struct s_cmd
 {
-	char			*name;			// 명령어 ls
-	char			**content;		// 명령어 빼고 옵션  -a -l null
-	struct s_rdir	*rdir;			// 리다이렉션 정보 넣는 연결리스트
-	int				is_heredoc;		// << 이거 있는지만 체크 . 있으면 1 없으면 0
+	char			*name;
+	char			**content;
+	struct s_rdir	*rdir;
+	int				is_heredoc;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -68,116 +68,77 @@ extern t_info	g_info;
 typedef struct s_mini
 {
 	t_cmd	*cmds;
-	int pipe_flag;
-	int cnt_pipe;
-	int cnt_cmd;
-	int cnt_node;
-	char *line;
-	char *line2;
-	char *str;
+	char	*line;
+	char	*line2;
+	char	*str;
+	int		pipe_flag;
+	int		cnt_pipe;
+	int		cnt_cmd;
+	int		cnt_node;
 }	t_mini;
 
-
-// parse
 void	init_envp(char **envp);
 void	ft_error_exit(char *str, int error_no);
 void	set_terminal(void);
-void set_signal();
-int	ft_readline(t_mini *mini);
+void	set_signal(void);
+int		ft_readline(t_mini *mini);
 void	init_mini(t_mini *mini);
 char	*eliminate(char *str, char c);
 char	*cut_front(char *str);
-int	set_cmd_node(t_mini *mini);
-int	has_redirection(char *str);
-int	make_rdir_node(t_cmd *node, char *str, int i, int end);
-int	check_redirection(char *str, int *index, int *end);
-int	count_options(t_rdir *r, int *index);
-int	count_cmd(t_mini *mini, int max);
-int	exception_handling(char *str, t_mini *mini);
-int	count_pipe(char *str);
-void free_split(char **split);
-void free_cmd(t_cmd *head, int cnt);
+int		set_cmd_node(t_mini *mini);
+int		has_redirection(char *str);
+int		make_rdir_node(t_cmd *node, char *str);
+int		check_redirection(char *str, int *index, int *end);
+int		count_options(t_rdir *r, int *index);
+int		count_cmd(t_mini *mini, int max);
+int		exception_handling(char *str, t_mini *mini);
+int		count_pipe(char *str);
+void	free_split(char **split);
+void	free_cmd(t_cmd *head, int cnt);
 void	free_main(t_mini *mini);
 void	history(t_mini *mini);
-int	count_char(char *str, char c);
-void ignore_signal(void);
-int valid_quotation(char *str);
-void replace_content(t_cmd *node, int quotation_flag, int double_quotation_flag);
-char *get_env(char *str, int start, int end);
-char *replace_env(char *str, int start, int end, char *node);
-char *delete(char *str, int index);
-void replace_name(t_cmd *node, int quotation_flag, int double_quotation_flag);
+int		count_char(char *str, char c);
+void	ignore_signal(void);
+int		valid_quotation(char *str);
+void	replace_content(t_cmd *node, int q_flag, int dq_flag);
+char	*get_env(char *str, int start, int end);
+char	*replace_env(char *str, int start, int end, char *node);
+char	*delete(char *str, int index);
+void	replace_name(t_cmd *node, int q_flag, int dq_flag);
+char	**ft_split2(char *str);
+char	**ft_split_pipe(char *str);
+void	replace_with(t_cmd *node, int q_flag, int dq_flag);
+char	*cut_back_front(char *s);
+void	rl_replace_line(const char *text, int clear_undo);
+int		check_exception(t_cmd *node);
+t_rdir	*get_last_rdir_node(t_rdir *node);
+void	set_cmd_options(t_cmd *node, int index);
 
-char **ft_split2(char *str);
-char **ft_split_pipe(char *str);
-void replace_with(t_cmd *node, int quotation_flag, int double_quotation_flag);
-char *cut_back_front(char *s);
-
-
-void rl_replace_line(const char *text, int clear_undo);
-
-//ft_strjoin2.c
+t_cmd	*get_last_cmd_node(t_cmd *node);
+char	*remake_str(t_cmd *node);
 char	**ft_strjoin2(char *str, char **arr);
-
-// find_env_add.c
 t_env	*find_env_add(char *key);
-
-// ft_error_exit.c
 void	ft_command_error(char *cmd);
-
-// ft_builtin.c
 void	single_builtin(t_cmd *cmd);
 int		check_builtin(char *cmd_name);
 int		is_builtin(t_cmd *cmd);
-
-// find_env.c
 t_env	*find_env(char *key);
-
-// ft_strcmp.c
 int		ft_strcmp(const char *str1, const char *str2);
-
-// ft_execute.c
 void	execute(t_cmd	*cmd);
-
-// ft_rdir.c
 int		ft_rdir(t_rdir *rdir);
-
-// ft_exit.c
 void	ft_exit(t_cmd	*cmd);
-
-// ft_cd.c
 void	ft_cd(t_cmd	*cmd);
-
-// ft_echo.c
 void	ft_echo(t_cmd	*cmd);
-
-// ft_env.c
 void	ft_env(t_cmd	*cmd);
-
-// ft_pwd.c
 void	ft_pwd(void);
-
-// ft_export.c
 void	ft_export(char **str);
-
-// ft_unset.c
 void	ft_unset(t_cmd *cmd);
-
-// ft_fork.c
 void	ft_fork(int pipe_cnt, t_cmd *cmd);
-
-// ft_here_doc.c
 int		check_heredoc(t_cmd *cmd);
-
-// ft_exe.c
 void	ft_exe(t_cmd *cmd, t_env *env);
-
-// signal.c
 void	heredoc_sigint_handler(int signo);
-
-// here_util.c
 void	doc_util(int num, char *buff, int fd);
 char	**lst_to_arr(t_env *envs);
-
+void	print_buff(char *buff, int fd);
 
 #endif
