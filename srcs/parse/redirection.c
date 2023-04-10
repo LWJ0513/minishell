@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:34:29 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 21:51:10 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/11 00:44:31 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	when_else(char *str, int *i, int *flag, char *c)
 				*flag = 0;
 		}
 		else if ((str[*i] == '>' || str[*i] == '<') && !*flag)
-			return (1);
+			return (0);
 		*i += 1;
 	}
 	return (0);
@@ -125,8 +125,7 @@ int	check_redirection(char *str, int *index, int *end)
 			return (right_redirection(str, i, index, end));
 		else
 		{
-			if (when_else(str, &i, &flag, &c))
-				break ;
+			when_else(str, &i, &flag, &c);
 			*end = i;
 			return (-1);
 		}
