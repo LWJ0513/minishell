@@ -2,8 +2,6 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra -g -fsanitize=address
 OPTION = -lreadline -L/opt/homebrew/opt/readline/lib
 OPTION2 = -I/opt/homebrew/opt/readline/include/readline
-# OPTION = -L$(shell brew --prefix readline)/lib
-# OPTION2 = -I$(shell brew --prefix readline)/include
 NAME = minishell
 RM = rm -rf
 
@@ -59,7 +57,10 @@ SRCS_PAR = \
 	remake_str.c \
 	set_cmd_option.c \
 	cut_back_front.c \
-	set_content.c
+	set_content.c \
+	set_i_content.c \
+	check_exception.c \
+	has_redirection.c
 	
 
 OBJS = $(MANDATORY_EXE:c=o) $(MANDATORY_PAR:c=o)

@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/14 13:28:37 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/11 05:25:31 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/12 07:36:28 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,21 @@
 
 int	count_pipe(char *str)
 {
-	int	i;
-	int	count;
+	char	c;
+	int		count;
+	int		i;
 
 	i = 0;
 	count = 0;
 	while (str[i])
 	{
+		if (str[i] == '\'' || str[i] == '\"')
+		{
+			c = str[i];
+			i++;
+			while (str[i] != c)
+				i++;
+		}
 		if (str[i] == '|')
 			count++;
 		i++;

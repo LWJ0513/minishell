@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 21:36:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/11 04:02:46 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/12 07:39:15 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,33 @@ typedef struct s_content_flag
 {
 	int	q_flag;
 	int	dq_flag;
+	int	reset_content;
 }	t_content_flag;
+
+typedef struct s_val
+{
+	char	*replace;
+	char	*value;
+	int		start;
+	int		end;
+	int		len;
+	int		flag;
+}	t_val;
+
+typedef struct s_index
+{
+	int	i;
+	int	j;
+	int	k;
+}	t_index;
+
+typedef struct s_set_i
+{
+	char	**before;
+	char	**after;
+	int		i;
+	int		j;
+}	t_set_i;
 
 void	init_envp(char **envp);
 void	ft_error_exit(char *str, int error_no);
@@ -106,9 +132,9 @@ void	history(t_mini *mini);
 int		count_char(char *str, char c);
 void	ignore_signal(void);
 int		valid_quotation(char *str);
-void	replace_content(t_cmd *node);
-char	*get_env(char *str, int start, int end);
-char	*replace_env(char *str, int start, int end, char *node);
+void	replace_content(t_cmd *node, int i, int j);
+char	*get_env(char *str, int start, int end, t_val *v);
+char	*replace_env(char *str, int start, t_val *v, int dq_flag);
 char	*delete(char *str, int index);
 void	replace_name(t_cmd *node, int q_flag, int dq_flag);
 char	**ft_split2(char *str);
@@ -121,7 +147,9 @@ t_rdir	*get_last_rdir_node(t_rdir *node);
 void	set_cmd_options(t_cmd *node, int index);
 void	syntax_error(void);
 char	*cut_back_front(char *s);
-void	set_content(t_cmd *node);
+void	set_content(t_cmd *node, t_content_flag *f);
+int		check_redirection_error(t_cmd *node, t_rdir *r, int i);
+void	set_i_content(t_cmd *node, t_content_flag *f, int index);
 
 t_cmd	*get_last_cmd_node(t_cmd *node);
 char	*remake_str(t_cmd *node);

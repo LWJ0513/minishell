@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 21:12:58 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 21:58:13 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/11 14:49:26 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	when_count_one(t_cmd *node, t_rdir *r, int index, int i)
 			return ;
 		}
 		i++;
+		r = r->next;
 	}
 }
 

@@ -6,29 +6,11 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:35:22 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/11 03:23:15 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/12 07:32:18 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
-
-int	check_exception(t_cmd *node)
-{
-	t_rdir	*r;
-
-	r = node->rdir;
-	while (r)
-	{
-		if (!r->with && r->type != -1)
-		{
-			syntax_error();
-			free_cmd(node, 1);
-			return (1);
-		}
-		r = r->next;
-	}
-	return (0);
-}
 
 int	check_last_pipe(char *str)
 {
@@ -47,6 +29,17 @@ int	check_last_pipe(char *str)
 	return (0);
 }
 
+int	when_q(t_rdir *r, int i)
+{
+	char	c;
+
+	c = r->with[i];
+	i++;
+	while (r->with[i] != c)
+		i++;
+	return (i);
+}
+
 int	check_redirection_error(t_cmd *node, t_rdir *r, int i)
 {
 	while (node)
@@ -57,6 +50,8 @@ int	check_redirection_error(t_cmd *node, t_rdir *r, int i)
 			i = 0;
 			while (r->with && r->with[i])
 			{
+				if (r->with[i] == '\"' || r->with[i] == '\'')
+					i = when_q(r, i);
 				if (r->with[i] == '>' || r->with[i] == '<')
 				{
 					syntax_error();
@@ -85,12 +80,6 @@ int	pipe_handling(char *str, t_mini *mini)
 	if (mini->cnt_pipe > mini->cnt_cmd)
 	{
 		syntax_error();
-		return (2);
-	}
-	if (check_redirection_error(mini->cmds, 0, 0))
-	{
-		free_cmd(mini->cmds, mini->cnt_cmd);
-		mini->cmds = 0;
 		return (2);
 	}
 	return (0);

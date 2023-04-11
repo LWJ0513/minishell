@@ -6,35 +6,34 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 20:11:24 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 20:40:31 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/12 07:46:29 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	when_with_env(t_rdir *r, int i, int q_flag)
+int	when_with_env(t_rdir *r, int i, int q_flag, int dq_flag)
 {
-	char	*replace;
-	char	*value;
-	int		start;
-	int		end;
+	t_val	v;
 
 	i++;
-	start = i;
+	v.start = i;
 	while (r->with[i] != '\'' && r->with[i] != '\"' \
 	&& r->with[i] != ' ' && r->with[i] != '\0')
 		i++;
-	end = i;
+	v.end = i;
 	if (q_flag < 1)
 	{
-		value = get_env(r->with, start, end);
-		replace = replace_env(r->with, start - 1, end, value);
+		v.value = get_env(r->with, v.start, v.end, &v);
+		v.replace = replace_env(r->with, v.start - 1, &v, dq_flag);
 		free(r->with);
-		r->with = replace;
-		if (value)
-			return (start + ft_strlen(value) - 1);
-		else
-			return (start - 1);
+		r->with = v.replace;
+		v.len = ft_strlen(v.value);
+		if (!v.value)
+			return (v.start - 1);
+		if (v.flag)
+			free(v.value);
+		return (v.start + v.len - 1);
 	}
 	return (i);
 }
@@ -95,7 +94,7 @@ void	replace_with(t_cmd *node, int q_flag, int dq_flag)
 		while (r->with[i])
 		{
 			if (r->with[i] == '$')
-				i = when_with_env(r, i, q_flag);
+				i = when_with_env(r, i, q_flag, dq_flag);
 			else if (r->with[i] == '\'')
 				when_with_q(r, &i, &q_flag, &dq_flag);
 			else if (r->with[i] == '\"')

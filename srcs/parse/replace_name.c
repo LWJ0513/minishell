@@ -6,35 +6,34 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/05 01:13:11 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/10 20:43:41 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/12 07:45:45 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	when_name_env(t_cmd *node, int i, int q_flag)
+int	when_name_env(t_cmd *node, int i, int q_flag, int dq_flag)
 {
-	char	*replace;
-	char	*value;
-	int		start;
-	int		end;
+	t_val	v;
 
 	i++;
-	start = i;
+	v.start = i;
 	while (node->name[i] != '\'' && node->name[i] != '\"' \
 	&& node->name[i] != ' ' && node->name[i] != '\0')
 		i++;
-	end = i;
+	v.end = i;
 	if (q_flag < 1)
 	{
-		value = get_env(node->name, start, end);
-		replace = replace_env(node->name, start - 1, end, value);
+		v.value = get_env(node->name, v.start, v.end, &v);
+		v.replace = replace_env(node->name, v.start - 1, &v, dq_flag);
 		free(node->name);
-		node->name = replace;
-		if (value)
-			return (start + ft_strlen(value) - 1);
-		else
-			return (start - 1);
+		node->name = v.replace;
+		v.len = ft_strlen(v.value);
+		if (!v.value)
+			return (v.start - 1);
+		if (v.flag)
+			free(v.value);
+		return (v.start + v.len - 1);
 	}
 	return (i);
 }
@@ -91,7 +90,7 @@ void	replace_name(t_cmd *node, int q_flag, int dq_flag)
 	while (node->name[i])
 	{
 		if (node->name[i] == '$')
-			i = when_name_env(node, i, q_flag);
+			i = when_name_env(node, i, q_flag, dq_flag);
 		else if (node->name[i] == '\'')
 			when_name_q(node, &i, &q_flag, &dq_flag);
 		else if (node->name[i] == '\"')

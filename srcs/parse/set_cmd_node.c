@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/24 21:59:54 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/11 05:00:30 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/12 07:38:48 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ t_cmd	*make_cmd_node(char *s, t_cmd *node, char *str)
 	else
 	{
 		node->content = ft_split2(str);
-		replace_content(node);
+		replace_content(node, 0, 0);
 		if (node->content)
 			node->name = node->content[0];
 		if (node->content)
-			set_content(node);
+			set_content(node, 0);
 	}
 	free(str);
 	has_heredoc(node);

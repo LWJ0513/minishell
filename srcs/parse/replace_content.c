@@ -6,7 +6,7 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/03 13:16:44 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/11 05:48:35 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/12 07:39:57 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,31 +34,31 @@ char	*delete(char *str, int index)
 	return (new);
 }
 
-int	when_content_env(t_cmd *node, int i, int j, int q_flag)
+int	when_content_env(t_cmd *node, int i, int j, t_content_flag *f)
 {
-	char	*replace;
-	char	*value;
-	int		start;
-	int		end;
+	t_val	v;
 
-	i++;
-	start = i;
+	v.start = ++i;
 	while (node->content[j][i] != '\'' && node->content[j][i] != '\"' \
 	&& node->content[j][i] != ' ' && node->content[j][i] != '\0')
 		i++;
-	end = i;
-	if (q_flag < 1)
+	v.end = i;
+	if (f->q_flag < 1)
 	{
-		value = get_env(node->content[j], start, end);
-		replace = replace_env(node->content[j], start - 1, end, value);
-		free(node->content[j]);
-		if (!replace)
-			set_content(node);
+		v.value = get_env(node->content[j], v.start, v.end, &v);
+		v.replace = replace_env(node->content[j], v.start - 1, &v, f->dq_flag);
+		if (!v.replace && !ft_strcmp(node->content[0], "echo"))
+			set_i_content(node, f, j);
+		else if (!v.replace)
+			set_content(node, f);
 		else
-			node->content[j] = replace;
-		if (value)
-			return (start + ft_strlen(value) - 1);
-		return (start - 1);
+			node->content[j] = v.replace;
+		v.len = ft_strlen(v.value);
+		if (!v.value)
+			return (v.start - 1);
+		if (v.flag)
+			free(v.value);
+		return (v.start + v.len - 1);
 	}
 	return (i);
 }
@@ -107,11 +107,9 @@ void	when_content_dq(t_cmd *node, int *i, int j, t_content_flag *flag)
 		*i += 1;
 }
 
-void	replace_content(t_cmd *node)
+void	replace_content(t_cmd *node, int i, int j)
 {
 	t_content_flag	flag;
-	int				i;
-	int				j;
 
 	ft_bzero(&flag, sizeof(t_content_flag));
 	j = 0;
@@ -121,13 +119,18 @@ void	replace_content(t_cmd *node)
 		while (node->content && node->content[j] && node->content[j][i])
 		{
 			if (node->content[j][i] == '$' && node->content[j][i + 1])
-				i = when_content_env(node, i, j, flag.q_flag);
+				i = when_content_env(node, i, j, &flag);
 			else if (node->content[j][i] == '\'')
 				when_content_q(node, &i, j, &flag);
 			else if (node->content[j][i] == '\"')
 				when_content_dq(node, &i, j, &flag);
 			else
 				i++;
+		}
+		if (flag.reset_content)
+		{
+			flag.reset_content = 0;
+			continue ;
 		}
 		j++;
 	}

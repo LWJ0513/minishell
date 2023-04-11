@@ -6,36 +6,34 @@
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/09 22:34:29 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/11 00:44:31 by wonlim           ###   ########.fr       */
+/*   Updated: 2023/04/12 07:35:28 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	has_redirection(char *str)
+int	while_str(char *str, int i)
 {
 	char	c;
-	int		flag;
-	int		i;
 
-	flag = 0;
-	i = 0;
-	while (str[i])
+	while (str[i] && str[i + 1] != '\0')
 	{
-		if (flag == 0 && (str[i] == '<' || str[i] == '>'))
-			return (1);
-		if (flag == 0 && (str[i] == '\"' || str[i] == '\''))
+		if (str[i] == '\'' || str[i] == '\"')
 		{
-			flag = 1;
 			c = str[i];
+			i++;
+			while (str[i] && str[i] != c)
+				i++;
+			if (str[i + 1] == '\'' || str[i + 1] == '\"')
+				continue ;
 		}
-		else if (flag == 1 && str[i] == c)
-		{
-			flag = 0;
-		}
+		if (str[i + 1] == ' ')
+			break ;
 		i++;
 	}
-	return (0);
+	if (!str[i])
+		return (i);
+	return (++i);
 }
 
 int	left_redirection(char *str, int i, int *index, int *end)
@@ -46,20 +44,14 @@ int	left_redirection(char *str, int i, int *index, int *end)
 		while (str[i] == ' ')
 			i++;
 		*index = i;
-		while (str[i] && str[i + 1] != ' ' && str[i + 1] != '>' \
-		&& str[i + 1] != '<' && str[i + 1] != '\0')
-			i++;
-		*end = ++i;
+		*end = while_str(str, i);
 		return (HEREDOC);
 	}
 	i++;
 	while (str[i] == ' ')
 		i++;
 	*index = i;
-	while (str[i] && str[i + 1] != ' ' && str[i + 1] != '>' \
-	&& str[i + 1] != '<' && str[i + 1] != '\0')
-		i++;
-	*end = ++i;
+	*end = while_str(str, i);
 	return (R_RDIR);
 }
 
@@ -71,38 +63,36 @@ int	right_redirection(char *str, int i, int *index, int *end)
 		while (str[i] == ' ')
 			i++;
 		*index = i;
-		while (str[i] && str[i + 1] != ' ' && str[i + 1] != '>' \
-		&& str[i + 1] != '<' && str[i + 1] != '\0')
-			i++;
-		*end = ++i;
+		*end = while_str(str, i);
 		return (D_RDIR);
 	}
 	i++;
 	while (str[i] == ' ')
 		i++;
 	*index = i;
-	while (str[i] && str[i + 1] != ' ' && str[i + 1] != '>' \
-	&& str[i + 1] != '<' && str[i + 1] != '\0')
-		i++;
-	*end = ++i;
+	*end = while_str(str, i);
 	return (RDIR);
 }
 
-int	when_else(char *str, int *i, int *flag, char *c)
+int	when_else(char *str, int *i)
 {
+	char	c;
+
 	while (ft_isprint(str[*i]) && str[*i] != ' ' && str[*i] != '\0')
 	{
 		if (str[*i] == '\'' || str[*i] == '\"')
 		{
-			if (!*flag)
+			c = str[*i];
+			*i += 1;
+			while (str[*i] != c)
+				*i += 1;
+			if (str[*i + 1] == '\'' || str[*i + 1] == '\"')
 			{
-				*flag = 1;
-				*c = str[*i];
+				*i += 1;
+				continue ;
 			}
-			else if (*flag && *c == str[*i])
-				*flag = 0;
 		}
-		else if ((str[*i] == '>' || str[*i] == '<') && !*flag)
+		if (str[*i] == '>' || str[*i] == '<' || str[*i] == ' ')
 			return (0);
 		*i += 1;
 	}
@@ -111,11 +101,8 @@ int	when_else(char *str, int *i, int *flag, char *c)
 
 int	check_redirection(char *str, int *index, int *end)
 {
-	char	c;
-	int		flag;
 	int		i;
 
-	flag = 0;
 	i = *index;
 	while (str[i])
 	{
@@ -125,7 +112,7 @@ int	check_redirection(char *str, int *index, int *end)
 			return (right_redirection(str, i, index, end));
 		else
 		{
-			when_else(str, &i, &flag, &c);
+			when_else(str, &i);
 			*end = i;
 			return (-1);
 		}

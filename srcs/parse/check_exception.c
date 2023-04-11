@@ -1,42 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_content.c                                      :+:      :+:    :+:   */
+/*   check_exception.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: wonlim <wonlim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/11 03:47:49 by wonlim            #+#    #+#             */
-/*   Updated: 2023/04/12 07:07:59 by wonlim           ###   ########.fr       */
+/*   Created: 2023/04/12 07:30:21 by wonlim            #+#    #+#             */
+/*   Updated: 2023/04/12 07:32:22 by wonlim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-void	set_content(t_cmd *node, t_content_flag *f)
+int	check_exception(t_cmd *node)
 {
-	char	**before;
-	char	**after;
-	int		i;
-	int		j;
+	t_rdir	*r;
 
-	if (f)
-		f->reset_content = 1;
-	if (!node->content[1])
+	r = node->rdir;
+	while (r)
 	{
-		free(node->content);
-		node->content = NULL;
-		return ;
+		if (!r->with && r->type != -1)
+		{
+			syntax_error();
+			free_cmd(node, 1);
+			return (1);
+		}
+		r = r->next;
 	}
-	before = node->content;
-	i = 0;
-	while (before[i])
-		i++;
-	after = malloc(sizeof(char *) * i);
-	i = 0;
-	j = 1;
-	while (before[j])
-		after[i++] = before[j++];
-	after[i] = before[j];
-	free(before);
-	node->content = after;
+	return (check_redirection_error(node, node->rdir, 0));
 }
